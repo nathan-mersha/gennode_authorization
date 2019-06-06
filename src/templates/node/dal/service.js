@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              service.js
  * @description         DAL for service route.
  * @kind                DAL
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let Model = require('../model/service'),

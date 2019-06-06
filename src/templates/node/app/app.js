@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              app.js
- * @description         Starting point for gennodeAuthServer service.
+ * @description         Starting point for __serviceName__ service.
  * @kind                Init
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let

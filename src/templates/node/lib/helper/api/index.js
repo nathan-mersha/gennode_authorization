@@ -1,20 +1,15 @@
 /**
- * @author             Nathan Mersha
- * @name               gennodeAuthServer
- * @description        Api request response abstractor
+ * @author              __author__
+ * @name                __serviceName__
+ * @description        Api request response abstract
  * @kind               Library
  * @module             Defines methods for calling Api and abstracts request response objects.
- * @copyright          Copyright : 2019
+ * @copyright          __copyright__
  */
 
 let
-    fs                      = require('fs'),
-    path                    = require('path'),
     debug                   = require('debug')('gennodeAuthServer/lib/helper/api/index'),
-    _request                = require('request'),
-    async                   = require('async');
-
-//    cert                    = fs.readFileSync(path.join(__dirname,'./cert/'),'utf8'); // Root certificate
+    _request                = require('request');
 
 /**
  * @name                    - Authentication Option

@@ -1,10 +1,9 @@
 /**
- * @author             Nathan Mersha
- * @name               gennodeAuthServer
- * @description        Manages user for gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
+ * @description        Defines user model
  * @kind               Model
- * @module             Defines user model
- * @copyright          Copyright : 2019
+ * @copyright          __copyright__
  */
 
 let

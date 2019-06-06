@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "gennodeAuthServer",
-    "description": "Authentication and authorization service",
+    "name": "__serviceName__",
+    "description": "__serviceDescription__",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [

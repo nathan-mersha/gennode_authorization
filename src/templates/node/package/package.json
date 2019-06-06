@@ -1,12 +1,12 @@
 {
-  "name": "gennode_auth_server",
-  "version": "0.0.1",
-  "description": "gennode_auth_server",
+  "name": "__serviceName__",
+  "version": "__version__",
+  "description": "__serviceDescription__",
   "main": "app",
   "scripts": {
     "run": "node app",
     "test": "istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index --exit || istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index",
-    "start": "pm2 start app.js --name 'gennode_auth_server' -i 0 || pm2 restart 'gennode_auth_server'",
+    "start": "pm2 start app.js --name '__serviceName__' -i 0 || pm2 restart '__serviceName__'",
     "apidoc": "apidoc -i ./routes -o ./apidocs"
   },
   "dependencies": {
@@ -46,12 +46,12 @@
     "supertest": "^3.0.0"
   },
   "keywords": [
-    "gennode_auth_server"
+    "__serviceName__"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nathan-mersha/gennode_auth.git"
+    "url": "__repoURL__"
   },
-  "author": "Nathan Mersha",
-  "license": "MIT"
+  "author": "__author__",
+  "license": "__licence__"
 }

@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              errorCodes.js
  * @description         Error code constants.
  * @kind                Constants
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 

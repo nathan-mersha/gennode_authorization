@@ -2,7 +2,7 @@
 FROM node:alpine
 
 # maintainer
-MAINTAINER Nathan Mersha
+MAINTAINER __author__
 
 # creating and setting working directory
 RUN mkdir -p /usr/src/app
@@ -24,7 +24,7 @@ RUN npm install pm2 -g
 COPY . /usr/src/app
 
 # expose port
-EXPOSE 3400
+EXPOSE __port__
 
 # initialize app
 CMD npm run start

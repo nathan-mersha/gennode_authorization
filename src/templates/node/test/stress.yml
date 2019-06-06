@@ -1,3 +1,5 @@
+# Stress test for __serviceName__
+
 config:
   target: 'http://localhost:3400'
   phases:

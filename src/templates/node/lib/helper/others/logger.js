@@ -1,15 +1,15 @@
 /**
- * @author              Nathan Mersha
- * @name                Gennode authorization server
+ * @author              __author__
+ * @name                __serviceName__
  * @module              logger.js
  * @description         Logger module
  * @kind                Logger
- * @copyright           Copyright : 2018
+ * @copyright           __copyright__
  */
 
 let
-    logStashClient = require('logstash-client'),
-    config = require('../../../config');
+    logStashClient  = require('logstash-client'),
+    config          = require('../../../config');
 
 /**
  * @name            - Log

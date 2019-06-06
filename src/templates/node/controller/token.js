@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              token.js
  * @description         Controller for token
  * @kind                Controller
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let

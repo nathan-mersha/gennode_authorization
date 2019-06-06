@@ -1,30 +1,30 @@
-# gennodeAuthServer
+# __serviceName__
 
 #### Description
 
 > Authentication and authorization service
 
 #### Author
-> Nathan Mersha
+> __author__
 
 #### Repo
-> https://github.com/nathan-mersha/gennode_auth.git
+> __repoURL__
 
 #### Documentation
-> http://localhost/auth/apidoc
+> __reverseProxy____baseURL__/apidoc
 
 #### Test Report
-> http://localhost/auth/test
+> __reverseProxy____baseURL__/test
 
 #### Test Coverage
-> http://localhost/auth/coverage
+> __reverseProxy____baseURL__/coverage
 
 #### License
-> MIT
+> __licence__
 
 #### Version
-> 0.0.1
+> __version__
 
 #### Copyright
-> Copyright : 2019
+> __copyright__
 

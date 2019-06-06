@@ -1,9 +1,9 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
- * @description         Test for gennodeAuthServer __modelName__ service.
+ * @author              __author__
+ * @name                __serviceName__
+ * @description         Dummy data for __serviceName__ service.
  * @kind                Test
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let

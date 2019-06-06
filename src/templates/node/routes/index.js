@@ -1,10 +1,10 @@
 /**
- * @author             Nathan Mersha
- * @name               gennodeAuthServer
- * @description        Route index for gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
+ * @description        Route index for __serviceName__
  * @kind               Route
  * @module             Route index
- * @copyright          Copyright : 2019
+ * @copyright          __copyright__
  */
 
 // Begin route var declaration here

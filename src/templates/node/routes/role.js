@@ -1,16 +1,16 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              role.js
  * @description         Route for role
  * @kind                Router
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let
-    express = require('express'),
-    router = express.Router(),
-    controller = require('../controller/role');
+    express     = require('express'),
+    router      = express.Router(),
+    controller  = require('../controller/role');
 
 /**
  * @api             {post} /auth/role     Create

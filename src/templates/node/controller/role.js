@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              role.js
  * @description         Controller for role
  * @kind                Controller
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let
@@ -16,8 +16,6 @@ let
     controllerHelper        = helper.controllerHelper,
     queryResponseHandler    = controllerHelper.queryResponseHandler,
     debug                   = require('debug')('gennodeAuthServer/controller/role'),
-    util                    = require('util'),
-
     async                   = require('async');
 
 

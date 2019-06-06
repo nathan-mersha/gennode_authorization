@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              constant.js
- * @description         Constants for gennodeAuthServer.
+ * @description         Constants for __serviceName__.
  * @kind                Constants
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 /**

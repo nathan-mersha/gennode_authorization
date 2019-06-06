@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              index.js
- * @description         Configuration file for gennodeAuthServer service.
+ * @description         Configuration file for __serviceName__ service.
  * @kind                Configuration
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 
@@ -13,7 +13,6 @@
  * @description     - Describe multiple configuration values.
  */
 module.exports = {
-    MODE                            : process.env.MODE,
     HTTP_PORT                       : process.env.HTTP_PORT,
     MONGODB_URL                     : process.env.MONGODB_URL,
     COLLECTION_RETURN_SIZE          : Number(process.env.COLLECTION_RETURN_SIZE),

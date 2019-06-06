@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              user.js
  * @description         Controller for user
  * @kind                Controller
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let

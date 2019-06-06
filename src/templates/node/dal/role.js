@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              role.js
  * @description         DAL for role route.
  * @kind                DAL
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let

@@ -1,16 +1,16 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              acm.js
  * @description         Route for acm
  * @kind                Router
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let
-    express = require('express'),
-    router = express.Router(),
-    controller = require('../controller/acm');
+    express     = require('express'),
+    router      = express.Router(),
+    controller  = require('../controller/acm');
 
 /**
  * @api             {post} /auth/acm     Create

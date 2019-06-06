@@ -1,10 +1,9 @@
 /**
- * @author             Nathan Mersha
- * @name               gennodeAuthServer
- * @description        Manages acm for gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
+ * @description        Defines Acm model
  * @kind               Model
- * @module             Defines acm model
- * @copyright          Copyright : 2019
+ * @copyright          __copyright__
  */
 
 let

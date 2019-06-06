@@ -1,16 +1,16 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              token.js
  * @description         Route for token
  * @kind                Router
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 let
-    express = require('express'),
-    router = express.Router(),
-    controller = require('../controller/token');
+    express     = require('express'),
+    router      = express.Router(),
+    controller  = require('../controller/token');
 
 
 /**

@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              url_generator
- * @description         Url generator for gennodeAuthServer
+ * @description         Url generator for __serviceName__
  * @kind                Test
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 // Begin inserting routes url here
