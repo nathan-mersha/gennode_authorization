@@ -1,0 +1,57 @@
+{
+  "name": "gennode_auth_server",
+  "version": "0.0.1",
+  "description": "gennode_auth_server",
+  "main": "app",
+  "scripts": {
+    "run": "node app",
+    "test": "istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index --exit || istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index",
+    "start": "pm2 start app.js --name 'gennode_auth_server' -i 0 || pm2 restart 'gennode_auth_server'",
+    "apidoc": "apidoc -i ./routes -o ./apidocs"
+  },
+  "dependencies": {
+    "apidoc": "^0.17.5",
+    "artillery": "^1.6.0-28",
+    "async": "2.6.1",
+    "body-parser": "~1.15.2",
+    "cors": "^2.8.3",
+    "debug": "~2.2.0",
+    "dotenv": "6.0.0",
+    "dummy-json": "^2.0.0",
+    "elasticsearch": "^13.0.1",
+    "express": "4.16.3",
+    "express-messages": "1.0.1",
+    "express-session": "1.15.6",
+    "express-unless": "0.5.0",
+    "express-validator": "5.3.0",
+    "helmet": "^3.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "logstash-client": "^1.1.1",
+    "mocker-data-generator": "^2.6.6",
+    "mongodb": "3.1.6",
+    "mongoosastic": "^4.3.0",
+    "mongoose": "5.3.1",
+    "mongoose-paginate": "^5.0.3",
+    "request": "2.88.0",
+    "xtend": "^4.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-exclude": "^2.0.1",
+    "cheerio": "^0.22.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mocha-simple-html-reporter": "^1.1.0",
+    "mochawesome": "^3.0.0",
+    "supertest": "^3.0.0"
+  },
+  "keywords": [
+    "gennode_auth_server"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nathan-mersha/gennode_auth.git"
+  },
+  "author": "Nathan Mersha",
+  "license": "MIT"
+}

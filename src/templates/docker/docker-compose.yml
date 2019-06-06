@@ -1,0 +1,32 @@
+version: '2'
+services:
+
+  #################################################################################################################################
+  ########################                      gennode_auth_server              #####################################################
+  #################################################################################################################################
+
+    gennode_auth_server:
+      build: ./.
+      ports:
+        - "3400:3400"
+      restart: always
+      environment:
+        - DEBUG=*
+        - HTTP_PORT=3400
+        - MODE=test_mode
+        - MONGODB_URL=mongodb://gennode_auth_server_db:27017/gennode_auth_server
+        - REVERSE_PROXY=http://localhost
+        - COLLECTION_RETURN_SIZE=12
+        - ELASTIC_SEARCH_URL=http://localhost:9200
+        - LOG_STASH_PORT=5000
+      depends_on:
+        - gennode_auth_server_db
+    # Defining gennode_auth_server DB
+    gennode_auth_server_db:
+       image: mongo:latest
+       restart: always
+       volumes:
+         - .:/data/db
+
+  #################################################################################################################################
+  #################################################################################################################################

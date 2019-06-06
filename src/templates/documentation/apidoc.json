@@ -1,0 +1,7 @@
+{
+  "name"        : "gennodeAuthServer",
+  "version"     : "0.0.1",
+  "description" : "Authentication and authorization service",
+  "title"       : "gennodeAuthServer documentation.",
+  "url"         : "http://localhost:3400"
+}

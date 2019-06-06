@@ -1,0 +1,802 @@
+{
+  "info": {
+    "name": "gennodeAuthServer",
+    "description": "Authentication and authorization service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    
+        {
+			"name": "token",
+			"description": "token CRUD collection",
+			"item": [
+				{
+      "name": "Create token",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"Et leo elementum dolor dignissim.\",\n    \"userId\": \"5cee730bb2820d47582e9abd\",\n    \"expiration\": \"Wed May 29 2019 14:54:51 GMT+0300 (EAT)\",\n    \"revoked\": true\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/token",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "token"
+          ]
+        },
+        "description": "Create token"
+      },
+      "response": []
+    },
+    {
+      "name": "Get token",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/token",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "token"
+          ]
+        },
+        "description": "Get token"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete token",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/token?_id=5bc206d3048c9e1527797073",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "token"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc206d3048c9e1527797073"
+            }
+          ]
+        },
+        "description": "Delete token"
+      },
+      "response": []
+    },
+    {
+      "name": "Update token",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"token\": \"Porttitor mollis a ut proin.\",\n    \"userId\": \"5cee730bb2820d47582e9abd\",\n    \"expiration\": \"Wed May 29 2019 14:54:51 GMT+0300 (EAT)\",\n    \"revoked\": false\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/token?_id=5bc20776048c9e1527797077",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "token"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc20776048c9e1527797077"
+            }
+          ]
+        },
+        "description": "Update token"
+      },
+      "response": []
+    }]
+},
+    
+        {
+			"name": "service",
+			"description": "service CRUD collection",
+			"item": [
+				{
+      "name": "Create service",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Tyler\",\n    \"serviceId\": \"Erat non ultricies id erat.\",\n    \"routes\": [\n        \"Auctor.\",\n        \"Bibendum.\",\n        \"Finibus.\",\n        \"Laoreet.\"\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/service",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "service"
+          ]
+        },
+        "description": "Create service"
+      },
+      "response": []
+    },
+    {
+      "name": "Get service",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/service",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "service"
+          ]
+        },
+        "description": "Get service"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete service",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/service?_id=5bc206d3048c9e1527797073",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "service"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc206d3048c9e1527797073"
+            }
+          ]
+        },
+        "description": "Delete service"
+      },
+      "response": []
+    },
+    {
+      "name": "Update service",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Madeleine\",\n    \"serviceId\": \"Eros aenean mollis vitae ipsum.\",\n    \"routes\": [\n        \"Aliquet.\",\n        \"Et.\",\n        \"Vehicula.\",\n        \"Orci.\"\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/service?_id=5bc20776048c9e1527797077",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "service"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc20776048c9e1527797077"
+            }
+          ]
+        },
+        "description": "Update service"
+      },
+      "response": []
+    }]
+},
+    
+        {
+			"name": "user",
+			"description": "user CRUD collection",
+			"item": [
+				{
+      "name": "Create user",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": \"Sed maecenas scelerisque natoque condimentum.\",\n    \"roles\": [\n        \"Pellentesque.\",\n        \"Scelerisque.\",\n        \"Magna.\",\n        \"Leo.\"\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/user",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "user"
+          ]
+        },
+        "description": "Create user"
+      },
+      "response": []
+    },
+    {
+      "name": "Get user",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/user",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "user"
+          ]
+        },
+        "description": "Get user"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete user",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/user?_id=5bc206d3048c9e1527797073",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "user"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc206d3048c9e1527797073"
+            }
+          ]
+        },
+        "description": "Delete user"
+      },
+      "response": []
+    },
+    {
+      "name": "Update user",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"userId\": \"Pretium leo morbi curabitur rhoncus.\",\n    \"roles\": [\n        \"Auctor.\",\n        \"In.\",\n        \"Lobortis.\",\n        \"Mattis.\"\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/user?_id=5bc20776048c9e1527797077",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "user"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc20776048c9e1527797077"
+            }
+          ]
+        },
+        "description": "Update user"
+      },
+      "response": []
+    }]
+},
+    
+        {
+			"name": "role",
+			"description": "role CRUD collection",
+			"item": [
+				{
+      "name": "Create role",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Gavin\",\n    \"description\": \"Wed May 29 2019 14:54:51 GMT+0300 (EAT)\",\n    \"members\": [\n        \"Aliquam.\",\n        \"Ut.\",\n        \"Elementum.\",\n        \"Dignissim.\"\n    ],\n    \"accessRoutes\": [\n        \"Morbi.\",\n        \"Imperdiet.\",\n        \"Ornare.\",\n        \"Natoque.\"\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/role",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "role"
+          ]
+        },
+        "description": "Create role"
+      },
+      "response": []
+    },
+    {
+      "name": "Get role",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/role",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "role"
+          ]
+        },
+        "description": "Get role"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete role",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/role?_id=5bc206d3048c9e1527797073",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "role"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc206d3048c9e1527797073"
+            }
+          ]
+        },
+        "description": "Delete role"
+      },
+      "response": []
+    },
+    {
+      "name": "Update role",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Jamie\",\n    \"description\": \"Wed May 29 2019 14:54:51 GMT+0300 (EAT)\",\n    \"members\": [\n        \"Arcu.\",\n        \"Ultrices.\",\n        \"Sapien.\",\n        \"Scelerisque.\"\n    ],\n    \"accessRoutes\": [\n        \"Cursus.\",\n        \"Imperdiet.\",\n        \"Suscipit.\",\n        \"Ipsum.\"\n    ]\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/role?_id=5bc20776048c9e1527797077",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "role"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc20776048c9e1527797077"
+            }
+          ]
+        },
+        "description": "Update role"
+      },
+      "response": []
+    }]
+},
+    
+        {
+			"name": "acm",
+			"description": "acm CRUD collection",
+			"item": [
+				{
+      "name": "Create acm",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"subject\": \"5cee730bb2820d47582e9abd\",\n    \"accessControl\": \"A fringilla mauris eu dui.\"\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/acm",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "acm"
+          ]
+        },
+        "description": "Create acm"
+      },
+      "response": []
+    },
+    {
+      "name": "Get acm",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/acm",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "acm"
+          ]
+        },
+        "description": "Get acm"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete acm",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/acm?_id=5bc206d3048c9e1527797073",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "acm"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc206d3048c9e1527797073"
+            }
+          ]
+        },
+        "description": "Delete acm"
+      },
+      "response": []
+    },
+    {
+      "name": "Update acm",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"subject\": \"5cee730bb2820d47582e9abd\",\n    \"accessControl\": \"Vestibulum rhoncus porttitor vitae eros.\"\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/acm?_id=5bc20776048c9e1527797077",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "acm"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc20776048c9e1527797077"
+            }
+          ]
+        },
+        "description": "Update acm"
+      },
+      "response": []
+    }]
+},
+    
+        {
+			"name": "request",
+			"description": "request CRUD collection",
+			"item": [
+				{
+      "name": "Create request",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"route\": \"Vel nibh faucibus turpis justo.\",\n    \"method\": \"Tortor auctor nam vitae ultrices.\",\n    \"body\": \"Et e mauris lacus lacinia.\",\n    \"token\": \"E nibh cursus blandit pretium.\",\n    \"userId\": \"Au augue lacinia erat tempor.\"\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/request",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "request"
+          ]
+        },
+        "description": "Create request"
+      },
+      "response": []
+    },
+    {
+      "name": "Get request",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/request",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "request"
+          ]
+        },
+        "description": "Get request"
+      },
+      "response": []
+    },
+    {
+      "name": "Delete request",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/request?_id=5bc206d3048c9e1527797073",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "request"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc206d3048c9e1527797073"
+            }
+          ]
+        },
+        "description": "Delete request"
+      },
+      "response": []
+    },
+    {
+      "name": "Update request",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "name": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"route\": \"Cras tincidunt viverra euismod lobortis.\",\n    \"method\": \"Turpis ipsum a lorem sollicitudin.\",\n    \"body\": \"Lobortis faucibus pulvinar in dignissim.\",\n    \"token\": \"Porttitor eros ultricies nibh neque.\",\n    \"userId\": \"At elit quis eros neque.\"\n}"
+        },
+        "url": {
+          "raw": "http://http://localhost:3400/auth/request?_id=5bc20776048c9e1527797077",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3400",
+          "path": [
+            "auth",
+            "request"
+          ],
+          "query": [
+            {
+              "key": "_id",
+              "value": "5bc20776048c9e1527797077"
+            }
+          ]
+        },
+        "description": "Update request"
+      },
+      "response": []
+    }]
+}
+
+  ]
+}
