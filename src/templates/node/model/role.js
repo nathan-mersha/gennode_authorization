@@ -12,7 +12,7 @@ let
     config              = require('../config'),
     mongoosastic        = require('mongoosastic'),
     constants           = require('../lib/constant').constant,
-    debug               = require('debug')('gennodeAuthServer/model/role'),
+    debug               = require('debug')('__serviceName__/model/role'),
     mongoosePaginate    = require('mongoose-paginate');
 
 

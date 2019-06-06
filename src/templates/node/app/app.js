@@ -17,14 +17,12 @@ let
     config      = require('../config/index'),
     route       = require('../routes/index'),
     mongoose    = require('mongoose'),
-    unless      = require('express-unless'),
-    debug       = require('debug')('gennodeAuthServer'),
+    debug       = require('debug')('__serviceName__'),
     helmet      = require('helmet'),
     constants   = require('../lib/constant/index'),
     roleDAL     = require('../dal/role'),
     acmDAL      = require('../dal/acm'),
     errorCodes  = constants.errorCodes,
-    constant    = constants.constant,
     dbCFailure  = 0,
     initializer = require('../lib/middleware/initializer');
 
@@ -63,16 +61,16 @@ app.use(helmet());
  * @description     - Defining mode and access control
  */
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', config.MODE === constant.RUNNING_MODES.PRODUCTION_MODE ? config.REVERSE_PROXY : "*");
+    res.setHeader('Access-Control-Allow-Origin', "*");
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', '*');
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
 
-app.use('/auth/apidoc'    ,express.static(path.join(__dirname,'./apidocs')));
-app.use('/auth/coverage'  ,express.static(path.join(__dirname,'./coverage/lcov-report')));
-app.use('/auth/test'      ,express.static(path.join(__dirname,'./report')));
+app.use('__baseURL__/apidoc'    ,express.static(path.join(__dirname,'./apidocs')));
+app.use('__baseURL__/coverage'  ,express.static(path.join(__dirname,'./coverage/lcov-report')));
+app.use('__baseURL__/test'      ,express.static(path.join(__dirname,'./report')));
 
 /**
  * @description     - Passing third party middle wares, Data validator and json parser.
@@ -110,7 +108,7 @@ route(app);
  */
 app.use(function (req, res, next) {
     if(req.url === "/") {
-        res.redirect('http://localhost:3400/auth/apidoc');
+        res.redirect(`${config.REVERSE_PROXY}:${config.HTTP_PORT}__baseURL__/apidoc`);
         res.status(200);
     }else{
         debug("Un-matched endpoint");
@@ -127,7 +125,7 @@ app.use(function (req, res, next) {
  */
 (function createsAnyRole() {
     let query       = {name : "any"};
-    let createData  = {name : "any", description : "Any one can access these routes."}; // todo remove access routes. from create data
+    let createData  = {name : "any", description : "Any one can access these routes."};
 
     roleDAL.getPrivate(query, (err, data)=>{
         if(!data){
@@ -162,6 +160,6 @@ app.use(function (req, res, next) {
 
 
 /**
- * @description     - Exporting app for testing purposes. TODO remove when in production or dockerization
+ * @description     - Exporting app for testing purposes.
  */
 module.exports = app;

@@ -8,12 +8,12 @@
  */
 
 let
-    express = require('express'),
-    router = express.Router(),
-    controller = require('../controller/user');
+    express     = require('express'),
+    router      = express.Router(),
+    controller  = require('../controller/user');
 
 /**
- * @api             {post} /auth/user     Create
+ * @api             {post} __baseURL__/user     Create
  * @apiVersion      0.0.1
  * @apiName         Create
  * @apiGroup        user
@@ -57,7 +57,7 @@ let
 }
  *  
  *
- * @apiSampleRequest http://localhost:3400/auth/user
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/user
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -74,7 +74,7 @@ let
 router.post('/'     , controller.create);
 
 /**
- * @api             {get} /auth/user     Get
+ * @api             {get} __baseURL__/user     Get
  * @apiVersion      0.0.1
  * @apiName         Get
  * @apiGroup        user
@@ -131,7 +131,7 @@ router.post('/'     , controller.create);
         "offset": 0
     }
  *
- * @apiSampleRequest http://localhost:3400/auth/user
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/user
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -149,7 +149,7 @@ router.get('/'      , controller.find);
 
 
 /**
- * @api             {put} /auth/user     Update
+ * @api             {put} __baseURL__/user     Update
  * @apiVersion      0.0.1
  * @apiName         Update
  * @apiGroup        user
@@ -183,7 +183,7 @@ router.get('/'      , controller.find);
     }
  *
  *
- * @apiSampleRequest http://localhost:3400/auth/user
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/user
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -200,7 +200,7 @@ router.get('/'      , controller.find);
 router.put('/'      , controller.update);
 
 /**
- * @api             {delete} /auth/user     Delete
+ * @api             {delete} __baseURL__/user     Delete
  * @apiVersion      0.0.1
  * @apiName         Delete
  * @apiGroup        user
@@ -221,7 +221,7 @@ router.put('/'      , controller.update);
       "ok" : "1"
     }
  *
- * @apiSampleRequest http://localhost:3400/auth/user
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/user
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.

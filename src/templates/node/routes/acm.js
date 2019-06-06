@@ -13,7 +13,7 @@ let
     controller  = require('../controller/acm');
 
 /**
- * @api             {post} /auth/acm     Create
+ * @api             {post} __baseURL__/acm     Create
  * @apiVersion      0.0.1
  * @apiName         Create
  * @apiGroup        acm
@@ -62,7 +62,7 @@ let
 }
  *  
  *
- * @apiSampleRequest http://localhost:3400/auth/acm
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/acm
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -79,7 +79,7 @@ let
 router.post('/'     , controller.create);
 
 /**
- * @api             {get} /auth/acm     Get
+ * @api             {get} __baseURL__/acm     Get
  * @apiVersion      0.0.1
  * @apiName         Get
  * @apiGroup        acm
@@ -152,7 +152,7 @@ router.post('/'     , controller.create);
         "offset": 0
     }
  *
- * @apiSampleRequest http://localhost:3400/auth/acm
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/acm
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -170,7 +170,7 @@ router.get('/'      , controller.find);
 
 
 /**
- * @api             {put} /auth/acm     Update
+ * @api             {put} __baseURL__/acm     Update
  * @apiVersion      0.0.1
  * @apiName         Update
  * @apiGroup        acm
@@ -214,7 +214,7 @@ router.get('/'      , controller.find);
     }
  *
  *
- * @apiSampleRequest http://localhost:3400/auth/acm
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/acm
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -231,7 +231,7 @@ router.get('/'      , controller.find);
 router.put('/'      , controller.update);
 
 /**
- * @api             {delete} /auth/acm     Delete
+ * @api             {delete} __baseURL__/acm     Delete
  * @apiVersion      0.0.1
  * @apiName         Delete
  * @apiGroup        acm
@@ -253,7 +253,7 @@ router.put('/'      , controller.update);
       "ok" : "1"
     }
  *
- * @apiSampleRequest http://localhost:3400/auth/acm
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/acm
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.

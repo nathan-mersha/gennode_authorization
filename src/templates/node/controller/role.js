@@ -15,7 +15,7 @@ let
     helper                  = require('../lib/helper/'),
     controllerHelper        = helper.controllerHelper,
     queryResponseHandler    = controllerHelper.queryResponseHandler,
-    debug                   = require('debug')('gennodeAuthServer/controller/role'),
+    debug                   = require('debug')('__serviceName__/controller/role'),
     async                   = require('async');
 
 
@@ -161,7 +161,7 @@ exports.update          = function (req, res, next) {
             }else{
                 if(Object.keys(validUpdateData).length === 0){ // No valid update data found.
                     let errMsg = errorCodes.SEC.IMPROPER_DATA;
-                    errMsg.detail = "Valid update data not found in gennodeAuthServer data update.";
+                    errMsg.detail = "Valid update data not found.";
                     res.status(400);
                     res.json(errMsg);
                 }else if(Object.keys(validUpdateData).length > 0){callback(null,validUpdateData);} // Valid update data found.

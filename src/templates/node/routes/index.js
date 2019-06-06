@@ -22,10 +22,10 @@ let
  */
 module.exports = function (app) {
 // Begin routing definition here
-    app.use('/auth/token', token);
-    app.use('/auth/service', service);
-    app.use('/auth/user', user);
-    app.use('/auth/role', role);
-    app.use('/auth/acm', acm);
+    app.use('__baseURL__/token', token);
+    app.use('__baseURL__/service', service);
+    app.use('__baseURL__/user', user);
+    app.use('__baseURL__/role', role);
+    app.use('__baseURL__/acm', acm);
 // End Routing definition here
 };

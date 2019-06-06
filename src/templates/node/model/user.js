@@ -11,7 +11,7 @@ let
     Schema              = mongoose.Schema,
     config              = require('../config'),
     mongoosastic        = require('mongoosastic'),
-    debug               = require('debug')('gennodeAuthServer/model/user'),
+    debug               = require('debug')('__serviceName__/model/user'),
     mongoosePaginate    = require('mongoose-paginate');
 
 let user = new Schema({

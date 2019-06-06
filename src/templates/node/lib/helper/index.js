@@ -1,10 +1,10 @@
 /**
- * @author              Nathan Mersha
- * @name                gennodeAuthServer
+ * @author              __author__
+ * @name                __serviceName__
  * @module              index.js
  * @description         Index file for helper libraries
  * @kind                Lib
- * @copyright           Copyright : 2019
+ * @copyright           __copyright__
  */
 
 

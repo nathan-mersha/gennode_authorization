@@ -8,7 +8,7 @@
  */
 
 let
-    debug                   = require('debug')('gennodeAuthServer/lib/helper/api/index'),
+    debug                   = require('debug')('__serviceName__/lib/helper/api/index'),
     _request                = require('request');
 
 /**

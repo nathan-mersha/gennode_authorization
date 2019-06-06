@@ -1,27 +1,27 @@
 # Stress test for __serviceName__
 
 config:
-  target: 'http://localhost:3400'
+  target: '__reverseProxy__:__port__'
   phases:
-    - duration: 5
-      arrivalRate: 2
+    - duration: 60
+      arrivalRate: 20
 scenarios:
   - flow:
     - get:
-        url: "/auth/apidoc"
+        url: "__baseURL__/apidoc"
     - get:
-        url: "/auth/coverage"
+        url: "__baseURL__/coverage"
     - get:
-        url: "/auth/test"
+        url: "__baseURL__/test"
 
 # expect 400
     - get:
-        url: "/auth/un-matched"
+        url: "__baseURL__/un-matched"
 
 # Acm routes
 ############
     - post:
-        url: "/auth/acm"
+        url: "__baseURL__/acm"
         json:
           "subject": "5cee730bb2820d47582e9abd"
           "accessControl":
@@ -34,57 +34,57 @@ scenarios:
 
 # expect 400
     - post:
-        url: "/auth/acm"
+        url: "__baseURL__/acm"
         json:
           "accessControl":
               "read": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
               "update": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
               "delete": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
     - get:
-        url: "/auth/acm"
+        url: "__baseURL__/acm"
     - get:
-        url: "/auth/acm?page=2"
+        url: "__baseURL__/acm?page=2"
     - get:
-        url: "/auth/acm?_id={{idAcm}}"
+        url: "__baseURL__/acm?_id={{idAcm}}"
 # expect 400
     - get:
-        url: "/auth/acm?_id=wrongFormat"
+        url: "__baseURL__/acm?_id=wrongFormat"
     - put:
-        url: "/auth/acm?_id={{idAcm}}&operation=pull&target=accessControl.read"
+        url: "__baseURL__/acm?_id={{idAcm}}&operation=pull&target=accessControl.read"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - put:
-        url: "/auth/acm?_id={{idAcm}}&operation=push&target=accessControl.read"
+        url: "__baseURL__/acm?_id={{idAcm}}&operation=push&target=accessControl.read"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - put:
-        url: "/auth/acm?_id={{idAcm}}"
+        url: "__baseURL__/acm?_id={{idAcm}}"
         json:
           "subject": "5cee7a0493f93a4e65b32639"
 # expect 400
     - put:
-        url: "/auth/acm?_id={{idAcm}}&operation=unknown&target=accessControl.read"
+        url: "__baseURL__/acm?_id={{idAcm}}&operation=unknown&target=accessControl.read"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
 # expect 400
     - put:
-        url: "/auth/acm?_id={{idAcm}}&operation=pull&target=accessControl.unknown"
+        url: "__baseURL__/acm?_id={{idAcm}}&operation=pull&target=accessControl.unknown"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - delete:
-        url: "/auth/acm?_id={{idAcm}}"
+        url: "__baseURL__/acm?_id={{idAcm}}"
 # expect 400
     - delete:
-        url: "/auth/acm?_id={{idAcm}}"
+        url: "__baseURL__/acm?_id={{idAcm}}"
 # expect 400
     - delete:
-        url: "/auth/acm?_id=wrongFormat"
+        url: "__baseURL__/acm?_id=wrongFormat"
 
 
 # Role routes
 #############
     - post:
-        url: "/auth/role"
+        url: "__baseURL__/role"
         json:
           "name": "Role A"
           "description": "Role A description"
@@ -95,7 +95,7 @@ scenarios:
             as: "idRole"
 # expect 400
     - post:
-        url: "/auth/role"
+        url: "__baseURL__/role"
         json:
           "name": "Role A"
           "description": "Role A description"
@@ -103,56 +103,56 @@ scenarios:
           "accessRoutes": [ "route": "http://sample/route/1", "method": "UNKNOWN_METHOD" ]
 # expect 400
     - post:
-        url: "/auth/role"
+        url: "__baseURL__/role"
         json:
           "description": "Role A description"
           "members": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee730bb2820d47582e9abd"]
           "accessRoutes": [ "route": "http://sample/route/1", "method": "POST" ]
     - get:
-        url: "/auth/role"
+        url: "__baseURL__/role"
     - get:
-        url: "/auth/role?page=2"
+        url: "__baseURL__/role?page=2"
     - get:
-        url: "/auth/role?_id={{idRole}}"
+        url: "__baseURL__/role?_id={{idRole}}"
 # expect 400
     - get:
-        url: "/auth/role?_id=wrongFormat"
+        url: "__baseURL__/role?_id=wrongFormat"
     - put:
-        url: "/auth/role?_id={{idRole}}&operation=push&target=members"
+        url: "__baseURL__/role?_id={{idRole}}&operation=push&target=members"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - put:
-        url: "/auth/role?_id={{idRole}}"
+        url: "__baseURL__/role?_id={{idRole}}"
         json:
           "name": "New name"
     - put:
-        url: "/auth/role?_id={{idRole}}&operation=pull&target=members"
+        url: "__baseURL__/role?_id={{idRole}}&operation=pull&target=members"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
 # expect 400
     - put:
-        url: "/auth/role?_id={{idRole}}&operation=pull&target=unknown"
+        url: "__baseURL__/role?_id={{idRole}}&operation=pull&target=unknown"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
 # expect 400
     - put:
-        url: "/auth/role?_id={{idRole}}&operation=unknown&target=members"
+        url: "__baseURL__/role?_id={{idRole}}&operation=unknown&target=members"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - delete:
-        url: "/auth/role?_id={{idRole}}"
+        url: "__baseURL__/role?_id={{idRole}}"
 # expect 400
     - delete:
-        url: "/auth/role?_id={{idRole}}"
+        url: "__baseURL__/role?_id={{idRole}}"
 # expect 400
     - delete:
-        url: "/auth/role?_id=wrongFormat"
+        url: "__baseURL__/role?_id=wrongFormat"
 
 
 # Service routes
 ################
     - post:
-        url: "/auth/service"
+        url: "__baseURL__/service"
         json:
           "name": "Service A"
           "serviceId": "02"
@@ -162,70 +162,70 @@ scenarios:
             as: "idService"
 # expect 400
     - post:
-        url: "/auth/service"
+        url: "__baseURL__/service"
         json:
           "name": "Service A"
           "serviceId": "02"
           "routes": [ "route": "http://sample/route/1", "method": "POST", "group": "Company", "name": "Create company", "description": "Create company data"]
 # expect 400
     - post:
-        url: "/auth/service"
+        url: "__baseURL__/service"
         json:
           "name": "Service A"
           "serviceId": "02"
           "routes": [ "route": "http://sample/route/1", "method": "POST", "group": "Company", "name": "Create company", "description": "Create company data"]
     - get:
-        url: "/auth/service"
+        url: "__baseURL__/service"
     - get:
-        url: "/auth/service?page=2"
+        url: "__baseURL__/service?page=2"
     - get:
-        url: "/auth/service?_id={{idService}}"
+        url: "__baseURL__/service?_id={{idService}}"
 # expect 400
     - get:
-        url: "/auth/service?_id=wrongFormat"
+        url: "__baseURL__/service?_id=wrongFormat"
     - put:
-        url: "/auth/service?_id={{idService}}&operation=push&target=routes"
+        url: "__baseURL__/service?_id={{idService}}&operation=push&target=routes"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - put:
-        url: "/auth/service?_id={{idService}}&operation=pull&target=routes"
+        url: "__baseURL__/service?_id={{idService}}&operation=pull&target=routes"
         json:
           "name": "newName"
     - put:
-        url: "/auth/service?_id={{idService}}"
+        url: "__baseURL__/service?_id={{idService}}"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
 # expect 400
     - put:
-        url: "/auth/service?_id={{idService}}&operation=pull&target=unknown"
+        url: "__baseURL__/service?_id={{idService}}&operation=pull&target=unknown"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
 # expect 400
     - put:
-        url: "/auth/service?_id={{idService}}&operation=unknown&target=routes"
+        url: "__baseURL__/service?_id={{idService}}&operation=unknown&target=routes"
         json:
           "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
     - delete:
-        url: "/auth/service?_id={{idService}}"
+        url: "__baseURL__/service?_id={{idService}}"
 # expect 400
     - delete:
-        url: "/auth/service?_id={{idService}}"
+        url: "__baseURL__/service?_id={{idService}}"
 # expect 400
     - delete:
-        url: "/auth/service?_id=wrongFormat"
+        url: "__baseURL__/service?_id=wrongFormat"
 
 
 # Token routes
 ##############
     - post:
-        url: "/auth/token/create"
+        url: "__baseURL__/token/create"
         json:
           "userId": "5cee730bb2820d47582e9abd"
         capture:
           - json: $.token
             as: "token"
     - post:
-        url: "/auth/token/validate"
+        url: "__baseURL__/token/validate"
         json:
           "route": "http://sample/route/1"
           "method": "PUT"
@@ -234,7 +234,7 @@ scenarios:
           "objectId": "5cee7a0493f93a4e65b32638"
           "token": {{token}}
     - post:
-        url: "/auth/token/validate"
+        url: "__baseURL__/token/validate"
         json:
           "route": "http://sample/route/1"
           "method": "DELETE"
@@ -246,7 +246,7 @@ scenarios:
 # User routes
 ################
     - post:
-        url: "/auth/user"
+        url: "__baseURL__/user"
         json:
           "userId": "sample@gmail.com"
         capture:
@@ -254,33 +254,33 @@ scenarios:
             as: "idUser"
 # expect 400
     - post:
-        url: "/auth/user"
+        url: "__baseURL__/user"
         json:
           "userId": "sample@gmail.com"
 # expect 400
     - post:
-        url: "/auth/user"
+        url: "__baseURL__/user"
         json:
           "userId": "sample@gmail.com"
     - get:
-        url: "/auth/user"
+        url: "__baseURL__/user"
     - get:
-        url: "/auth/user?page=2"
+        url: "__baseURL__/user?page=2"
     - get:
-        url: "/auth/user?_id={{idUser}}"
+        url: "__baseURL__/user?_id={{idUser}}"
 # expect 400
     - get:
-        url: "/auth/user?_id=wrongFormat"
+        url: "__baseURL__/user?_id=wrongFormat"
     - put:
-        url: "/auth/user?_id={{idUser}}"
+        url: "__baseURL__/user?_id={{idUser}}"
         json:
           "userId": "sample@gmail.com"
     - delete:
-        url: "/auth/user?_id={{idUser}}"
+        url: "__baseURL__/user?_id={{idUser}}"
 # expect 400
     - delete:
-        url: "/auth/user?_id={{idUser}}"
+        url: "__baseURL__/user?_id={{idUser}}"
 # expect 400
     - delete:
-        url: "/auth/user?_id=wrongFormat"
+        url: "__baseURL__/user?_id=wrongFormat"
 

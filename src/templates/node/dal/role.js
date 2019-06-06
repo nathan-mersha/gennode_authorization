@@ -8,8 +8,8 @@
  */
 
 let
-    Model = require('../model/role'),
-    helper = require('../lib/helper').controllerHelper;
+    Model   = require('../model/role'),
+    helper  = require('../lib/helper').controllerHelper;
 
 
 /**

@@ -17,8 +17,7 @@ let
     config                  = require('../config'),
     helper                  = require('../lib/helper/'),
     controllerHelper        = helper.controllerHelper,
-
-    debug                   = require('debug')('gennodeAuthServer/controller/token'),
+    debug                   = require('debug')('__serviceName__/controller/token'),
     jwt                     = require('jsonwebtoken'),
     async                   = require('async');
 

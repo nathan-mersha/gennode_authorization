@@ -13,7 +13,7 @@ let
     controller  = require('../controller/role');
 
 /**
- * @api             {post} /auth/role     Create
+ * @api             {post} __baseURL__/role     Create
  * @apiVersion      0.0.1
  * @apiName         Create
  * @apiGroup        role
@@ -82,7 +82,7 @@ let
 }
  *  
  *
- * @apiSampleRequest http://localhost:3400/auth/role
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/role
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -99,7 +99,7 @@ let
 router.post('/'     , controller.create);
 
 /**
- * @api             {get} /auth/role     Get
+ * @api             {get} __baseURL__/role     Get
  * @apiVersion      0.0.1
  * @apiName         Get
  * @apiGroup        role
@@ -198,7 +198,7 @@ router.post('/'     , controller.create);
         "offset": 0
     }
  *
- * @apiSampleRequest http://localhost:3400/auth/role
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/role
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -216,7 +216,7 @@ router.get('/'      , controller.find);
 
 
 /**
- * @api             {put} /auth/role     Update
+ * @api             {put} __baseURL__/role     Update
  * @apiVersion      0.0.1
  * @apiName         Update
  * @apiGroup        role
@@ -270,7 +270,7 @@ router.get('/'      , controller.find);
     }
  *
  *
- * @apiSampleRequest http://localhost:3400/auth/role
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/role
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -287,7 +287,7 @@ router.get('/'      , controller.find);
 router.put('/'      , controller.update);
 
 /**
- * @api             {delete} /auth/role     Delete
+ * @api             {delete} __baseURL__/role     Delete
  * @apiVersion      0.0.1
  * @apiName         Delete
  * @apiGroup        role
@@ -311,7 +311,7 @@ router.put('/'      , controller.update);
       "ok" : "1"
     }
  *
- * @apiSampleRequest http://localhost:3400/auth/role
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/role
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.

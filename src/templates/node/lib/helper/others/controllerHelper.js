@@ -8,7 +8,7 @@
  */
 
 let
-    debug       = require('debug')('gennodeAuthServer/lib/helper/others/controllerHelper'),
+    debug       = require('debug')('__serviceName__/lib/helper/others/controllerHelper'),
     util        = require('util'),
     constant    = require('../../constant'),
     errorCodes  = constant.errorCodes;

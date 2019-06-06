@@ -8,7 +8,7 @@
  */
 
 // Begin inserting routes url here
-const baseURL       = `/auth`;
+const baseURL       = `__baseURL__`;
 const tokenRoute    = `${baseURL}/token`;
 const serviceRoute  = `${baseURL}/service`;
 const userRoute     = `${baseURL}/user`;

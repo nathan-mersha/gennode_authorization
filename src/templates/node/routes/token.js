@@ -14,7 +14,7 @@ let
 
 
 /**
- * @api             {post} /auth/token/create     Create
+ * @api             {post} __baseURL__/token/create     Create
  * @apiVersion      0.0.1
  * @apiName         Create
  * @apiGroup        token
@@ -42,7 +42,7 @@ let
     }
  *  
  *
- * @apiSampleRequest http://localhost:3400/auth/token/create
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/token/create
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
@@ -59,7 +59,7 @@ let
 router.post('/create'       , controller.create);
 
 /**
- * @api             {post} /auth/token/validate     Validate
+ * @api             {post} __baseURL__/token/validate     Validate
  * @apiVersion      0.0.1
  * @apiName         Validate
  * @apiGroup        token
@@ -93,7 +93,7 @@ router.post('/create'       , controller.create);
  }
  *
  *
- * @apiSampleRequest http://localhost:3400/auth/token/validate
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/token/validate
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
  * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.

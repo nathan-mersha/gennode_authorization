@@ -7,8 +7,9 @@
  * @copyright           __copyright__
  */
 
-let Model = require('../model/acm'),
-    helper = require('../lib/helper').controllerHelper;
+let
+    Model   = require('../model/acm'),
+    helper  = require('../lib/helper').controllerHelper;
 
 /**
  * @name                - Create
