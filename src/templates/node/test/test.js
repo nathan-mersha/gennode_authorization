@@ -15,7 +15,7 @@ let
     expect      = chai.expect,
     async       = require('async'),
     helper      = require('../lib/helper').controllerHelper,
-    app         = require('../app/app'),
+    app         = require('../app'),
     constants   = require('../lib/constant'),
     url         = require('./url_generator'),
     errorCodes  = constants.errorCodes,

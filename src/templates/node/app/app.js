@@ -14,17 +14,17 @@ let
     app         = express(),
     parser      = require('body-parser').json(),
     validator   = require('express-validator')(),
-    config      = require('../config/index'),
-    route       = require('../routes/index'),
+    config      = require('./config'),
+    route       = require('./route'),
     mongoose    = require('mongoose'),
     debug       = require('debug')('__serviceName__'),
     helmet      = require('helmet'),
-    constants   = require('../lib/constant/index'),
-    roleDAL     = require('../dal/role'),
-    acmDAL      = require('../dal/acm'),
+    constants   = require('./lib/constant/index'),
+    roleDAL     = require('./dal/role'),
+    acmDAL      = require('./dal/acm'),
     errorCodes  = constants.errorCodes,
     dbCFailure  = 0,
-    initializer = require('../lib/middleware/initializer');
+    initializer = require('./lib/helper/others/initializer');
 
 
 /**

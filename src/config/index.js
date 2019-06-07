@@ -34,6 +34,7 @@ module.exports = {
     test                    : true,
     stressTest              : true,
     documentation           : true,
+    instance                : 1,
     readMe                  : true,
     commit                  : true,
     commitMessage           : 'Initial commit by gennode auth'
