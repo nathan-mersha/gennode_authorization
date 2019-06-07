@@ -13,6 +13,7 @@ let
     nodeGenConfig   = null,
     outputPath      = null,
     mergedConfig    = {},
+    mergedConfigEx  = require('./src/mergedConfig'),
     constants       = require('./src/config/constants'),
     createDir       = constants.directories,
     replaceValues   = require('./src/generators/replacers'),
@@ -100,6 +101,8 @@ module.exports = {
         function mergeConfigFile                (callback) {
             console.log(`${log} 2. Merge config file init.`);
             mergeConfigFiles(nodeGenConfig, callback);
+
+
         }
 
         /**
@@ -818,7 +821,7 @@ module.exports = {
             console.log(`${log} 32. Running server init.`);
 
             if(mergedConfig.runServer) {
-                shelljs.exec('npm run run');
+                shelljs.exec('npm run start');
             }else{
                 console.log('Skipping...');
             }
@@ -841,6 +844,7 @@ function mergeConfigFiles(inputConfigModel, callback) {
     inputConfigModel = xtend(defaultConfig, inputConfigModel);
     mergedConfig = inputConfigModel;
     mergedConfig.environment = xtend(defaultConfig.environment, inputConfigModel.environment);
+    mergedConfigEx.mergedConfig = mergedConfig;
     callback(null);
 }
 

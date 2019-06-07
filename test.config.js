@@ -27,6 +27,7 @@ module.exports = {
     readMe                  : true,
     instance                : 0,
     commit                  : true,
+    runServer               : true,
     commitMessage           : 'Initial commit by gennode auth'
 
 };
