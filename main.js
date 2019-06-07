@@ -836,7 +836,7 @@ module.exports = {
      */
     generateSampleConfig    : function () {
         console.log(`${log} Generating sample Hero Academia GenNode authorization configuration file.`);
-        lib.generator(path.resolve(__dirname, './src/templates/gennode_authorization/heroacademia_authorization.config.js'), replaceValues.globalReplace(), 'heroacademia_authorization.config.js', '.', function () {
+        lib.generator(path.resolve(__dirname, './src/templates/gennode_authorization/heroacademia_authorization.config.js'), replaceValues.genNodeConfig(), 'heroacademia_authorization.config.js', '.', function () {
             console.log(`${log} Done generating my hero academia gennode_authorization configuration file.`);
         });
     },

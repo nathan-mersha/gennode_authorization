@@ -6,8 +6,9 @@
   "scripts": {
     "test": "npm run test"
   },
+  "preferGlobal": true,
   "bin": {
-    "gennode_auth": "./cli.js"
+    "gennode-auth": "./cli.js"
   },
   "repository": {
     "type": "git",

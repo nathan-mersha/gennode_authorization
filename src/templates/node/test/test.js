@@ -116,7 +116,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(15000);
                 it("Should successfully create token" ,function (done) {
                     sendRequest(url.token.create(),'post',dummyData.token.create.success,201,function (err,res) {
                         let body = res.body;
