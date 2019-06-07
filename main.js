@@ -169,7 +169,7 @@ module.exports = {
             console.log(`${log} 9. Generate git init.`);
             shelljs.exec('git init');
             setTimeout(function () {
-                lib.generator(path.resolve(__dirname, './src/templates/git/.gitignore'), replaceValues.globalReplace(), '.gitignore', '.', callback);
+                lib.generator(path.resolve(__dirname, './src/templates/git/gitignore'), replaceValues.globalReplace(), '.gitignore', '.', callback);
             },2000);
         }
 
