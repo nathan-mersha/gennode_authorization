@@ -44,7 +44,6 @@ module.exports = {
             locateConfigFile,
             mergeConfigFile,
             validateConfigFile,
-            verifyServerDirExistence,
             refactorConfigFile,
             generateDirectories,
             generatePackageJSON,
@@ -73,7 +72,7 @@ module.exports = {
             console.log(`\n\n\n
         --------------------------------------------------------------------------------------------------------------------
         --------------------------------------------------------------------------------------------------------------------
-        -----------------------------            Thanks for using GenNode, Auth           -----------------------------------
+        -----------------------------            Thanks for using GenNode, Auth           ----------------------------------
         --------------------------------------------------------------------------------------------------------------------
         --------------------------------------------------------------------------------------------------------------------
         \n\n\n
@@ -111,29 +110,11 @@ module.exports = {
         function validateConfigFile             (callback) {
             console.log(`${log} 3. Validating config file.`);
 
-            async.waterfall([
-                validatePort,
-            ],function () {
+            if(isNaN(mergedConfig.environment.PORT)) {
+                console.error(`Port value : ${mergedConfig.environment.PORT} is not a number.`)
+            }else{
                 callback(null);
-            });
-
-
-
-            /**
-             * @name            - Validate port
-             * @description     - Validates port
-             * @param cb        - Callback function (error)
-             */
-            function validatePort(cb) {
-                console.log(`${iLog} Validating port.`);
-
-                if(isNaN(mergedConfig.environment.PORT)) {
-                    console.error(`Port value : ${mergedConfig.environment.PORT} is not a number.`)
-                }else{
-                    cb(null);
-                }
             }
-
         }
 
         /**
@@ -144,40 +125,13 @@ module.exports = {
         function refactorConfigFile             (callback) {
             console.log(`${log} 4. Refactor config file init.`);
 
-            async.waterfall([
-                refactorBaseURL,
-            ],function () {
-                callback(null);
-            });
-
-            /**
-             * @name            - Refactor base url
-             * @description     - Refactors base url
-             * @param cb        - Callback function (error)
-             */
-            function refactorBaseURL(cb) {
-                console.log(`${iLog} Refactor base url.`);
-
-                if(!mergedConfig.baseURL.startsWith('/')) {
-                    mergedConfig.baseURL = '/'.concat(mergedConfig.baseURL);
-                }
-                cb(null);
-
+            if(!mergedConfig.baseURL.startsWith('/')) {
+                mergedConfig.baseURL = '/'.concat(mergedConfig.baseURL);
             }
-
-        }
-
-        /**
-         * @name                    - Validate server dir existence
-         * @description             - Checks if server directory already exists,
-         * if so removes everything except node_modules (if it exists) (with not to do other wise option.)
-         * @param callback          - Callback function (error)
-         */
-        function verifyServerDirExistence       (callback) {
-            console.log(`${log} 5. Verify server dir existence.`);
-            // todo if the server directory already exists, remove all files except node_modules if passed param to do so in the cli.
             callback(null);
         }
+
+
 
         /**
          * @name                    - Generate directories
@@ -190,7 +144,6 @@ module.exports = {
             shelljs.mkdir(path.resolve(outputPath, nodeGenConfig.serviceName));
             shelljs.cd(path.resolve(outputPath, nodeGenConfig.serviceName));
             shelljs.mkdir(createDir);
-
             callback(null);
         }
 
@@ -383,7 +336,7 @@ module.exports = {
         /**
          * @name                - Generate libs
          * @description         - Generates constants, errorCode, constantIndex, helperIndex, apiIndex, logger helper, initializer
-         * @param callback      - Callback function (errro)
+         * @param callback      - Callback function (error)
          */
         function generateLibs(callback) {
             console.log(`${log} 14. Generate library files.`);
@@ -401,47 +354,92 @@ module.exports = {
                 callback(null);
             });
 
+            /**
+             * @name            - Generate constants
+             * @description     - Generates some constant values.
+             * @param cb        - Callback function (error)
+             */
             function generateConstants(cb) {
                 console.log(`${iLog} Generating constants.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/constant.js'), replaceValues.globalReplace(), 'constant.js', './lib/constant', cb);
             }
 
+            /**
+             * @name            - Generate error codes
+             * @description     - Generates constant error codes.
+             * @param cb        - Callback function (error)
+             */
             function generateErrorCodes(cb) {
                 console.log(`${iLog} Generating error codes.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/errorCodes.js'), replaceValues.globalReplace(), 'errorCodes.js', './lib/constant', cb);
             }
 
+            /**
+             * @name            - Generate constant index
+             * @description     - Generates index file for the constant files.
+             * @param cb        - Callback function (error)
+             */
             function generateConstantIndex(cb) {
                 console.log(`${iLog} Generating constant index.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/index.js'), replaceValues.globalReplace(), 'index.js', './lib/constant', cb);
             }
 
+            /**
+             * @name            - Generate helper index
+             * @description     - Generates helper index files.
+             * @param cb        - Callback function (error)
+             */
             function generateHelperIndex(cb) {
                 console.log(`${iLog} Generating helper index.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/index.js'), replaceValues.globalReplace(), 'index.js', './lib/helper', cb);
             }
 
+            /**
+             * @name            - Generate controller helper
+             * @description     - Generates controller helper file
+             * @param cb        - Callback function (error)
+             */
             function generateControllerHelper(cb) {
                 console.log(`${iLog} Generating controller helper.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/controllerHelper.js'), replaceValues.globalReplace(), 'controllerHelper.js', './lib/helper/others', cb);
             }
 
+            /**
+             * @name            - Generate api index
+             * @description     - Generates index file for api module.
+             * @param cb        - Callback function (error)
+             */
             function generateApiIndex(cb) {
                 console.log(`${iLog} Generating controller helper.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/api/index.js'), replaceValues.globalReplace(), 'index.js', './lib/helper/api', cb);
             }
 
+            /**
+             * @name            - Generate logger helper
+             * @description     - Generates logger helper file.
+             * @param cb        - Callback function (error)
+             */
             function generateLoggerHelper(cb) {
                 console.log(`${iLog} Generating logger helper.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/logger.js'), replaceValues.globalReplace(), 'logger.js', './lib/helper/others', cb);
             }
 
+            /**
+             * @name            - Generate initializer
+             * @description     - Generates initializer file.
+             * @param cb        - Callback function (error)
+             */
             function generateInitializer(cb) {
                 console.log(`${iLog} Generating initializer.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/initializer.js'), replaceValues.globalReplace(), 'initializer.js', './lib/helper/others', cb);
             }
         }
 
+        /**
+         * @name                - Generate models
+         * @description         - Generates model files.
+         * @param callback      - Callback function (error)
+         */
         function generateModels(callback) {
             console.log(`${log} 15. Generate model files.`);
 
@@ -574,6 +572,11 @@ module.exports = {
             }
         }
 
+        /**
+         * @name                - Generate test files.
+         * @description         - Generates test files (Dummy data, stress, test and url gen)
+         * @param callback      - Callback function (error)
+         */
         function generateTestFiles(callback) {
             console.log(`${log} 17. Generate test files`);
 
@@ -588,36 +591,67 @@ module.exports = {
                     callback(null);
                 });
 
+                /**
+                 * @name            - Generate dummy data
+                 * @description     - Generates dummy data for test.
+                 * @param cb        - Callback function (error)
+                 */
                 function generateDummyData(cb) {
                     console.log(`${iLog} Generate dummy data.`);
                     lib.generator(path.resolve(__dirname, './src/templates/node/test/dummy_data.js'), replaceValues.globalReplace(), 'dummy_data.js', './test', cb);
                 }
 
+                /**
+                 * @name            - Generate stress file
+                 * @description     - Generates artillery stress file (yml)
+                 * @param cb        - Callback function (error)
+                 */
                 function generateStressFile(cb) {
                     console.log(`${iLog} Generate stress file.`);
                     lib.generator(path.resolve(__dirname, './src/templates/node/test/stress.yml'), replaceValues.globalReplace(), 'stress.yml', './test', cb);
                 }
 
+                /**
+                 * @name            - Generate test file
+                 * @description     - Generates e2e test.
+                 * @param cb        - Callback function (error)
+                 */
                 function generateTestFile(cb) {
                     console.log(`${iLog} Generate test file.`);
                     lib.generator(path.resolve(__dirname, './src/templates/node/test/test.js'), replaceValues.globalReplace(), 'test.js', './test', cb);
                 }
 
+                /**
+                 * @name            - Generate url generator
+                 * @description     - Url generator file.
+                 * @param cb        - Callback function (error)
+                 */
                 function generateUrlGenerator(cb) {
                     console.log(`${iLog} Generate url generator.`);
                     lib.generator(path.resolve(__dirname, './src/templates/node/test/url_generator.js'), replaceValues.globalReplace(), 'url_generator.js', './test', cb);
                 }
+
             }else{
                 console.log(`${iLog} Skip generating test files.`);
             }
 
         }
 
+        /**
+         * @name                - Generate jenkinsfile
+         * @description         - Generates jenkins pipeline file.
+         * @param callback      - Callback function (error)
+         */
         function generateJenkinsFile(callback) {
             console.log(`${log} 18. Generate jenkins file.`);
             lib.generator(path.resolve(__dirname, './src/templates/jenkins/Jenkinsfile'), replaceValues.globalReplace(), 'Jenkinsfile', '.', callback);
         }
-        
+
+        /**
+         * @name                - Generate docker file
+         * @description         - Generates dockerignore, dockerCompose and docker file.
+         * @param callback      - Callback function (error)
+         */
         function generateDockerFile(callback) {
             console.log(`${log} 19. Generate docker file.`);
 
@@ -630,16 +664,31 @@ module.exports = {
                     callback(null);
                 });
 
+                /**
+                 * @name            - Generate docker ignore file
+                 * @description     - Generates docker ignore file.
+                 * @param cb        - Callback function (error)
+                 */
                 function generateDockerIgnore(cb) {
                     console.log(`${iLog} Generating docker ignore.`);
                     lib.generator(path.resolve(__dirname, './src/templates/docker/.dockerignore'), replaceValues.globalReplace(), '.dockerignore', '.', cb);
                 }
 
+                /**
+                 * @name            - Generate docker compose
+                 * @description     - Generates docker compose file.
+                 * @param cb        - Callback function (error)
+                 */
                 function generateDockerCompose(cb) {
                     console.log(`${iLog} Generating docker compose.`);
                     lib.generator(path.resolve(__dirname, './src/templates/docker/docker-compose.yml'), replaceValues.globalReplace(true), 'docker-compose.yml', '.', cb);
                 }
 
+                /**
+                 * @name            - Generate docker
+                 * @description     - Generates docker file
+                 * @param cb        - Callback function (error)
+                 */
                 function generateDocker(cb) {
                     console.log(`${iLog} Generating docker file.`);
                     lib.generator(path.resolve(__dirname, './src/templates/docker/Dockerfile'), replaceValues.globalReplace(), 'Dockerfile', '.', cb);
@@ -651,6 +700,11 @@ module.exports = {
 
         }
 
+        /**
+         * @name                - Generate postman collection file.
+         * @description         - Generates postman collection file.
+         * @param callback      - Callback function (error)
+         */
         function generatePostManCollectionFile(callback) {
             console.log(`${log} 19. Generate postman collection file.`);
 
@@ -662,6 +716,11 @@ module.exports = {
             }
         }
 
+        /**
+         * @name                - Generate readme file
+         * @description         - Generates ReadMe.md file
+         * @param callback      - Callback function (error)
+         */
         function generateReadMeFile(callback) {
             console.log(`${log} 20. Generate readMe file.`);
 
