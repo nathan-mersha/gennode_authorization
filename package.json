@@ -1,13 +1,13 @@
 {
   "name": "gennode_authorization",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Authorization service with acm functionalities",
   "main": "main.js",
   "scripts": {
     "test": "npm run test"
   },
-  "bin" : {
-    "gennode_auth" : "./cli.js"
+  "bin": {
+    "gennode_auth": "./cli.js"
   },
   "repository": {
     "type": "git",
