@@ -23,7 +23,6 @@ module.exports = {
     postman                 : true,
     useProxy                : false,
     test                    : true,
-    stressTest              : true,
     documentation           : true,
     readMe                  : true,
     instance                : 0,

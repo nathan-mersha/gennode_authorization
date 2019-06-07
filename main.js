@@ -72,6 +72,7 @@ module.exports = {
             generateDockerFile,
             generatePostManCollectionFile,
             generateReadMeFile,
+            generateApiDocJSON,
             installPackages,
             generateTestReportAndCoverage,
             generateDocumentation,
@@ -82,7 +83,7 @@ module.exports = {
             console.log(`\n\n\n
         --------------------------------------------------------------------------------------------------------------------
         --------------------------------------------------------------------------------------------------------------------
-        -------------            Thanks for using GenNode, Auth     ---------------------
+        -----------------------------            Thanks for using GenNode, Auth           -----------------------------------
         --------------------------------------------------------------------------------------------------------------------
         --------------------------------------------------------------------------------------------------------------------
         \n\n\n
@@ -580,36 +581,41 @@ module.exports = {
 
         function generateTestFiles(callback) {
             console.log(`${log} 17. Generate test files`);
-            // todo check if test should be generate on config.
-            async.waterfall([
-                generateDummyData,
-                generateStressFile,
-                generateTestFile,
-                generateUrlGenerator
-            ],function () {
-                console.log(`${log} Generate test files completed.`);
-                callback(null);
-            });
 
-            function generateDummyData(cb) {
-                console.log(`${iLog} Generate dummy data.`);
-                lib.generator(path.resolve(__dirname, './src/templates/node/test/dummy_data.js'), replaceValues.globalReplace(), 'dummy_data.js', './test', cb);
+            if(mergedConfig.test){
+                async.waterfall([
+                    generateDummyData,
+                    generateStressFile,
+                    generateTestFile,
+                    generateUrlGenerator
+                ],function () {
+                    console.log(`${log} Generate test files completed.`);
+                    callback(null);
+                });
+
+                function generateDummyData(cb) {
+                    console.log(`${iLog} Generate dummy data.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/dummy_data.js'), replaceValues.globalReplace(), 'dummy_data.js', './test', cb);
+                }
+
+                function generateStressFile(cb) {
+                    console.log(`${iLog} Generate stress file.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/stress.yml'), replaceValues.globalReplace(), 'stress.yml', './test', cb);
+                }
+
+                function generateTestFile(cb) {
+                    console.log(`${iLog} Generate test file.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/test.js'), replaceValues.globalReplace(), 'test.js', './test', cb);
+                }
+
+                function generateUrlGenerator(cb) {
+                    console.log(`${iLog} Generate url generator.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/url_generator.js'), replaceValues.globalReplace(), 'url_generator.js', './test', cb);
+                }
+            }else{
+                console.log(`${iLog} Skip generating test files.`);
             }
 
-            function generateStressFile(cb) {
-                console.log(`${iLog} Generate stress file.`);
-                lib.generator(path.resolve(__dirname, './src/templates/node/test/stress.yml'), replaceValues.globalReplace(), 'stress.yml', './test', cb);
-            }
-
-            function generateTestFile(cb) {
-                console.log(`${iLog} Generate test file.`);
-                lib.generator(path.resolve(__dirname, './src/templates/node/test/test.js'), replaceValues.globalReplace(), 'test.js', './test', cb);
-            }
-
-            function generateUrlGenerator(cb) {
-                console.log(`${iLog} Generate url generator.`);
-                lib.generator(path.resolve(__dirname, './src/templates/node/test/url_generator.js'), replaceValues.globalReplace(), 'url_generator.js', './test', cb);
-            }
         }
 
         function generateJenkinsFile(callback) {
@@ -652,12 +658,33 @@ module.exports = {
 
         function generatePostManCollectionFile(callback) {
             console.log(`${log} 19. Generate postman collection file.`);
-            lib.generator(path.resolve(__dirname, './src/templates/documentation/gennodeAuthServer.postman_collection.json'), replaceValues.globalReplace(), `${snakeCase(mergedConfig.serviceName)}.postman_collection.json`, '.', callback);
+
+            if(mergedConfig.postman){
+                lib.generator(path.resolve(__dirname, './src/templates/documentation/gennodeAuthServer.postman_collection.json'), replaceValues.globalReplace(), `${snakeCase(mergedConfig.serviceName)}.postman_collection.json`, '.', callback);
+            }else{
+                console.log(`${iLog} Skip generating postman file.`);
+                callback(null);
+            }
         }
 
         function generateReadMeFile(callback) {
             console.log(`${log} 20. Generate readMe file.`);
-            lib.generator(path.resolve(__dirname, './src/templates/documentation/README.md'), replaceValues.globalReplace(), 'README.md', '.', callback);
+
+            if(mergedConfig.readMe){
+                lib.generator(path.resolve(__dirname, './src/templates/documentation/README.md'), replaceValues.globalReplace(), 'README.md', '.', callback);
+            }else{
+                console.log(`${iLog} Skip generating readme file.`);
+                callback(null);
+            }
+        }
+
+        function generateApiDocJSON(callback) {
+            console.log(`${log} 20. Generate apidoc.json`);
+            if(mergedConfig.documentation){
+                lib.generator(path.resolve(__dirname, './src/templates/documentation/apidoc.json'), replaceValues.globalReplace(), 'apidoc.json', '.', callback);
+            }else{
+                console.log(`${iLog} Skip generating apidoc.json`);
+            }
         }
 
 
