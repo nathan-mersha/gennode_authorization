@@ -8,25 +8,15 @@
  */
 
 let
-    directory       = require('./src/generators/directory'),
-    mergedConfigEx  = require('./src/mergedConfig'),
     lib             = require('./src/lib/index'),
-
-    // Default values for configuration
     defaultConfig   = require('./src/config/index'),
-
     nodeGenConfig   = null,
     outputPath      = null,
     mergedConfig    = {},
-
     constants       = require('./src/config/constants'),
     createDir       = constants.directories,
-
     replaceValues   = require('./src/generators/replacers'),
-    camelCase       = require('camelcase'),
     snakeCase       = require('snake-case'),
-    fs              = require('fs'),
-    util            = require('util'),
     async           = require('async'),
     shelljs         = require('shelljs'),
     path            = require('path'),
@@ -76,8 +66,8 @@ module.exports = {
             installPackages,
             generateTestReportAndCoverage,
             generateDocumentation,
-            // commitFiles,
-            // runServer
+            commitFiles,
+            runServer
         ],function () {
             console.log('Completed generating server files.');
             console.log(`\n\n\n
@@ -390,6 +380,11 @@ module.exports = {
 
         }
 
+        /**
+         * @name                - Generate libs
+         * @description         - Generates constants, errorCode, constantIndex, helperIndex, apiIndex, logger helper, initializer
+         * @param callback      - Callback function (errro)
+         */
         function generateLibs(callback) {
             console.log(`${log} 14. Generate library files.`);
 
@@ -678,6 +673,11 @@ module.exports = {
             }
         }
 
+        /**
+         * @name                - Generate apiDoc json
+         * @description         - Generates apidoc json file.
+         * @param callback      - Callback function (error)
+         */
         function generateApiDocJSON(callback) {
             console.log(`${log} 20. Generate apidoc.json`);
             if(mergedConfig.documentation){
@@ -713,6 +713,11 @@ module.exports = {
             }else{callback(null);}
         }
 
+        /**
+         * @name                    - Generate Documentation
+         * @description             - Generates documentation
+         * @param callback          - Callback function (error)
+         */
         function generateDocumentation  (callback) {
             console.log(`${log} 31. Generate documentation.`);
 
@@ -720,7 +725,7 @@ module.exports = {
                 shelljs.exec('npm run apidoc');
                 callback(null);
             }else{
-                console.log(`${iLog} Skip generating document.`)
+                console.log(`${iLog} Skip generating document.`);
                 callback(null);
             }
         }
@@ -733,11 +738,11 @@ module.exports = {
          * @param callback          - Callback function (error)
          */
         function commitFiles                    (callback) {
-            console.log(`${log} 38. Commit and push init.`);
+            console.log(`${log} 31. Commit and push init.`);
 
             if(mergedConfig.commit) {
                 shelljs.exec('git add .');
-                shelljs.exec(`git commit --message="Initial commit by gennode"`);
+                shelljs.exec(`git commit --message=${mergedConfig.commitMessage}`);
                 callback(null);
             }else{
                 console.log('Skipping...');
@@ -751,7 +756,7 @@ module.exports = {
          * @param callback          - Callback function (error)
          */
         function runServer                      (callback) {
-            console.log(`${log} 39. Running server init.`);
+            console.log(`${log} 32. Running server init.`);
 
             if(mergedConfig.runServer) {
                 shelljs.exec('npm run run');
@@ -770,30 +775,14 @@ module.exports = {
 /**
  * @name                        - Merge config files
  * @description                 - Merges the config file with a default one
- * @param inputConfigModel
- * @param callback
+ * @param inputConfigModel      - Config file input
+ * @param callback              - Callback function (error)
  */
 function mergeConfigFiles(inputConfigModel, callback) {
-    async.waterfall([
-        mergeConfig
-    ],function () {
-        callback(null);
-    });
-
-    /**
-     * @name                - Merge config
-     * @description         - Merge config with the default values.
-     * @param cb            - Callback function (error)
-     */
-    function mergeConfig(cb) {
-        inputConfigModel = xtend(defaultConfig, inputConfigModel);
-        mergedConfig = inputConfigModel;
-        mergedConfigEx.mergedConfig = inputConfigModel;
-        mergedConfig.environment = xtend(defaultConfig.environment, inputConfigModel.environment);
-        mergedConfig.generate = xtend(defaultConfig.generate, inputConfigModel.generate);
-        cb(null);
-    }
-
+    inputConfigModel = xtend(defaultConfig, inputConfigModel);
+    mergedConfig = inputConfigModel;
+    mergedConfig.environment = xtend(defaultConfig.environment, inputConfigModel.environment);
+    callback(null);
 }
 
 
