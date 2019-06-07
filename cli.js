@@ -23,7 +23,7 @@ let questions = [
     {
         type : 'input',
         prefix : '\n\nWelcome to GenNode Authorization. \n\nThis will walk you through creating a genNodeAuthorization.config.js configuration file. For more help type [ gennode --help ]\n' +
-        'If you leave a field empty, it will be assigned a default value. \nAfter you are done generating the file, print [ gennode_authorization gen -i genNodeAuthorization.config.js -o . ] and a server file will be \ngenerated' +
+        'If you leave a field empty, it will be assigned a default value. \nAfter you are done generating the file, print [ gennode_auth gen -i genNodeAuthorization.config.js -o . ] and a server file will be \ngenerated' +
         ' inside the current directory according to your configuration.>',
         default : defaultValues.serviceName,
         name : 'serviceName',

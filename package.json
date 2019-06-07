@@ -6,6 +6,9 @@
   "scripts": {
     "test": "npm run test"
   },
+  "bin" : {
+    "gennode_auth" : "./cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nathan-mersha/gennode_authorization.git"
