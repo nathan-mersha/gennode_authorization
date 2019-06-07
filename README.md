@@ -16,12 +16,16 @@ Full fledged authorization service.
 1. Make all your services register their routes on this service.
 2. Create a role
 3. Create a user
-4. Assign user to the role
-5. Give the role access to the routes.
-6. By creating acm models give or deny read,delete and update access to the user on a specific model.
+4. Request a token
+5. Assign user to the role
+6. Give the role access to the routes.
+7. By creating acm models give or deny read,delete and update access to the user on a specific model.
+8. And every time you get a request send the route,method,body and token to this service and you will get a 401 or 200 response.
 
+### Note
+This module has additional three libs and middle-wares that accompanies it as described in the upcomming feature section.
 
-### Prerequisite and Note
+### Prerequisite
 1. An installation of mongodb on the running machine is required for the tests to pass, and for the server to start. Make sure the mongod
 server is up and running. Guide on how to install and run MongoDB can be found [here](https://docs.mongodb.com/manual/administration/install-community/ "Installation MongoDB").
 2. Make sure to have a version of NodeJS above or equal to Version 4. Get NodeJs [here](https://nodejs.org/en/download/ "Installation NodeJS")
