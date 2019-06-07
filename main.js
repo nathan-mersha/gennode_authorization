@@ -34,12 +34,12 @@ const
 module.exports = {
 
     /**
-     * @name                    - Gen node
+     * @name                    - Gen node authorization
      * @description             - Generates gen node file
      * @param configFilePath    - Path to config file
      * @param outPutPath        - Out put path
      */
-    genNode                 : function (configFilePath, outPutPath){
+    genNodeAuthorization                 : function (configFilePath, outPutPath){
 
         async.waterfall([
             locateConfigFile,
@@ -829,6 +829,93 @@ module.exports = {
         }
 
     },
+
+    /**
+     * @name                    - Generate sample config
+     * @description             - Generates sample my hero academia gennode_authorization config file
+     */
+    generateSampleConfig    : function () {
+        console.log(`${log} Generating sample Hero Academia GenNode authorization configuration file.`);
+        lib.generator(path.resolve(__dirname, './src/templates/gennode_authorization/heroacademia_authorization.config.js'), replaceValues.globalReplace(), 'heroacademia_authorization.config.js', '.', function () {
+            console.log(`${log} Done generating my hero academia gennode_authorization configuration file.`);
+        });
+    },
+
+    /**
+     * @name                    - Generate config
+     * @description             - Generates gennode configuration file from the user's prompted answer
+     * @param answers           - User answers
+     */
+    generateConfig          : function (answers) {
+        async.waterfall([
+            createEnvironmentObject,
+            removeEnvironmentObjectFromAnswers,
+            mergeDefaultConfigAndAnswer,
+            generateConfigurationFile
+        ],function () {
+        });
+
+        /**
+         * @name            - Create environmentObject
+         * @description     - Creates nestable environment object
+         * @param callback  - Callback function (error)
+         */
+        function createEnvironmentObject(callback) {
+            let environment = Object.assign({}, {
+                DEBUG                   : answers.debug,
+                PORT                    : answers.port,
+                MONGODB_URL             : answers.mongodbURL,
+                REVERSE_PROXY           : answers.reverseProxy,
+                COLLECTION_RETURN_SIZE  : answers.collectionReturnSize,
+                ELASTIC_SEARCH_URL      : answers.elasticSearchURL,
+                TOKEN_EXPIRATION_TIME   : answers.tokenExpirationTime,
+                LOG_STASH_PORT          : answers.logStashPort,
+                SECRET                  : answers.secret
+            });
+
+            callback(null, environment);
+        }
+
+        /**
+         * @name                - Remove environment object from answers
+         * @description         - Removes environment object from answers and replaces with a nestable value
+         * @param environment   - Constructed environment variables
+         * @param callback      - Callback function (error)
+         */
+        function removeEnvironmentObjectFromAnswers(environment, callback) {
+            delete answers.debug;
+            delete answers.port;
+            delete answers.mongodbURL;
+            delete answers.reverseProxy;
+            delete answers.collectionReturnSize;
+            delete answers.elasticSearchURL;
+            delete answers.tokenExpirationTime;
+            delete answers.logStashPort;
+            delete answers.secret;
+
+            answers.environment = environment;
+            callback(null);
+        }
+
+        /**
+         * @name            - Merge default config and answer
+         * @description     - Merges the default config with the provided answer
+         * @param callback  - Callback function (error)
+         */
+        function mergeDefaultConfigAndAnswer(callback) {
+            mergeConfigFiles(answers, callback);
+        }
+
+        /**
+         * @name            - Generate configuration file
+         * @description     - Generates configuration file according to the merged default config and user's answer
+         * @param callback  - Callback function (error)
+         */
+        function generateConfigurationFile(callback) {
+            lib.generator(path.resolve(__dirname, './src/templates/gennode_authorization/gennode'), replaceValues.genNodeConfig(answers.author, answers.serviceName, JSON.stringify(mergedConfig, null,  4)), 'gennode_authorization.config.js', '.', callback);
+        }
+    }
+
 
 };
 

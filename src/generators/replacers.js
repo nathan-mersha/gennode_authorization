@@ -64,4 +64,25 @@ exports.globalReplace = function packageJSON(toSnake){
     };
 };
 
+/**
+ * @name                            - Jenkins nginx
+ * @param author                    - Author
+ * @param serviceName               - Service name
+ * @param configExport              - Configuration export
+ */
+exports.genNodeConfig        = function (author, serviceName, configExport) {
+    return {
+        from : [
+            /__author__/g,
+            /__serviceName__/g,
+            /__configurationExport__/g
+        ],
+        to: [
+            author,
+            serviceName,
+            configExport
+        ]
+    };
+};
+
 
