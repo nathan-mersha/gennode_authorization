@@ -1,6 +1,6 @@
 {
   "name": "gennode_authorization",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Authorization service with acm functionalities",
   "main": "main.js",
   "scripts": {
