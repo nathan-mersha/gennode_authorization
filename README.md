@@ -11,6 +11,9 @@ Gennode authorization is available on npm, type:
 
 and install it globally, now you can use it from the command line.
 
+![](rsr/description.png)
+**Figure 1** - Gennode authorization description
+
 ### Introduction
 Full fledged authorization service. 
 1. Make all your services register their routes on this service.
