@@ -1,0 +1,2885 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for gennode_authorization/main.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">gennode_authorization/</a> main.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.42% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>229/265</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>11/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">89.87% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>71/79</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">86.42% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>229/265</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
+ * @author              Nathan Mersha
+ * @name                GenNode Authorization
+ * @module              index.js
+ * @description         Starting point for generating node server files.
+ * @kind                Generator
+ * @copyright           June 2019 GenNode Authorization
+ */
+&nbsp;
+let
+    lib             = require('./src/lib/index'),
+    defaultConfig   = require('./src/config/index'),
+    nodeGenConfig   = null,
+    outputPath      = null,
+    mergedConfig    = {},
+    mergedConfigEx  = require('./src/mergedConfig'),
+    constants       = require('./src/config/constants'),
+    createDir       = constants.directories,
+    replaceValues   = require('./src/generators/replacers'),
+    snakeCase       = require('snake-case'),
+    async           = require('async'),
+    shelljs         = require('shelljs'),
+    path            = require('path'),
+    xtend           = require('xtend');
+&nbsp;
+const
+    log  = "&gt;&gt; ",
+    iLog = "&gt;&gt;&gt;&gt;";
+&nbsp;
+/**
+ * @name                - Config index
+ * @description         - Begins generating execution.
+ */
+module.exports = {
+&nbsp;
+    /**
+     * @name                    - Gen node authorization
+     * @description             - Generates gen node file
+     * @param configFilePath    - Path to config file
+     * @param outPutPath        - Out put path
+     */
+    genNodeAuthorization                 : function (configFilePath, outPutPath, callbackMain){
+&nbsp;
+        async.waterfall([
+            locateConfigFile,
+            mergeConfigFile,
+            validateConfigFile,
+            refactorConfigFile,
+            generateDirectories,
+            generatePackageJSON,
+            generateGit,
+            generateEnvironmentFile,
+            generateApp,
+            generateConfig,
+            generateControllers,
+            generateDals,
+            generateLibs,
+            generateModels,
+            generateRoutes,
+            generateTestFiles,
+            generateJenkinsFile,
+            generateDockerFile,
+            generatePostManCollectionFile,
+            generateReadMeFile,
+            generateApiDocJSON,
+            installPackages,
+            generateTestReportAndCoverage,
+            generateDocumentation,
+            commitFiles,
+            runServer
+        ],function () {
+            console.log('Completed generating server files.');
+            console.log(`\n\n\n
+        --------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------
+        -----------------------------            Thanks for using GenNode, Auth           ----------------------------------
+        --------------------------------------------------------------------------------------------------------------------
+        --------------------------------------------------------------------------------------------------------------------
+        \n\n\n
+        `
+            );
+            callbackMain();
+        });
+&nbsp;
+        /**
+         * @name                    - Locate config file
+         * @description             - Locates users config file.
+         * @param callback          - Callback function (error)
+         */
+        function locateConfigFile               (callback) {
+            console.log(`${log} 1. Locate config file init.`);
+            console.log("Config file path : ", configFilePath);
+            nodeGenConfig = require(path.resolve(configFilePath));
+            outputPath = path.resolve(outPutPath);
+            callback(null);
+        }
+&nbsp;
+        /**
+         * @name                    - Merge config files
+         * @description             - Merges the default config file with the one the user's config file.
+         * @param callback          - Callback function (error)
+         */
+        function mergeConfigFile                (callback) {
+            console.log(`${log} 2. Merge config file init.`);
+            mergeConfigFiles(nodeGenConfig, callback);
+&nbsp;
+&nbsp;
+        }
+&nbsp;
+        /**
+         * @name                    - Validate config file
+         * @description             - Validates the merged config file
+         * @param callback          - Callback function (error)
+         */
+        function validateConfigFile             (callback) {
+            console.log(`${log} 3. Validating config file.`);
+&nbsp;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if(isNaN(mergedConfig.environment.PORT)) {
+<span class="cstat-no" title="statement not covered" >                console.error(`Port value : ${mergedConfig.environment.PORT} is not a number.`)</span>
+            }else{
+                callback(null);
+            }
+        }
+&nbsp;
+        /**
+         * @name                    - Refactor config file
+         * @description             - Refactors config file
+         * @param callback          - Callback function (error)
+         */
+        function refactorConfigFile             (callback) {
+            console.log(`${log} 4. Refactor config file init.`);
+&nbsp;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if(!mergedConfig.baseURL.startsWith('/')) {
+<span class="cstat-no" title="statement not covered" >                mergedConfig.baseURL = '/'.concat(mergedConfig.baseURL);</span>
+            }
+            callback(null);
+        }
+&nbsp;
+&nbsp;
+&nbsp;
+        /**
+         * @name                    - Generate directories
+         * @description             - Generates required directories in the parent file
+         * @param callback          - Callback function (error)
+         */
+        function generateDirectories            (callback) {
+            console.log(`${log} 6. Generate directories init.`);
+&nbsp;
+            shelljs.mkdir(path.resolve(outputPath, nodeGenConfig.serviceName));
+            shelljs.cd(path.resolve(outputPath, nodeGenConfig.serviceName));
+            shelljs.mkdir(createDir);
+            callback(null);
+        }
+&nbsp;
+        /**
+         * @name                    - Generate package json
+         * @description             - Generates the npm package file.
+         * @param callback          - Callback function (error)
+         */
+        function generatePackageJSON            (callback) {
+            console.log(`${log} 8. Generate package json init.`);
+            lib.generator(path.resolve(__dirname, './src/templates/node/package/package.json'), replaceValues.globalReplace(true), 'package.json', '.', callback);
+        }
+&nbsp;
+        /**
+         * @name                    - Generate git
+         * @description             - Generates git file, with remote repo if provided.
+         * @param callback          - Callback function (error)
+         */
+        function generateGit                    (callback) {
+            console.log(`${log} 9. Generate git init.`);
+            shelljs.exec('git init');
+            setTimeout(function () {
+                lib.generator(path.resolve(__dirname, './src/templates/git/gitignore'), replaceValues.globalReplace(), '.gitignore', '.', callback);
+            },2000);
+        }
+&nbsp;
+        /**
+         * @name                    - Generate environment file
+         * @description             - Generates environment file
+         * @param callback          - Callback function (error)
+         */
+        function generateEnvironmentFile        (callback) {
+            console.log(`${log} 10. Generate environment file.`);
+            lib.generator(path.resolve(__dirname, './src/templates/env/.env'), replaceValues.globalReplace(), '.env', '.', callback);
+        }
+&nbsp;
+        /**
+         * @name                    - Generate app
+         * @description             - Generates app file
+         * @param callback          - Callback function (error)
+         */
+        function generateApp(callback) {
+            console.log(`${log} 11. Generate app file.`);
+            lib.generator(path.resolve(__dirname, './src/templates/node/app/app.js'), replaceValues.globalReplace(), 'app.js', '.', callback);
+&nbsp;
+        }
+&nbsp;
+        /**
+         * @name                    - Generate config
+         * @description             - Generates config file
+         * @param callback          - Callback function (error)
+         */
+        function generateConfig                 (callback) {
+            console.log(`${log} 12. Generate config init.`);
+            lib.generator(path.resolve(__dirname, './src/templates/node/config/index.js'), replaceValues.globalReplace(), 'index.js', './config', callback);
+        }
+&nbsp;
+        /**
+         * @name                    - Generate controllers
+         * @description             - Generates controllers.
+         * @param callback          - Callback function (error)
+         */
+        function generateControllers(callback) {
+            console.log(`${log} 13. Generate controller files.`);
+&nbsp;
+            async.waterfall([
+                generateAcm,
+                generateRole,
+                generateService,
+                generateToken,
+                generateUser
+            ],function () {
+                callback(null);
+            });
+&nbsp;
+            /**
+             * @name            - Generate acm
+             * @description     - Generates acm controller
+             * @param cb        - Callback function (error)
+             */
+            function generateAcm(cb) {
+                console.log(`${log} Generate amc.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/acm.js'), replaceValues.globalReplace(), 'acm.js', './controller', cb);
+&nbsp;
+            }
+&nbsp;
+            /**
+             * @name            - Generate role
+             * @description     - Generates role controller
+             * @param cb        - Callback function (error)
+             */
+            function generateRole(cb) {
+                console.log(`${log} Generate role.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/role.js'), replaceValues.globalReplace(), 'role.js', './controller', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate service
+             * @description     - Generates service controller
+             * @param cb        - Callback function (error)
+             */
+            function generateService(cb) {
+                console.log(`${log} Generate service`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/service.js'), replaceValues.globalReplace(), 'service.js', './controller', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate token
+             * @description     - Generates token controller
+             * @param cb        - Callback function (error)
+             */
+            function generateToken(cb) {
+                console.log(`${log} Generate token`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/token.js'), replaceValues.globalReplace(), 'token.js', './controller', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate user
+             * @description     - Generates user controller
+             * @param cb        - Callback function (error)
+             */
+            function generateUser(cb) {
+                console.log(`${log} Generate user`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/user.js'), replaceValues.globalReplace(), 'user.js', './controller', cb);
+            }
+        }
+&nbsp;
+&nbsp;
+        /**
+         * @name                - Generate dals
+         * @description         - Generates dal files
+         * @param callback      - Callback function (error)
+         */
+        function generateDals(callback) {
+            console.log(`${log} 13. Generate dal files.`);
+&nbsp;
+            async.waterfall([
+                generateAcm,
+                generateRole,
+                generateService,
+                generateUser
+            ],function () {
+                callback(null);
+            });
+&nbsp;
+            /**
+             * @name            - Generate acm
+             * @description     - Generates acm dal
+             * @param cb        - Callback function (error)
+             */
+            function generateAcm(cb) {
+                console.log(`${log} Generate amc.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/dal/acm.js'), replaceValues.globalReplace(), 'acm.js', './dal', cb);
+&nbsp;
+            }
+&nbsp;
+            /**
+             * @name            - Generate role
+             * @description     - Generates role dal
+             * @param cb        - Callback function (error)
+             */
+            function generateRole(cb) {
+                console.log(`${log} Generate role.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/dal/role.js'), replaceValues.globalReplace(), 'role.js', './dal', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate service
+             * @description     - Generates service dal
+             * @param cb        - Callback function (error)
+             */
+            function generateService(cb) {
+                console.log(`${log} Generate service`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/dal/service.js'), replaceValues.globalReplace(), 'service.js', './dal', cb);
+            }
+&nbsp;
+&nbsp;
+            /**
+             * @name            - Generate user
+             * @description     - Generates user dal
+             * @param cb        - Callback function (error)
+             */
+            function generateUser(cb) {
+                console.log(`${log} Generate user`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/dal/user.js'), replaceValues.globalReplace(), 'user.js', './dal', cb);
+            }
+&nbsp;
+        }
+&nbsp;
+        /**
+         * @name                - Generate libs
+         * @description         - Generates constants, errorCode, constantIndex, helperIndex, apiIndex, logger helper, initializer
+         * @param callback      - Callback function (error)
+         */
+        function generateLibs(callback) {
+            console.log(`${log} 14. Generate library files.`);
+&nbsp;
+            async.waterfall([
+                generateConstants,
+                generateErrorCodes,
+                generateConstantIndex,
+                generateHelperIndex,
+                generateControllerHelper,
+                generateApiIndex,
+                generateLoggerHelper,
+                generateInitializer,
+            ],function () {
+                callback(null);
+            });
+&nbsp;
+            /**
+             * @name            - Generate constants
+             * @description     - Generates some constant values.
+             * @param cb        - Callback function (error)
+             */
+            function generateConstants(cb) {
+                console.log(`${iLog} Generating constants.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/constant.js'), replaceValues.globalReplace(), 'constant.js', './lib/constant', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate error codes
+             * @description     - Generates constant error codes.
+             * @param cb        - Callback function (error)
+             */
+            function generateErrorCodes(cb) {
+                console.log(`${iLog} Generating error codes.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/errorCodes.js'), replaceValues.globalReplace(), 'errorCodes.js', './lib/constant', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate constant index
+             * @description     - Generates index file for the constant files.
+             * @param cb        - Callback function (error)
+             */
+            function generateConstantIndex(cb) {
+                console.log(`${iLog} Generating constant index.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/index.js'), replaceValues.globalReplace(), 'index.js', './lib/constant', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate helper index
+             * @description     - Generates helper index files.
+             * @param cb        - Callback function (error)
+             */
+            function generateHelperIndex(cb) {
+                console.log(`${iLog} Generating helper index.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/index.js'), replaceValues.globalReplace(), 'index.js', './lib/helper', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate controller helper
+             * @description     - Generates controller helper file
+             * @param cb        - Callback function (error)
+             */
+            function generateControllerHelper(cb) {
+                console.log(`${iLog} Generating controller helper.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/controllerHelper.js'), replaceValues.globalReplace(), 'controllerHelper.js', './lib/helper/others', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate api index
+             * @description     - Generates index file for api module.
+             * @param cb        - Callback function (error)
+             */
+            function generateApiIndex(cb) {
+                console.log(`${iLog} Generating controller helper.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/api/index.js'), replaceValues.globalReplace(), 'index.js', './lib/helper/api', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate logger helper
+             * @description     - Generates logger helper file.
+             * @param cb        - Callback function (error)
+             */
+            function generateLoggerHelper(cb) {
+                console.log(`${iLog} Generating logger helper.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/logger.js'), replaceValues.globalReplace(), 'logger.js', './lib/helper/others', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate initializer
+             * @description     - Generates initializer file.
+             * @param cb        - Callback function (error)
+             */
+            function generateInitializer(cb) {
+                console.log(`${iLog} Generating initializer.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/initializer.js'), replaceValues.globalReplace(), 'initializer.js', './lib/helper/others', cb);
+            }
+        }
+&nbsp;
+        /**
+         * @name                - Generate models
+         * @description         - Generates model files.
+         * @param callback      - Callback function (error)
+         */
+        function generateModels(callback) {
+            console.log(`${log} 15. Generate model files.`);
+&nbsp;
+            async.waterfall([
+                generateAcm,
+                generateRole,
+                generateService,
+                generateUser
+            ],function () {
+                callback(null);
+            });
+&nbsp;
+            /**
+             * @name            - Generate acm
+             * @description     - Generates acm model
+             * @param cb        - Callback function (error)
+             */
+            function generateAcm(cb) {
+                console.log(`${log} Generate amc.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/model/acm.js'), replaceValues.globalReplace(), 'acm.js', './model', cb);
+&nbsp;
+            }
+&nbsp;
+            /**
+             * @name            - Generate role
+             * @description     - Generates role model
+             * @param cb        - Callback function (error)
+             */
+            function generateRole(cb) {
+                console.log(`${log} Generate role.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/model/role.js'), replaceValues.globalReplace(), 'role.js', './model', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate service
+             * @description     - Generates service model
+             * @param cb        - Callback function (error)
+             */
+            function generateService(cb) {
+                console.log(`${log} Generate service`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/model/service.js'), replaceValues.globalReplace(), 'service.js', './model', cb);
+            }
+&nbsp;
+&nbsp;
+            /**
+             * @name            - Generate user
+             * @description     - Generates user model
+             * @param cb        - Callback function (error)
+             */
+            function generateUser(cb) {
+                console.log(`${log} Generate user`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/model/user.js'), replaceValues.globalReplace(), 'user.js', './model', cb);
+            }
+        }
+ 
+        function generateRoutes(callback) {
+            console.log(`${log} 16. Generate routes.`);
+&nbsp;
+            async.waterfall([
+                generateAcm,
+                generateIndex,
+                generateRole,
+                generateService,
+                generateToken,
+                generateUser
+            ],function () {
+                callback(null);
+            });
+&nbsp;
+            /**
+             * @name            - Generate acm
+             * @description     - Generates acm route
+             * @param cb        - Callback function (error)
+             */
+            function generateAcm(cb) {
+                console.log(`${log} Generate acm.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/acm.js'), replaceValues.globalReplace(), 'acm.js', './route', cb);
+&nbsp;
+            }
+&nbsp;
+            /**
+             * @name            - Generate index
+             * @description     - Generates index route
+             * @param cb        - Callback function (error)
+             */
+            function generateIndex(cb) {
+                console.log(`${log} Generate index.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/index.js'), replaceValues.globalReplace(), 'index.js', './route', cb);
+&nbsp;
+            }
+&nbsp;
+            /**
+             * @name            - Generate role
+             * @description     - Generates role route
+             * @param cb        - Callback function (error)
+             */
+            function generateRole(cb) {
+                console.log(`${log} Generate role.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/role.js'), replaceValues.globalReplace(), 'role.js', './route', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate service
+             * @description     - Generates service route
+             * @param cb        - Callback function (error)
+             */
+            function generateService(cb) {
+                console.log(`${log} Generate service`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/service.js'), replaceValues.globalReplace(), 'service.js', './route', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate service
+             * @description     - Generates service route
+             * @param cb        - Callback function (error)
+             */
+            function generateToken(cb) {
+                console.log(`${log} Generate service`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/token.js'), replaceValues.globalReplace(), 'token.js', './route', cb);
+            }
+&nbsp;
+            /**
+             * @name            - Generate user
+             * @description     - Generates user route
+             * @param cb        - Callback function (error)
+             */
+            function generateUser(cb) {
+                console.log(`${log} Generate user`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/user.js'), replaceValues.globalReplace(), 'user.js', './route', cb);
+            }
+        }
+&nbsp;
+        /**
+         * @name                - Generate test files.
+         * @description         - Generates test files (Dummy data, stress, test and url gen)
+         * @param callback      - Callback function (error)
+         */
+        function generateTestFiles(callback) {
+            console.log(`${log} 17. Generate test files`);
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.test){
+                async.waterfall([
+                    generateDummyData,
+                    generateStressFile,
+                    generateTestFile,
+                    generateUrlGenerator
+                ],function () {
+                    console.log(`${log} Generate test files completed.`);
+                    callback(null);
+                });
+&nbsp;
+                /**
+                 * @name            - Generate dummy data
+                 * @description     - Generates dummy data for test.
+                 * @param cb        - Callback function (error)
+                 */
+                function generateDummyData(cb) {
+                    console.log(`${iLog} Generate dummy data.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/dummy_data.js'), replaceValues.globalReplace(), 'dummy_data.js', './test', cb);
+                }
+&nbsp;
+                /**
+                 * @name            - Generate stress file
+                 * @description     - Generates artillery stress file (yml)
+                 * @param cb        - Callback function (error)
+                 */
+                function generateStressFile(cb) {
+                    console.log(`${iLog} Generate stress file.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/stress.yml'), replaceValues.globalReplace(), 'stress.yml', './test', cb);
+                }
+&nbsp;
+                /**
+                 * @name            - Generate test file
+                 * @description     - Generates e2e test.
+                 * @param cb        - Callback function (error)
+                 */
+                function generateTestFile(cb) {
+                    console.log(`${iLog} Generate test file.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/test.js'), replaceValues.globalReplace(), 'test.js', './test', cb);
+                }
+&nbsp;
+                /**
+                 * @name            - Generate url generator
+                 * @description     - Url generator file.
+                 * @param cb        - Callback function (error)
+                 */
+                function generateUrlGenerator(cb) {
+                    console.log(`${iLog} Generate url generator.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/node/test/url_generator.js'), replaceValues.globalReplace(), 'url_generator.js', './test', cb);
+                }
+&nbsp;
+            }else{
+<span class="cstat-no" title="statement not covered" >                console.log(`${iLog} Skip generating test files.`);</span>
+            }
+&nbsp;
+        }
+&nbsp;
+        /**
+         * @name                - Generate jenkinsfile
+         * @description         - Generates jenkins pipeline file.
+         * @param callback      - Callback function (error)
+         */
+        function generateJenkinsFile(callback) {
+            console.log(`${log} 18. Generate jenkins file.`);
+            lib.generator(path.resolve(__dirname, './src/templates/jenkins/Jenkinsfile'), replaceValues.globalReplace(), 'Jenkinsfile', '.', callback);
+        }
+&nbsp;
+        /**
+         * @name                - Generate docker file
+         * @description         - Generates dockerignore, dockerCompose and docker file.
+         * @param callback      - Callback function (error)
+         */
+        function generateDockerFile(callback) {
+            console.log(`${log} 19. Generate docker file.`);
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.docker){
+                async.waterfall([
+                    generateDockerIgnore,
+                    generateDockerCompose,
+                    generateDocker,
+                ],function () {
+                    callback(null);
+                });
+&nbsp;
+                /**
+                 * @name            - Generate docker ignore file
+                 * @description     - Generates docker ignore file.
+                 * @param cb        - Callback function (error)
+                 */
+                function generateDockerIgnore(cb) {
+                    console.log(`${iLog} Generating docker ignore.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/docker/.dockerignore'), replaceValues.globalReplace(), '.dockerignore', '.', cb);
+                }
+&nbsp;
+                /**
+                 * @name            - Generate docker compose
+                 * @description     - Generates docker compose file.
+                 * @param cb        - Callback function (error)
+                 */
+                function generateDockerCompose(cb) {
+                    console.log(`${iLog} Generating docker compose.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/docker/docker-compose.yml'), replaceValues.globalReplace(true), 'docker-compose.yml', '.', cb);
+                }
+&nbsp;
+                /**
+                 * @name            - Generate docker
+                 * @description     - Generates docker file
+                 * @param cb        - Callback function (error)
+                 */
+                function generateDocker(cb) {
+                    console.log(`${iLog} Generating docker file.`);
+                    lib.generator(path.resolve(__dirname, './src/templates/docker/Dockerfile'), replaceValues.globalReplace(), 'Dockerfile', '.', cb);
+                }
+            }else{
+<span class="cstat-no" title="statement not covered" >                console.log(`${log} Skip generating docker file.`);</span>
+<span class="cstat-no" title="statement not covered" >                callback(null);</span>
+            }
+&nbsp;
+        }
+&nbsp;
+        /**
+         * @name                - Generate postman collection file.
+         * @description         - Generates postman collection file.
+         * @param callback      - Callback function (error)
+         */
+        function generatePostManCollectionFile(callback) {
+            console.log(`${log} 19. Generate postman collection file.`);
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.postman){
+                lib.generator(path.resolve(__dirname, './src/templates/documentation/gennodeAuthServer.postman_collection.json'), replaceValues.globalReplace(), `${snakeCase(mergedConfig.serviceName)}.postman_collection.json`, '.', callback);
+            }else{
+<span class="cstat-no" title="statement not covered" >                console.log(`${iLog} Skip generating postman file.`);</span>
+<span class="cstat-no" title="statement not covered" >                callback(null);</span>
+            }
+        }
+&nbsp;
+        /**
+         * @name                - Generate readme file
+         * @description         - Generates ReadMe.md file
+         * @param callback      - Callback function (error)
+         */
+        function generateReadMeFile(callback) {
+            console.log(`${log} 20. Generate readMe file.`);
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.readMe){
+                lib.generator(path.resolve(__dirname, './src/templates/documentation/README.md'), replaceValues.globalReplace(), 'README.md', '.', callback);
+            }else{
+<span class="cstat-no" title="statement not covered" >                console.log(`${iLog} Skip generating readme file.`);</span>
+<span class="cstat-no" title="statement not covered" >                callback(null);</span>
+            }
+        }
+&nbsp;
+        /**
+         * @name                - Generate apiDoc json
+         * @description         - Generates apidoc json file.
+         * @param callback      - Callback function (error)
+         */
+        function generateApiDocJSON(callback) {
+            console.log(`${log} 20. Generate apidoc.json`);
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.documentation){
+                lib.generator(path.resolve(__dirname, './src/templates/documentation/apidoc.json'), replaceValues.globalReplace(), 'apidoc.json', '.', callback);
+            }else{
+<span class="cstat-no" title="statement not covered" >                console.log(`${iLog} Skip generating apidoc.json`);</span>
+            }
+        }
+&nbsp;
+&nbsp;
+        /**
+         * @name                    - Install packages
+         * @description             - Install npm packages
+         * @param callback          - Callback function (error)
+         */
+        function installPackages                (callback) {
+            console.log(`${log} 26. Install packages init.`);
+            shelljs.exec('npm install');
+            callback(null);
+        }
+&nbsp;
+        /**
+         * @name                    - Generate test report and coverage
+         * @description             - Generates test reports and coverages.
+         * @param callback          - Callback function (error)
+         */
+        function generateTestReportAndCoverage  (callback) {
+            console.log(`${log} 30. Generate test report and coverage init.`);
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.test){
+                shelljs.exec('npm run test');
+                callback(null);
+            }else{<span class="cstat-no" title="statement not covered" >callback(null);}</span>
+        }
+&nbsp;
+        /**
+         * @name                    - Generate Documentation
+         * @description             - Generates documentation
+         * @param callback          - Callback function (error)
+         */
+        function generateDocumentation  (callback) {
+            console.log(`${log} 31. Generate documentation.`);
+&nbsp;
+            <span class="missing-if-branch" title="else path not taken" >E</span>if(mergedConfig.documentation){
+                shelljs.exec('npm run apidoc');
+                callback(null);
+            }else{
+<span class="cstat-no" title="statement not covered" >                console.log(`${iLog} Skip generating document.`);</span>
+<span class="cstat-no" title="statement not covered" >                callback(null);</span>
+            }
+        }
+&nbsp;
+&nbsp;
+&nbsp;
+        /**
+         * @name                    - Commit Files
+         * @description             - Commit's generated files
+         * @param callback          - Callback function (error)
+         */
+        function commitFiles                    (callback) {
+            console.log(`${log} 31. Commit and push init.`);
+&nbsp;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if(mergedConfig.commit) {
+<span class="cstat-no" title="statement not covered" >                shelljs.exec('git add .');</span>
+<span class="cstat-no" title="statement not covered" >                shelljs.exec(`git commit --message=${mergedConfig.commitMessage}`);</span>
+<span class="cstat-no" title="statement not covered" >                callback(null);</span>
+            }else{
+                console.log('Skipping...');
+                callback(null);
+            }
+        }
+&nbsp;
+        /**
+         * @name                    - Run server
+         * @description             - If requested to run server after completion, then server will begin running.
+         * @param callback          - Callback function (error)
+         */
+        function runServer                      (callback) {
+            console.log(`${log} 32. Running server init.`);
+&nbsp;
+            <span class="missing-if-branch" title="if path not taken" >I</span>if(mergedConfig.runServer) {
+<span class="cstat-no" title="statement not covered" >                shelljs.exec('npm run start');</span>
+            }else{
+                console.log('Skipping...');
+            }
+            callback(null);
+        }
+&nbsp;
+    },
+&nbsp;
+    /**
+     * @name                    - Generate sample config
+     * @description             - Generates sample my hero academia gennode_authorization config file
+     */
+    generateSampleConfig    : <span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        console.log(`${log} Generating sample Hero Academia GenNode authorization configuration file.`);</span>
+<span class="cstat-no" title="statement not covered" >        lib.generator(path.resolve(__dirname, './src/templates/gennode_authorization/heroacademia_authorization.config.js'), replaceValues.genNodeConfig(), 'heroacademia_authorization.config.js', '.', <span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            console.log(`${log} Done generating my hero academia gennode_authorization configuration file.`);</span>
+        });
+    },
+&nbsp;
+    /**
+     * @name                    - Generate config
+     * @description             - Generates gennode configuration file from the user's prompted answer
+     * @param answers           - User answers
+     */
+    generateConfig          : <span class="fstat-no" title="function not covered" >function (answers) {</span>
+<span class="cstat-no" title="statement not covered" >        async.waterfall([</span>
+            createEnvironmentObject,
+            removeEnvironmentObjectFromAnswers,
+            mergeDefaultConfigAndAnswer,
+            generateConfigurationFile
+        ],<span class="fstat-no" title="function not covered" >function () {</span>
+        });
+&nbsp;
+        /**
+         * @name            - Create environmentObject
+         * @description     - Creates nestable environment object
+         * @param callback  - Callback function (error)
+         */
+<span class="fstat-no" title="function not covered" >        function createEnvironmentObject(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            let environment = Object.assign({}, {</span>
+                DEBUG                   : answers.debug,
+                PORT                    : answers.port,
+                MONGODB_URL             : answers.mongodbURL,
+                REVERSE_PROXY           : answers.reverseProxy,
+                COLLECTION_RETURN_SIZE  : answers.collectionReturnSize,
+                ELASTIC_SEARCH_URL      : answers.elasticSearchURL,
+                TOKEN_EXPIRATION_TIME   : answers.tokenExpirationTime,
+                LOG_STASH_PORT          : answers.logStashPort,
+                SECRET                  : answers.secret
+            });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            callback(null, environment);</span>
+        }
+&nbsp;
+        /**
+         * @name                - Remove environment object from answers
+         * @description         - Removes environment object from answers and replaces with a nestable value
+         * @param environment   - Constructed environment variables
+         * @param callback      - Callback function (error)
+         */
+<span class="fstat-no" title="function not covered" >        function removeEnvironmentObjectFromAnswers(environment, callback) {</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.debug;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.port;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.mongodbURL;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.reverseProxy;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.collectionReturnSize;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.elasticSearchURL;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.tokenExpirationTime;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.logStashPort;</span>
+<span class="cstat-no" title="statement not covered" >            delete answers.secret;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            answers.environment = environment;</span>
+<span class="cstat-no" title="statement not covered" >            callback(null);</span>
+        }
+&nbsp;
+        /**
+         * @name            - Merge default config and answer
+         * @description     - Merges the default config with the provided answer
+         * @param callback  - Callback function (error)
+         */
+<span class="fstat-no" title="function not covered" >        function mergeDefaultConfigAndAnswer(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            mergeConfigFiles(answers, callback);</span>
+        }
+&nbsp;
+        /**
+         * @name            - Generate configuration file
+         * @description     - Generates configuration file according to the merged default config and user's answer
+         * @param callback  - Callback function (error)
+         */
+<span class="fstat-no" title="function not covered" >        function generateConfigurationFile(callback) {</span>
+<span class="cstat-no" title="statement not covered" >            lib.generator(path.resolve(__dirname, './src/templates/gennode_authorization/gennode'), replaceValues.genNodeConfig(answers.author, answers.serviceName, JSON.stringify(mergedConfig, null,  4)), 'gennode_authorization.config.js', '.', callback);</span>
+        }
+    }
+&nbsp;
+&nbsp;
+};
+&nbsp;
+&nbsp;
+&nbsp;
+/**
+ * @name                        - Merge config files
+ * @description                 - Merges the config file with a default one
+ * @param inputConfigModel      - Config file input
+ * @param callback              - Callback function (error)
+ */
+function mergeConfigFiles(inputConfigModel, callback) {
+    inputConfigModel = xtend(defaultConfig, inputConfigModel);
+    mergedConfig = inputConfigModel;
+    mergedConfig.environment = xtend(defaultConfig.environment, inputConfigModel.environment);
+    mergedConfigEx.mergedConfig = mergedConfig;
+    callback(null);
+}
+&nbsp;
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 09 2019 13:06:59 GMT+0300 (EAT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

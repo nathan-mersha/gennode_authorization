@@ -39,7 +39,7 @@ module.exports = {
      * @param configFilePath    - Path to config file
      * @param outPutPath        - Out put path
      */
-    genNodeAuthorization                 : function (configFilePath, outPutPath){
+    genNodeAuthorization                 : function (configFilePath, outPutPath, callbackMain){
 
         async.waterfall([
             locateConfigFile,
@@ -77,7 +77,9 @@ module.exports = {
         --------------------------------------------------------------------------------------------------------------------
         --------------------------------------------------------------------------------------------------------------------
         \n\n\n
-        `);
+        `
+            );
+            callbackMain();
         });
 
         /**

@@ -4,7 +4,7 @@
   "description": "Authorization service with acm functionalities",
   "main": "main.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index --exit || istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index"
   },
   "preferGlobal": true,
   "bin": {
@@ -17,14 +17,10 @@
   "dependencies": {
     "async": "^2.6.2",
     "camelcase": "^5.3.1",
-    "chai": "^4.2.0",
     "commander": "^2.20.0",
     "dummy-json": "^2.0.0",
     "fs-extra": "^7.0.1",
     "inquirer": "^6.3.1",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
-    "mochawesome": "^3.1.2",
     "mongoose": "^5.5.8",
     "replace-in-file": "^3.4.4",
     "shelljs": "^0.8.3",
@@ -43,5 +39,15 @@
   "bugs": {
     "url": "https://github.com/nathan-mersha/gennode_authorization/issues"
   },
-  "homepage": "https://github.com/nathan-mersha/gennode_authorization#readme"
+  "homepage": "https://github.com/nathan-mersha/gennode_authorization#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-fs": "^2.0.0",
+    "cheerio": "^1.0.0-rc.3",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.2.0",
+    "mocha-simple-html-reporter": "^1.1.0",
+    "mochawesome": "^3.1.2",
+    "supertest": "^4.0.2"
+  }
 }

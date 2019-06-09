@@ -107,7 +107,7 @@ function isRemoveResponse(body) {
             
             describe("Create" ,function () {
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to create token (Validation error)" ,function (done) {
                     sendRequest(url.token.create(),'post',dummyData.token.create.validationError,400,function (err,res) {
                         let body = res.body;
@@ -225,7 +225,7 @@ function isRemoveResponse(body) {
                     }
                 };
 
-                this.timeout(10000);
+                this.timeout(5000);
                 before(function (done) {
                     console.log("Generating dummy data for tests.");
                     async.waterfall([
@@ -383,7 +383,7 @@ function isRemoveResponse(body) {
 
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to grant access (Body missing required fields)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.missingRequiredFields,400,function (err,res) {
                         let body = res.body;
@@ -392,7 +392,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully grant access (Route is allowed to be accessed by anyone)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.allowedToBeAccessedByAny,200,function (err,res) {
                         let body = res.body;
@@ -401,7 +401,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to grant access (Token has expired)" ,function (done) {
                     let tokenExpirationTimeCopy = process.env.TOKEN_EXPIRATION_TIME;
                     process.env.TOKEN_EXPIRATION_TIME = "1000"; // Change token expiration time to one second.
@@ -454,7 +454,7 @@ function isRemoveResponse(body) {
 
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully grant access (Group 'any' is allowed to perform operation on object)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.allowedToPerformPUTByAny,200,function (err,res) {
                         let body = res.body;
@@ -463,7 +463,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully deny access (Group 'any' is not allowed to perform operation on object)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.deniedToPerformDELETEByAny,200,function (err,res) {
                         let body = res.body;
@@ -472,7 +472,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully grant access (User is allowed to perform method on object, with all access of route)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.allowedToPerformPUTByUser,200,function (err,res) {
                         let body = res.body;
@@ -481,7 +481,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully grant access (User is allowed to perform method on object, with only user access route)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.allowedToPerformPUTByUserOnUserRoute,200,function (err,res) {
                         let body = res.body;
@@ -490,7 +490,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to grant access (User allowed to perform method on object and denied route.)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.allowedToPerformMethodDeniedRoute,200,function (err,res) {
                         let body = res.body;
@@ -499,7 +499,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to grant access (User or 'any' group is denied to perform method on object)" ,function (done) {
                     sendRequest(url.token.validate(),'post',validateToken.deniedMethodOnObject,200,function (err,res) {
                         let body = res.body;
@@ -540,7 +540,7 @@ function isRemoveResponse(body) {
             
             describe("Create" ,function () {
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully create service" ,function (done) {
                     sendRequest(url.service.create(),'post',dummyData.service.create.success,201,function (err,res) {
                         let body = res.body;
@@ -551,7 +551,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to create service (Method and route fields missing)" ,function (done) {
                     sendRequest(url.service.create(),'post',dummyData.service.create.missingFields,400,function (err,res) {
                         let body = res.body;
@@ -562,7 +562,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to create service (Method is not http method)" ,function (done) {
                     sendRequest(url.service.create(),'post',dummyData.service.create.missingFields,400,function (err,res) {
                         let body = res.body;
@@ -577,7 +577,7 @@ function isRemoveResponse(body) {
         
             describe("Find" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve service data (public)" ,function (done) {
                     sendRequest(url.service.findByIdPublic(dummyData.service.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -587,7 +587,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve service data (private)" ,function (done) {
                     sendRequest(url.service.findByIdPrivate(dummyData.service.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -597,7 +597,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to retrieve service data ( Id wrong format )" ,function (done) {
                     sendRequest(url.service.findByIdPublic(dummyData.service.get.wrongIdFormat),'get',null,400,function (err, res) {
                         let body = res.body;
@@ -612,7 +612,7 @@ function isRemoveResponse(body) {
         
             describe("Find paginated" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve service paginated data" ,function (done) {
                     let validQuery = '__validQuery__';
                     sendRequest(url.service.findPaginated(validQuery),'get',null,200,function (err,res) {
@@ -673,7 +673,7 @@ function isRemoveResponse(body) {
                     });
                 });
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully update service data" ,function (done) {
                     
                     let query = `_id=${dummyData.service.get.success._id}`;
@@ -695,7 +695,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update service data (Invalid update data)",function (done) {
                     let query = `_id=${dummyData.service.get.success._id}`;
                     sendRequest(url.service.update(query),'put',dummyData.service.update.invalidData,400,function (err,res) {
@@ -707,7 +707,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully push items to target", function (done) {
                     let query = `_id=${serviceData._id}&target=${update.success.target}&operation=push`;
                     sendRequest(url.service.update(query),'put',update.success.data,200,function (err,res) {
@@ -719,7 +719,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to push items (Items already exist)", function (done) {
                     let query = `_id=${serviceData._id}&target=${update.success.target}&operation=push`;
                     sendRequest(url.service.update(query),'put',update.success.data,200,function (err,res) {
@@ -734,7 +734,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully pull items from target", function (done) {
                     let query = `_id=${serviceData._id}&target=${update.success.target}&operation=pull`;
                     sendRequest(url.service.update(query),'put',update.success.data,200,function (err,res) {
@@ -746,7 +746,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to pull items (Items don't exist)", function (done) {
                     let query = `_id=${serviceData._id}&target=${update.success.target}&operation=pull`;
                     sendRequest(url.service.update(query),'put',update.success.data,200,function (err,res) {
@@ -758,7 +758,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to push items (Target object not found)", function (done) {
                     let query = `_id=${serviceData._id}&target=notFound&operation=push`;
                     sendRequest(url.service.update(query),'put',update.success.data,400,function (err,res) {
@@ -770,7 +770,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to pull items (Target object not found)", function (done) {
                     let query = `_id=${serviceData._id}&target=notFound&operation=pull`;
                     sendRequest(url.service.update(query),'put',update.success.data,400,function (err,res) {
@@ -781,7 +781,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to perform operation on target (Body is not an array)", function (done) {
                     let query = `_id=${serviceData._id}&target=${update.success.target}&operation=push`;
                     sendRequest(url.service.update(query),'put',update.invalid.data,400,function (err,res) {
@@ -796,7 +796,7 @@ function isRemoveResponse(body) {
         
             describe("Remove" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully remove service data" ,function (done) {
                     let query = `_id=${dummyData.service.get.success._id}`;
                     sendRequest(url.service.remove(query),'del',null,200,function (err, res) {
@@ -808,7 +808,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to remove service data. (Query not provided)" ,function (done) {
                     let query = ``;
                     sendRequest(url.service.remove(query),'del',null,400,function (err, res) {
@@ -849,7 +849,7 @@ function isRemoveResponse(body) {
             
             describe("Create" ,function () {
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully create user" ,function (done) {
                     sendRequest(url.user.create(),'post',dummyData.user.create.success,201,function (err,res) {
                         let body = res.body;
@@ -860,7 +860,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to create user (Required field missing)" ,function (done) {
                     sendRequest(url.user.create(),'post',dummyData.user.create.validationError,400,function (err,res) {
                         let body = res.body;
@@ -875,7 +875,7 @@ function isRemoveResponse(body) {
         
             describe("Find" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve user data (public)" ,function (done) {
                     sendRequest(url.user.findByIdPublic(dummyData.user.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -885,7 +885,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve user data (private)" ,function (done) {
                     sendRequest(url.user.findByIdPrivate(dummyData.user.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -895,7 +895,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to retrieve user data ( Id wrong format )" ,function (done) {
                     sendRequest(url.user.findByIdPublic(dummyData.user.get.wrongIdFormat),'get',null,400,function (err, res) {
                         let body = res.body;
@@ -909,7 +909,7 @@ function isRemoveResponse(body) {
         
             describe("Find paginated" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve user paginated data" ,function (done) {
                     let validQuery = '__validQuery__';
                     sendRequest(url.user.findPaginated(validQuery),'get',null,200,function (err,res) {
@@ -923,7 +923,7 @@ function isRemoveResponse(body) {
         
             describe("Update" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully update user data" ,function (done) {
                     
                     let query = `_id=${dummyData.user.get.success._id}`;
@@ -936,7 +936,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update data. (Query not provided)" ,function (done) {
                     let query = ``;
                     sendRequest(url.user.update(query),'put',dummyData.user.update.success,400,function (err,res) {
@@ -947,7 +947,7 @@ function isRemoveResponse(body) {
                     });
                 });
         
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update user data (Invalid update data)",function (done) {
                     let query = `_id=${dummyData.user.get.success._id}`;
                     sendRequest(url.user.update(query),'put',dummyData.user.update.invalidData,400,function (err,res) {
@@ -962,7 +962,7 @@ function isRemoveResponse(body) {
         
             describe("Remove" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully remove user data" ,function (done) {
                     let query = `_id=${dummyData.user.get.success._id}`;
                     sendRequest(url.user.remove(query),'del',null,200,function (err, res) {
@@ -974,7 +974,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to remove user data. (Query not provided)" ,function (done) {
                     let query = ``;
                     sendRequest(url.user.remove(query),'del',null,400,function (err, res) {
@@ -1020,7 +1020,7 @@ function isRemoveResponse(body) {
             
             describe("Create" ,function () {
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully create role" ,function (done) {
                     sendRequest(url.role.create(),'post',dummyData.role.create.success,201,function (err,res) {
                         let body = res.body;
@@ -1031,7 +1031,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to create role (Required field missing)" ,function (done) {
                     sendRequest(url.role.create(),'post',dummyData.role.create.missingRequiredFields,400,function (err,res) {
                         let body = res.body;
@@ -1041,7 +1041,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to create route (Unknown Http method)" ,function (done) {
                     sendRequest(url.role.create(),'post',dummyData.role.create.invalidMethod,400,function (err,res) {
                         let body = res.body;
@@ -1055,7 +1055,7 @@ function isRemoveResponse(body) {
         
             describe("Find" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve role data (public)" ,function (done) {
                     sendRequest(url.role.findByIdPublic(dummyData.role.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -1065,7 +1065,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve role data (private)" ,function (done) {
                     sendRequest(url.role.findByIdPrivate(dummyData.role.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -1075,7 +1075,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to retrieve role data ( Id wrong format )" ,function (done) {
                     sendRequest(url.role.findByIdPublic(dummyData.role.get.wrongIdFormat),'get',null,400,function (err, res) {
                         let body = res.body;
@@ -1089,7 +1089,7 @@ function isRemoveResponse(body) {
         
             describe("Find paginated" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve role paginated data" ,function (done) {
                     let validQuery = '__validQuery__';
                     sendRequest(url.role.findPaginated(validQuery),'get',null,200,function (err,res) {
@@ -1135,7 +1135,7 @@ function isRemoveResponse(body) {
                     });
                 });
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully update role data" ,function (done) {
                     
                     let query = `_id=${dummyData.role.get.success._id}`;
@@ -1148,7 +1148,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update role data (Query not provided)" ,function (done) {
                     let query = ``;
                     sendRequest(url.role.update(query),'put',dummyData.role.update.success,400,function (err,res) {
@@ -1158,7 +1158,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update role data (Invalid update data)",function (done) {
                     let query = `_id=${dummyData.role.get.success._id}`;
                     sendRequest(url.role.update(query),'put',dummyData.role.update.invalidData,400,function (err,res) {
@@ -1170,7 +1170,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully push items to target", function (done) {
                     let query = `_id=${roleData._id}&target=${update.success.target}&operation=push`;
                     sendRequest(url.role.update(query),'put',update.success.data,200,function (err,res) {
@@ -1187,7 +1187,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to push items (Items already exist)", function (done) {
                     let query = `_id=${roleData._id}&target=${update.success.target}&operation=push`;
                     sendRequest(url.role.update(query),'put',update.success.data,200,function (err,res) {
@@ -1207,7 +1207,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully pull items from target", function (done) {
                     let query = `_id=${roleData._id}&target=${update.success.target}&operation=pull`;
                     sendRequest(url.role.update(query),'put',update.success.data,200,function (err,res) {
@@ -1219,7 +1219,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to pull items (Items don't exist)", function (done) {
                     let query = `_id=${roleData._id}&target=${update.success.target}&operation=pull`;
                     sendRequest(url.role.update(query),'put',update.success.data,200,function (err,res) {
@@ -1231,7 +1231,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to push items (Target object not found)", function (done) {
                     let query = `_id=${roleData._id}&target=notFound&operation=push`;
                     sendRequest(url.role.update(query),'put',update.success.data,400,function (err,res) {
@@ -1243,7 +1243,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to pull items (Target object not found)", function (done) {
                     let query = `_id=${roleData._id}&target=notFound&operation=pull`;
                     sendRequest(url.role.update(query),'put',update.success.data,400,function (err,res) {
@@ -1254,7 +1254,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to perform operation on target (Body is not an array)", function (done) {
                     let query = `_id=${roleData._id}&target=${update.success.target}&operation=push`;
                     sendRequest(url.role.update(query),'put',update.invalid.data,400,function (err,res) {
@@ -1270,7 +1270,7 @@ function isRemoveResponse(body) {
         
             describe("Remove" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully remove role data" ,function (done) {
                     let query = `_id=${dummyData.role.get.success._id}`;
                     sendRequest(url.role.remove(query),'del',null,200,function (err, res) {
@@ -1282,7 +1282,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to remove role data (Query not provided)" ,function (done) {
                     let query = ``;
                     sendRequest(url.role.remove(query),'del',null,400,function (err, res) {
@@ -1325,7 +1325,7 @@ function isRemoveResponse(body) {
             
             describe("Create" ,function () {
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully create acm" ,function (done) {
                     sendRequest(url.acm.create(),'post',dummyData.acm.create.success,201,function (err,res) {
                         let body = res.body;
@@ -1351,7 +1351,7 @@ function isRemoveResponse(body) {
         
             describe("Find" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve acm data (public)" ,function (done) {
                     sendRequest(url.acm.findByIdPublic(dummyData.acm.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -1361,7 +1361,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve acm data (private)" ,function (done) {
                     sendRequest(url.acm.findByIdPrivate(dummyData.acm.get.success._id),'get',null,200,function (err, res) {
                         let body = res.body;
@@ -1371,7 +1371,7 @@ function isRemoveResponse(body) {
                     });
                 });
                 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to retrieve acm data ( Id wrong format )" ,function (done) {
                     sendRequest(url.acm.findByIdPublic(dummyData.acm.get.wrongIdFormat),'get',null,400,function (err, res) {
                         let body = res.body;
@@ -1385,7 +1385,7 @@ function isRemoveResponse(body) {
         
             describe("Find paginated" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully retrieve acm paginated data" ,function (done) {
                     let validQuery = '__validQuery__';
                     sendRequest(url.acm.findPaginated(validQuery),'get',null,200,function (err,res) {
@@ -1432,7 +1432,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully update acm data" ,function (done) {
                     
                     let query = `_id=${dummyData.acm.get.success._id}`;
@@ -1445,7 +1445,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update acm data (Query not provided)" ,function (done) {
                     let query = ``;
                     sendRequest(url.acm.update(query),'put',dummyData.acm.update.success,400,function (err,res) {
@@ -1456,7 +1456,7 @@ function isRemoveResponse(body) {
                     });
                 });
         
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to update acm data (Invalid update data)",function (done) {
                     let query = `_id=${dummyData.acm.get.success._id}`;
                     sendRequest(url.acm.update(query),'put',dummyData.acm.update.invalidData,400,function (err,res) {
@@ -1468,7 +1468,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully push items to target", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.read&operation=push`;
                     sendRequest(url.acm.update(query),'put',update.success.data,200,function (err,res) {
@@ -1480,7 +1480,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to push items (Items already exist)", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.read&operation=push`;
                     sendRequest(url.acm.update(query),'put',update.success.data,200,function (err,res) {
@@ -1497,7 +1497,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully pull items from target", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.read&operation=pull`;
                     sendRequest(url.acm.update(query),'put',update.success.data,200,function (err,res) {
@@ -1509,7 +1509,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to pull items (Items don't exist)", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.read&operation=pull`;
                     sendRequest(url.acm.update(query),'put',update.success.data,200,function (err,res) {
@@ -1521,7 +1521,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to push items (Target object not found)", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.notFound&operation=push`;
                     sendRequest(url.acm.update(query),'put',update.success.data,400,function (err,res) {
@@ -1533,7 +1533,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to pull items (Target object not found)", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.notFound&operation=pull`;
                     sendRequest(url.acm.update(query),'put',update.success.data,400,function (err,res) {
@@ -1544,7 +1544,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to perform operation on target (Body is not an array)", function (done) {
                     let query = `_id=${acmData._id}&target=accessControl.read&operation=push`;
                     sendRequest(url.acm.update(query),'put',update.invalid.data,400,function (err,res) {
@@ -1560,7 +1560,7 @@ function isRemoveResponse(body) {
         
             describe("Remove" ,function () {
             
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should successfully remove acm data" ,function (done) {
                     let query = `_id=${dummyData.acm.get.success._id}`;
                     sendRequest(url.acm.remove(query),'del',null,200,function (err, res) {
@@ -1572,7 +1572,7 @@ function isRemoveResponse(body) {
                     });
                 });
 
-                this.timeout(10000);
+                this.timeout(5000);
                 it("Should fail to remove acm data (Query not provide)" ,function (done) {
                     let query = ``;
                     sendRequest(url.acm.remove(query),'del',null,400,function (err, res) {

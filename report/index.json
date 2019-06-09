@@ -1,0 +1,101 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 1,
+    "pending": 0,
+    "failures": 1,
+    "start": "2019-06-09T09:24:18.256Z",
+    "end": "2019-06-09T09:24:20.271Z",
+    "duration": 2015,
+    "testsRegistered": 2,
+    "passPercent": 50,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "danger",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "53a25c87-91e7-4a2f-b136-222b93c03982",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "65de0100-1f77-448a-959f-ccaaae40bbaa",
+        "title": "Generate Server",
+        "fullFile": "/home/nathan/Documents/workspace/lib/os/gennode_authorization/test/test.js",
+        "file": "/test/test.js",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "Should fail to generate server (Port value is not a number)",
+            "fullTitle": "Generate Server Should fail to generate server (Port value is not a number)",
+            "timedOut": false,
+            "duration": 1,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "done();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "6e3f4a99-df72-4241-a68d-bcf7207ff04e",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "Should successfully generate server.",
+            "fullTitle": "Generate Server Should successfully generate server.",
+            "timedOut": false,
+            "duration": 0,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "// gennode_auth.genNodeAuthorization('./test/proper.config.js','./test/.');\n// Check server file is generated after 1min\nsetTimeout(()=>{\n    expect('./test').to.have.dirname(\"Generated Test Server\");\n    done();\n},2000)",
+            "err": {
+              "message": "AssertionError: expected './test' to have dirname 'Generated Test Server' but got '.'",
+              "estack": "AssertionError: expected './test' to have dirname 'Generated Test Server' but got '.'\n    at Timeout.setTimeout [as _onTimeout] (test/test.js:34:38)",
+              "diff": "- .\n+ Generated Test Server\n"
+            },
+            "isRoot": false,
+            "uuid": "60ef21db-ba9d-4b7c-b23e-9971d17b3cf6",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "6e3f4a99-df72-4241-a68d-bcf7207ff04e"
+        ],
+        "failures": [
+          "60ef21db-ba9d-4b7c-b23e-9971d17b3cf6"
+        ],
+        "pending": [],
+        "skipped": [],
+        "duration": 1,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 5000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2019
+}
