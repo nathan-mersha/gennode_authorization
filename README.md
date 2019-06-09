@@ -8,8 +8,10 @@ Nathan Mersha
 Gennode authorization is available on npm, type:
 
 `$ sudo npm i -g gennode_authorization`
-
 and install it globally, now you can use it from the command line.
+
+#### Test
+`$npm run test`
 
 ![](rsr/description.png)
 **Figure 1** - Gennode authorization description
