@@ -18,7 +18,7 @@ and install it globally, now you can use it from the command line.
 
 ### Introduction
 Full fledged authorization service. 
-1. Make all your services register their routes on this service.
+1. Register service routes using [this](https://www.npmjs.com/package/gennode_registrar) module.
 2. Create a role
 3. Create a user
 4. Request a token
@@ -186,7 +186,6 @@ server is up and running. Guide on how to install and run MongoDB can be found [
 
 ### Upcoming features
 
-* Route registration lib for services. (gennode_registrar)
 * ACM modifier plugin for mongoose (gennode_acm)
 * Authorization middleware for requests (gennode_request_middleware)
 
