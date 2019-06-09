@@ -15,8 +15,14 @@ let
 
 describe("Generate Server" ,function () {
 
+    this.timeout(11000);
     it("Should fail to generate server (Port value is not a number)" ,function (done) {
-        done();
+        gennode_auth.genNodeAuthorization('./test/port_nan.config.js','./test/.');
+        setTimeout(()=>{
+            expect('../').to.be.a.directory("Server file generated.").and.not.include.contents(["GeneratedTestServerPortNAN"]);
+            done();
+        },10000);
+
     });
 
     // NOTE : Depending on your internet connection the test may take longer than 2 minutes, so depending on that variable
@@ -25,7 +31,7 @@ describe("Generate Server" ,function () {
     this.timeout(estimatedTestSession);
     it("Should successfully generate server.", function (done) {
         gennode_auth.genNodeAuthorization('./test/proper.config.js','./test/.',function () {
-            expect('../GeneratedTestServer').to.be.a.directory("No Server  ").with.contents([".dockerignore", ".env", ".git", ".gitignore", "Dockerfile", "Jenkinsfile", "README.md", "apidoc.json", "apidocs", "app.js", "config", "controller", "coverage", "dal", "docker-compose.yml", "generated_test_server.postman_collection.json", "lib", "model", "node_modules", "package-lock.json", "package.json", "report", "route", "test"]);
+            expect('../GeneratedTestServer').to.be.a.directory("No Server generated.").with.contents([".dockerignore", ".env", ".git", ".gitignore", "Dockerfile", "Jenkinsfile", "README.md", "apidoc.json", "apidocs", "app.js", "config", "controller", "coverage", "dal", "docker-compose.yml", "generated_test_server.postman_collection.json", "lib", "model", "node_modules", "package-lock.json", "package.json", "report", "route", "test"]);
             expect('../GeneratedTestServer/apidocs').to.be.a.directory("No Documentation generated.").with.contents(["css","fonts","img","locales","utils","vendor","api_data.js","api_data.json","api_project.js","api_project.json","index.html","main.js"]);
             expect('../GeneratedTestServer/config').to.be.a.directory("No config generated.").with.contents(["index.js"]);
             expect('../GeneratedTestServer/controller').to.be.a.directory("No controller generated").with.contents(["acm.js","role.js","service.js","token.js","user.js"]);

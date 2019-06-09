@@ -4,7 +4,7 @@
   "description": "Authorization service with acm functionalities",
   "main": "main.js",
   "scripts": {
-    "test": "istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index --exit || istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=report,reportFilename=index"
+    "test": "istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=../../report,reportFilename=index --exit || istanbul cover _mocha -- --reporter mochawesome --reporter-options reportDir=../../report,reportFilename=index"
   },
   "preferGlobal": true,
   "bin": {
