@@ -278,7 +278,7 @@ program
     .option('-o, --output', 'Path to where the server files will be generated.')
     .description("Path to gen node configuration file.")
     .action(function (configFilePath, outputPath) {
-        genNodeAuthorization.genNodeAuthorization(configFilePath, outputPath);
+        genNodeAuthorization.genNodeAuthorization(configFilePath, outputPath, ()=>{});
     });
 
 
