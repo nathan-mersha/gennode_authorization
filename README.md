@@ -104,7 +104,7 @@ server is up and running. Guide on how to install and run MongoDB can be found [
 #### Sample Configuration
 > Sample gennode configuration file
 
-``
+```javascript
 
     /**
      * @author              Nathan Mersha
@@ -149,7 +149,8 @@ server is up and running. Guide on how to install and run MongoDB can be found [
     
     };
     
-``
+```
+
 ### Generated files
 > Gennode authorization generated files and directories.
 
