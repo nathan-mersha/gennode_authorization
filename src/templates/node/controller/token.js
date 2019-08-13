@@ -147,11 +147,6 @@ exports.validate        = function (req, res, next) {
     function saveRequest(callback) {
         debug("Save request init.");
         jwt.verify(body.token, config.SECRET, function (err, decoded) {
-            body.userId = decoded.data.userId;
-
-            // Log request processing
-            body.status = PROCESSING_REQUEST;
-            logger.log("debug",body);
             if(err){
                 let errMsg = errorCodes.SEC.VALIDATION_ERROR;
                 errMsg.detail = err.name;
@@ -163,6 +158,10 @@ exports.validate        = function (req, res, next) {
                 body.status = ACCESS_DENIED;
                 logger.log("warning", body);
             }else{
+                body.userId = decoded.data.userId;
+                // Log request processing
+                body.status = PROCESSING_REQUEST;
+                logger.log("debug",body);
                 callback(null, decoded);
             }
         });
