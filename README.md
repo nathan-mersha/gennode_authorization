@@ -28,13 +28,13 @@ Full fledged authorization service.
 8. And every time you get a request send the route,method,body and token to this service and you will get a 401 or 200 response.
 
 ### Note
-This module has additional three libs and middle-wares that accompanies it as described in the upcomming feature section.
+This module has additional three libs and middle-wares that accompanies it as described in the upcoming feature section.
 
 ### Prerequisite
 1. An installation of mongodb on the running machine is required for the tests to pass, and for the server to start. Make sure the mongod
 server is up and running. Guide on how to install and run MongoDB can be found [here](https://docs.mongodb.com/manual/administration/install-community/ "Installation MongoDB").
 2. Make sure to have a version of NodeJS above or equal to Version 4. Get NodeJs [here](https://nodejs.org/en/download/ "Installation NodeJS")
-3. Server and model names will be changed to their corresponding cammel case format according to [this](https://www.npmjs.com/package/camelcase) module.
+3. Server and model names will be changed to their corresponding camel case format according to [this](https://www.npmjs.com/package/camelcase) module.
 
 ### CLI
 
@@ -91,7 +91,7 @@ server is up and running. Guide on how to install and run MongoDB can be found [
 |docker                 |Tests docker files for the server.|true|Boolean|
 |jenkins                |Generates CI pipeline for the server.|true|Boolean|
 |postman                |Generates postman collection file|true|Boolean|
-|useProxy               |Generate [Nginx](https://www.nginx.com/ "Nginx") configuraiton file|true|Boolean|
+|useProxy               |Generate [Nginx](https://www.nginx.com/ "Nginx") configuration file|true|Boolean|
 |test                   |Generates stress test and tests the generated api, creates test and coverage report using [Mocha](https://www.npmjs.com/package/mocha "Mocha"), [Chai](https://www.npmjs.com/package/chai "Chai") and [Mochawesome](https://www.npmjs.com/package/mochawesome "Mochawesome")|true|Boolean|
 |documentation          |Generates documentation powered by [ApiDoc](https://www.npmjs.com/package/apidoc "ApiDoc")|true|Boolean|
 |instance               |App instance (A value of 0 will run the server in cluster mode utilizing all logical cores)|1|Number|
