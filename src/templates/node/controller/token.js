@@ -136,7 +136,7 @@ exports.validate        = function (req, res, next) {
      */
     function validateData(callback) {
         debug('Validate data init.');
-        controllerHelper.dataValidator(["route","method","body","token"],req,res,callback);
+        controllerHelper.dataValidator(["route","method","token"],req,res,callback);
     }
 
     /**
