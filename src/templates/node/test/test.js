@@ -1310,12 +1310,10 @@ function isRemoveResponse(body) {
                  if(private) {
 // Begin body expected evaluation here for model : acm (private)
     expect(body).to.be.an('object').that.has.all.keys('__v', '_id', 'firstModified', 'lastModified', 'subject', 'accessControl');
-    expect(new objectId(body.subject)).to.be.an.instanceof(objectId);
 // End body expected evaluation here for model : acm (private)
                  }else{
 // Begin body expected evaluation here for model : acm (public)
     expect(body).to.be.an('object').that.has.all.keys('__v', '_id', 'firstModified', 'lastModified', 'subject', 'accessControl');
-    expect(new objectId(body.subject)).to.be.an.instanceof(objectId);
 // End body expected evaluation here for model : acm (public)
                  }
         
@@ -1567,7 +1565,7 @@ function isRemoveResponse(body) {
                         let body = res.body;
                         expect(err).to.be.null;
                         isRemoveResponse(body); 
-                        expect(body.n).to.be.at.least(1); 
+                        expect(body.ok).to.be.at.least(1);
                         done();
                     });
                 });

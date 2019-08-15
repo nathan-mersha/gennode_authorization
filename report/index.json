@@ -5,9 +5,9 @@
     "passes": 2,
     "pending": 0,
     "failures": 0,
-    "start": "2019-06-09T14:19:54.484Z",
-    "end": "2019-06-09T14:20:20.662Z",
-    "duration": 26178,
+    "start": "2019-08-15T10:49:00.368Z",
+    "end": "2019-08-15T10:49:50.751Z",
+    "duration": 50383,
     "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -19,7 +19,7 @@
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "5d0fba0a-fac9-4edb-9f16-06f34e1ebd58",
+    "uuid": "4014ec32-9654-4085-9807-e9cf1193073a",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "70ea989a-697f-4e44-8082-947365909122",
+        "uuid": "6574ec39-eed9-4f49-8bca-53fab0d44659",
         "title": "Generate Server",
         "fullFile": "/home/nathan/Documents/workspace/lib/os/gennode_authorization/test/test.js",
         "file": "/home/nathan/Documents/workspace/lib/os/gennode_authorization/test/test.js",
@@ -39,7 +39,7 @@
             "title": "Should fail to generate server (Port value is not a number)",
             "fullTitle": "Generate Server Should fail to generate server (Port value is not a number)",
             "timedOut": false,
-            "duration": 10017,
+            "duration": 10018,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -48,7 +48,7 @@
             "code": "gennode_auth.genNodeAuthorization('./test/port_nan.config.js','./test/.');\nsetTimeout(()=>{\n    expect('../').to.be.a.directory(\"Server file generated.\").and.not.include.contents([\"GeneratedTestServerPortNAN\"]);\n    done();\n},10000);",
             "err": {},
             "isRoot": false,
-            "uuid": "1441c519-d34b-4701-b940-95e6f6a51795",
+            "uuid": "9e6fff3f-d36d-45df-8fd3-d41a092663a0",
             "isHook": false,
             "skipped": false
           },
@@ -56,7 +56,7 @@
             "title": "Should successfully generate server.",
             "fullTitle": "Generate Server Should successfully generate server.",
             "timedOut": false,
-            "duration": 16146,
+            "duration": 40329,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -65,20 +65,20 @@
             "code": "gennode_auth.genNodeAuthorization('./test/proper.config.js','./test/.',function () {\n    expect('../GeneratedTestServer').to.be.a.directory(\"No Server generated.\").with.contents([\".dockerignore\", \".env\", \".git\", \".gitignore\", \"Dockerfile\", \"Jenkinsfile\", \"README.md\", \"apidoc.json\", \"apidocs\", \"app.js\", \"config\", \"controller\", \"coverage\", \"dal\", \"docker-compose.yml\", \"generated_test_server.postman_collection.json\", \"lib\", \"model\", \"node_modules\", \"package-lock.json\", \"package.json\", \"report\", \"route\", \"test\"]);\n    expect('../GeneratedTestServer/apidocs').to.be.a.directory(\"No Documentation generated.\").with.contents([\"css\",\"fonts\",\"img\",\"locales\",\"utils\",\"vendor\",\"api_data.js\",\"api_data.json\",\"api_project.js\",\"api_project.json\",\"index.html\",\"main.js\"]);\n    expect('../GeneratedTestServer/config').to.be.a.directory(\"No config generated.\").with.contents([\"index.js\"]);\n    expect('../GeneratedTestServer/controller').to.be.a.directory(\"No controller generated\").with.contents([\"acm.js\",\"role.js\",\"service.js\",\"token.js\",\"user.js\"]);\n    expect('../GeneratedTestServer/coverage').to.be.a.directory(\"No coverage generated\").with.contents([\"lcov-report\",\"coverage.json\",\"lcov.info\"]);\n    expect('../GeneratedTestServer/dal').to.be.a.directory(\"No dal generated\").with.contents([\"acm.js\",\"role.js\",\"service.js\",\"user.js\"]);\n    expect('../GeneratedTestServer/lib').to.be.a.directory(\"No lib generated\").with.contents([\"constant\",\"helper\",\"middleware\"]);\n    expect('../GeneratedTestServer/lib/constant').to.be.a.directory(\"No constant generated\").with.contents([\"constant.js\",\"errorCodes.js\",\"index.js\"]);\n    expect('../GeneratedTestServer/lib/helper').to.be.a.directory(\"No helper generated\").with.contents([\"api\",\"others\",\"index.js\"]);\n    expect('../GeneratedTestServer/lib/helper/api').to.be.a.directory(\"No helper api generated\").with.contents([\"index.js\"]);\n    expect('../GeneratedTestServer/lib/helper/others').to.be.a.directory(\"No helper others generated\").with.contents([\"controllerHelper.js\",\"initializer.js\",\"logger.js\"]);\n    expect('../GeneratedTestServer/model').to.be.a.directory(\"No model generated\").with.contents([\"acm.js\",\"role.js\",\"service.js\",\"user.js\"]);\n    expect('../GeneratedTestServer/report').to.be.a.directory(\"No report generated\").with.contents([\"assets\",\"index.html\",\"index.json\"]);\n    expect('../GeneratedTestServer/route').to.be.a.directory(\"No route generated\").with.contents([\"acm.js\",\"index.js\",\"role.js\",\"service.js\",\"token.js\",\"user.js\"]);\n    expect('../GeneratedTestServer/test').to.be.a.directory(\"No test generated\").with.contents([\"dummy_data.js\",\"stress.yml\",\"test.js\",\"url_generator.js\"]);\n    done();\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "6980f6ff-7ea1-4582-b1b5-e2e086476830",
+            "uuid": "f077a7ad-c175-43a9-bcf1-bf343e44cfc1",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "1441c519-d34b-4701-b940-95e6f6a51795",
-          "6980f6ff-7ea1-4582-b1b5-e2e086476830"
+          "9e6fff3f-d36d-45df-8fd3-d41a092663a0",
+          "f077a7ad-c175-43a9-bcf1-bf343e44cfc1"
         ],
         "failures": [],
         "pending": [],
         "skipped": [],
-        "duration": 26163,
+        "duration": 50347,
         "root": false,
         "rootEmpty": false,
         "_timeout": 120000

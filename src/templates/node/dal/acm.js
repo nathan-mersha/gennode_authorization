@@ -9,6 +9,7 @@
 
 let
     Model   = require('../model/acm'),
+    _       = require('underscore'),
     helper  = require('../lib/helper').controllerHelper;
 
 /**
@@ -129,9 +130,8 @@ exports.pushToArray             = function (query, targetedArray,elements,callba
         if(!err){
             let targetArray = helper.resolveObjTarget(targetedArray, data);
             if(targetArray !== undefined){
-                if(! helper.isChildContainedInParent(targetArray, elements)){
-                    targetArray.push(...elements);
-                }
+                let filteredElements = _.without(elements, ...targetArray);
+                targetArray.push(...filteredElements);
                 data.save();
                 callback(err,data);
             }else{

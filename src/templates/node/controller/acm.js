@@ -31,6 +31,7 @@ exports.create          = function (req, res, next) {
     let body = req.body;
     async.waterfall([
         validateData,
+        verifyACMExistence,
         createData
     ],function () {
         debug('Create completed.');
@@ -44,32 +45,75 @@ exports.create          = function (req, res, next) {
     function validateData (callback) {
         debug('Validate data init...');
 
-        controllerHelper.dataValidator([],req,res,callback);
+        controllerHelper.dataValidator(["subject"],req,res,callback);
     }
-    
+
+    /**
+     * @name                - Verify acm existence
+     * @description         - Checks if acm data by subject already exists
+     * @param callback      - Callback function (error, acmData)
+     */
+    function verifyACMExistence(callback) {
+        debug('Verify acm existence init.');
+
+        let query = {subject : body.subject};
+        acmDAL.getPrivate(query, function (err, data) {
+            if(!err){
+                callback(null, data);
+            }else{
+                let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+                errMsg.detail = err;
+                res.status(400);
+                res.json(errMsg);
+            }
+        });
+    }
+
     /**
      * @name                - Create data
      * @description         - Creates acm data
+     * @param acmData       - Acm data
      * @param callback      - Callback function (error)
      */
-    function createData (callback) {
+    function createData (acmData, callback) {
         debug('Create data init...');
-        
-        acmDAL.create(body,function (err, data) { // Creating acm data
-            queryResponseHandler(err,data,res,function (err, data) {
-                if(data){ // acm data successfully created
-                    res.status(201);
-                    res.json(data);
-                    callback(null);
-                }else {
-                    let errMsg = errorCodes.SEC.NO_DATA_FOUND;
-                    errMsg.detail = 'acm data could not be found (Failed to create acm data)';
-                    res.status(500);
-                    res.json(errMsg);
-                }
+
+        if(acmData){ // Acm data already exists, so update the access
+            // Update the acm data since it already exists
+            if(!body.accessControl) {callback(null);}
+            else{
+                let accessControlKeys = Object.keys(body.accessControl);
+                let counter = 0;
+                accessControlKeys.forEach(function (accessControlKey) {
+                    acmDAL.pushToArray({_id : acmData._id},`accessControl.${accessControlKey}`, body.accessControl[accessControlKey], function (err, data) {
+                        counter++;
+                        if(counter === accessControlKeys.length){
+                            res.status(201);
+                            res.json(data);
+                            callback(null);
+                        }
+                    });
+                });
+            }
+
+        }else{
+            acmDAL.create(body,function (err, data) { // Creating acm data
+                queryResponseHandler(err,data,res,function (err, data) {
+                    if(data){ // acm data successfully created
+                        res.status(201);
+                        res.json(data);
+                        callback(null);
+                    }else {
+                        let errMsg = errorCodes.SEC.NO_DATA_FOUND;
+                        errMsg.detail = 'acm data could not be found (Failed to create acm data)';
+                        res.status(500);
+                        res.json(errMsg);
+                    }
+                });
             });
-        });
+        }
     }
+
 };
 
 /**
@@ -89,7 +133,7 @@ exports.find            = function (req, res, next) {
             getPublic(req, res, next);
         }
     }else if(req.query.cursor !== undefined && req.query.cursor === "true"){
-        res.json("using cursor")
+        res.json("using cursor");
     }else{
         let option = {
             page     : req.query.page  === undefined ? 1                             : Number(req.query.page),   // assigns default page value, if not specified.
@@ -227,11 +271,26 @@ exports.update          = function (req, res, next) {
                 res.json(errMsg)
             }else{
                 acmDAL.updateMany(query,validUpdateData,function (err,data) {   // handling update.
-                    queryResponseHandler(err,data,res,function (err, data) {    // Possible errors are handled.
+                    if(data.nModified > 0){ // Some files have been modified
+                        queryResponseHandler(err,data,res,function (err, data) {    // Possible errors are handled.
+                            if(!err){
+                                res.status(200);
+                                res.send(data);
+                                callback(null);
+                            }
+                        });
+                    }else if(data.nModified === 0 && req.query.createOnNoModified === "true"){ // No file has been modified, so create a new one.
+                        acmDAL.create(validUpdateData, function (err, data) {
+                            if(!err){
+                                res.status(201);
+                                res.json(data);
+                            }
+                        });
+                    }else{ // No modified and no create on no modified request
                         res.status(200);
-                        res.send(data);
-                        callback(null);
-                    });
+                        res.json(data);
+                    }
+
                 });
             }
         }

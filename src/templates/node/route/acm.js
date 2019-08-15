@@ -199,6 +199,8 @@ router.get('/'      , controller.find);
  * @apiParam (Query)   {Object} [ accessControl = undefined ]  - Object
  * @apiParam (Query)   {String="pull", "push"} [ operation]  - String
  * @apiParam (Query)   {String} [ target ]  - String
+ * @apiParam (Query)   {String="true", "false"} [ createOnNoModified ]  - String
+
  *
  *
  * @apiSuccess              {String}    n                                   - Number of objects manipulated
