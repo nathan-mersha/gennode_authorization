@@ -18,6 +18,7 @@ const customMock = {
     method      : dummyJSON.utils.randomArrayItem(constants.METHODS),
     route       : dummyJSON.utils.randomArrayItem(["http://sampleroute.com/1","http://sampleroute.com/2","http://sampleroute.com/3","http://sampleroute.com/4","http://sampleroute.com/5","http://sampleroute.com/6"]),
     routeGroup  : dummyJSON.utils.randomArrayItem(["Company","Personnel","User","PayRol","Wallet","Account"]),
+    roles       : dummyJSON.utils.randomArrayItem(["Admin 1", "Admin 2", "Admin 3", "Admin 4"])
 };
 
 /**
@@ -194,6 +195,16 @@ module.exports = {
         "read" :  [{{#repeat 4}} "{{objectId}}" {{/repeat}}],
         "update" :  [{{#repeat 4}} "{{objectId}}" {{/repeat}}],
         "delete" :  [{{#repeat 4}} "{{objectId}}" {{/repeat}}]
+     
+    }
+    
+    } `, {mockdata : customMock})),
+                        successByObject         : JSON.parse(dummyJSON.parse(`{ 
+    "object" : "{{objectId}}" , 
+    "accessControl" : {
+        "read" :  [{{#repeat 1}} "{{roles}}" {{/repeat}}],
+        "update" :  [{{#repeat 2}} "{{roles}}" {{/repeat}}],
+        "delete" :  [{{#repeat 3}} "{{roles}}" {{/repeat}}]
      
     }
     

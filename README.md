@@ -7,14 +7,20 @@ Nathan Mersha
 
 Gennode authorization is available on npm, type:
 
-`$ sudo npm i -g gennode_authorization`
+`$ npm i -g gennode_authorization`
 and install it globally, now you can use it from the command line.
 
-#### Test
-`$npm run test`
+### Test
+`$ npm run test`
 
 ![](rsr/description.png)
 **Figure 1** - Gennode authorization description
+
+### Note
+This module is accompanied with three additional libraries as described in the above diagram. These modules are :
+1. [Gennode ACM](https://www.npmjs.com/package/gennode_acm)
+2. [Gennode Authorization_MW](https://www.npmjs.com/package/gennode_authorization_mw)
+3. [Gennode Registrar](https://www.npmjs.com/package/gennode_registrar)
 
 ### Introduction
 Full fledged authorization service. 
@@ -24,11 +30,10 @@ Full fledged authorization service.
 4. Request a token
 5. Assign user to the role
 6. Give the role access to the routes.
-7. By creating acm models give or deny read,delete and update access to the user on a specific model.
-8. And every time you get a request send the route,method,body and token to this service and you will get a 401 or 200 response.
+7. By creating acm models give or deny read,delete and update access to the user on a specific model using [this](https://www.npmjs.com/package/gennode_acm) module.
+8. Then plugin [this](https://www.npmjs.com/package/gennode_authorization_mw) middleware and your requests will be authorized or not, depending on your configuration.
 
-### Note
-This module has additional three libs and middle-wares that accompanies it as described in the upcoming feature section.
+
 
 ### Prerequisite
 1. An installation of mongodb on the running machine is required for the tests to pass, and for the server to start. Make sure the mongod
@@ -184,12 +189,6 @@ server is up and running. Guide on how to install and run MongoDB can be found [
 |package.json                                   |Package file|
 |package-lock.json                              |Package lock file|
 |README.md                                      |Readme file with basic info|
-
-### Upcoming features
-
-* ACM modifier plugin for mongoose (gennode_acm)
-* Authorization middleware for requests (gennode_request_middleware)
-
 
 ### Contributing
 **If you have anything in mind, that you think is would be awesome to include in the generated server files, feel free to create an issue [here](https://github.com/nathan-mersha/gennode_authorization.git), or fork the project.**

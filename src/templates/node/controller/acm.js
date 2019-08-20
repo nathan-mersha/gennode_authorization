@@ -25,94 +25,197 @@ let
  * @param res           - Response object
  * @param next          - Next
  */
-exports.create          = function (req, res, next) {
+exports.create  = function (req, res, next) {
     debug('Create init...');
 
-    let body = req.body;
-    async.waterfall([
-        validateData,
-        verifyACMExistence,
-        createData
-    ],function () {
-        debug('Create completed.');
-    });
+    let body     = req.body,
+        createBy = req.query.createBy;
 
-    /**
-     * @name                - Validate data
-     * @description         - Validates if the body contains the require field.
-     * @param callback      - Callback function (error)
-     */
-    function validateData (callback) {
-        debug('Validate data init...');
-
-        controllerHelper.dataValidator(["subject"],req,res,callback);
+    if(createBy === "object"){ // Create acm by object
+        createByObject();
+    }else{ // Create acm by subject
+        createBySubject();
     }
 
     /**
-     * @name                - Verify acm existence
-     * @description         - Checks if acm data by subject already exists
-     * @param callback      - Callback function (error, acmData)
+     * @name            - Create by object
+     * @description     - Creates acm by object
      */
-    function verifyACMExistence(callback) {
-        debug('Verify acm existence init.');
-
-        let query = {subject : body.subject};
-        acmDAL.getPrivate(query, function (err, data) {
-            if(!err){
-                callback(null, data);
-            }else{
-                let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
-                errMsg.detail = err;
-                res.status(400);
-                res.json(errMsg);
-            }
+    function createByObject() {
+        async.waterfall([
+            validateData,
+            parseToSubjectModel,
+            createData
+        ],function () {
+            debug("Create acm by object completed.");
         });
-    }
 
-    /**
-     * @name                - Create data
-     * @description         - Creates acm data
-     * @param acmData       - Acm data
-     * @param callback      - Callback function (error)
-     */
-    function createData (acmData, callback) {
-        debug('Create data init...');
+        /**
+         * @name                - Validate data
+         * @description         - Validates data
+         * @param callback      - Callback function (error)
+         */
+        function validateData(callback) {
+            debug("Validate data init...");
+            controllerHelper.dataValidator(["object", "accessControl"],req,res,callback);
+        }
 
-        if(acmData){ // Acm data already exists, so update the access
-            // Update the acm data since it already exists
-            if(!body.accessControl) {callback(null);}
-            else{
-                let accessControlKeys = Object.keys(body.accessControl);
-                let counter = 0;
-                accessControlKeys.forEach(function (accessControlKey) {
-                    acmDAL.pushToArray({_id : acmData._id},`accessControl.${accessControlKey}`, body.accessControl[accessControlKey], function (err, data) {
-                        counter++;
-                        if(counter === accessControlKeys.length){
-                            res.status(201);
-                            res.json(data);
-                            callback(null);
-                        }
-                    });
-                });
-            }
+        /**
+         * @name                - Parse to subject model
+         * @description         - Parses object acm model to subject model
+         * @param callback      - Callback function (error, subjectACM)
+         */
+        function parseToSubjectModel(callback) {
+            debug("Parse to subject model init...");
+            objectToSubjectACM(body, callback);
+        }
 
-        }else{
-            acmDAL.create(body,function (err, data) { // Creating acm data
-                queryResponseHandler(err,data,res,function (err, data) {
-                    if(data){ // acm data successfully created
+        /**
+         * @name                - Create Data
+         * @description         - Crates a subject acm model
+         * @param subjectACMs   - Subject ACM
+         * @param callback      - Callback function (error)
+         */
+        function createData(subjectACMs, callback) {
+            debug("Create data init...");
+
+            let counter = 0;
+            let createdACMObjectData = [];
+
+            subjectACMs.forEach(function (subjectACM) {
+                createACMData(subjectACM, function(err, createdACMData) {
+                    counter++;
+                    createdACMObjectData.push(createdACMData);
+                    if(counter === subjectACMs.length){
                         res.status(201);
-                        res.json(data);
+                        res.json({acmSubjects : createdACMObjectData});
                         callback(null);
-                    }else {
-                        let errMsg = errorCodes.SEC.NO_DATA_FOUND;
-                        errMsg.detail = 'acm data could not be found (Failed to create acm data)';
-                        res.status(500);
-                        res.json(errMsg);
                     }
                 });
             });
         }
+
     }
+
+    /**
+     * @name            - Create by subject
+     * @description     - Creates acm data by subject
+     */
+    function createBySubject(){
+        async.waterfall([
+            validateData,
+            createACM
+        ],function () {
+            debug('Create completed.');
+        });
+
+        /**
+         * @name                - Validate data
+         * @description         - Validates if the body contains the require field.
+         * @param callback      - Callback function (error)
+         */
+        function validateData (callback) {
+            debug('Validate data init...');
+            controllerHelper.dataValidator(["subject"],req,res,callback);
+        }
+
+        /**
+         * @name                - Creates acm
+         * @description         - Creates an acm data
+         * @param callback      - Callback function (error)
+         */
+        function createACM(callback) {
+            createACMData(body,function (err, data) {
+                if(err){
+                    let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+                    errMsg.detail = err;
+                    res.status(500);
+                    res.json(errMsg);
+                }else if(!data){
+                    let errMsg = errorCodes.SEC.NO_DATA_FOUND;
+                    errMsg.detail = "Could not create acm data.";
+                    res.status(400);
+                    res.json(errMsg);
+                }else if(data){
+                    res.status(201);
+                    res.json(data);
+                    callback(null);
+                }
+            });
+        }
+    }
+
+    /**
+     * @name            - Create acm data
+     * @description     - Verifies acm data existence if so, updates the old acm data by the provided keys, else creates a new one
+     * @param cb        - Callback function (error, createdACMData)
+     */
+    function createACMData(acmInput, cb) {
+
+        async.waterfall([
+            verifyACMExistence,
+            createData
+        ],function () {
+            debug("Crating acm data from object to subject view completed");
+        });
+
+        /**
+         * @name                - Verify acm existence
+         * @description         - Checks if acm data by subject already exists
+         * @param callback      - Callback function (error, acmData)
+         */
+        function verifyACMExistence(callback) {
+            debug('Verify acm existence init.');
+
+            let query = {subject : acmInput.subject};
+            acmDAL.getPrivate(query, function (err, data) {
+                if(!err){
+                    callback(null, data);
+                }else{
+                    cb(err, null); // some error occurred, created no acm data
+                }
+            });
+        }
+
+        /**
+         * @name                - Create data
+         * @description         - Creates acm data
+         * @param acmData       - Acm data
+         * @param callback      - Callback function (error)
+         */
+        function createData (acmData, callback) {
+            debug('Create data init...');
+
+            if(acmData){ // Acm data already exists, so update the access
+                // Update the acm data since it already exists
+                if(!acmInput.accessControl) {callback(null);}
+                else{
+                    let accessControlKeys = Object.keys(acmInput.accessControl);
+                    let counter = 0;
+                    accessControlKeys.forEach(function (accessControlKey) {
+                        acmDAL.pushToArray({_id : acmData._id},`accessControl.${accessControlKey}`, acmInput.accessControl[accessControlKey], function (err, data) {
+                            counter++;
+                            if(counter === accessControlKeys.length){
+                                cb(null, data);
+                            }
+                        });
+                    });
+                }
+
+            }else{
+                acmDAL.create(acmInput,function (err, data) { // Creating acm data
+                    queryResponseHandler(err,data,res,function (err, data) {
+                        if(err){ // acm data successfully created
+                            cb(err, null);
+                        }else if(data){
+                            cb(null, data);
+                        }
+                    });
+                });
+            }
+        }
+    }
+
 
 };
 
@@ -123,7 +226,7 @@ exports.create          = function (req, res, next) {
  * @param res           - Response object
  * @param next          - Next
  */
-exports.find            = function (req, res, next) {
+exports.find    = function (req, res, next) {
     debug('Find init.');
 
     if(req.query._id !== undefined) {
@@ -175,7 +278,7 @@ exports.find            = function (req, res, next) {
  * @param res           - Response object
  * @param next          - Next
  */
-exports.update          = function (req, res, next) {
+exports.update  = function (req, res, next) {
     debug(`Update many init.`);
 
     let
@@ -306,7 +409,7 @@ exports.update          = function (req, res, next) {
  * @param res           - Response object
  * @param next          - Next
  */
-exports.remove          = function (req, res, next) {
+exports.remove  = function (req, res, next) {
     debug('Remove many init.');
 
     let query = controllerHelper.queryFilter(req,["subject","accessControl", "_id", "__v"]);
@@ -380,4 +483,86 @@ function getPrivate (req, res, next) {
             }
         });
     });
+}
+
+/**
+ * @name                - Object to subject acm
+ * @description         - Parses Object acm model to subject acm
+ * @param objectAcm     - Object acm
+ * @param cb            - Callback function (error, subjectACM)
+ */
+function objectToSubjectACM(objectAcm, cb) {
+
+    /**
+     * @name                - Return acm subject frame
+     * @description         - Creates an empty subject based acm model to be populated my acm on methods.
+     * @param objectAcm     - Object based acm data
+     * @returns {Array}     - Subject based acm arrays.
+     */
+    function returnACMSubjectFrame(objectAcm) {
+
+        let accessControlKeys = Object.keys(objectAcm.accessControl);
+        let parsedACMs = [];
+        let emptyAccessControlMethods = ()=>{
+            let copiedAccessControl = Object.assign({}, objectAcm.accessControl);
+            Object.keys(copiedAccessControl).forEach(function (copiedAcmKey) {
+                copiedAccessControl[copiedAcmKey] = [];
+            });
+            return copiedAccessControl;
+        };
+        accessControlKeys.forEach(function (accessControlKey) {
+
+            let method = objectAcm.accessControl[accessControlKey];
+            method.forEach(function (subject) {
+                let acmSubjectExists = false;
+                parsedACMs.forEach(function (parsedACM) {
+                    if(parsedACM.subject === subject){
+                        acmSubjectExists = true;
+                    }
+                });
+
+                let parsedACM = {
+                    subject : null,
+                    accessControl : emptyAccessControlMethods()
+                };
+                parsedACM.subject = subject;
+                if(!acmSubjectExists){ // There is no entry in the acm
+                    parsedACMs.push(parsedACM);
+                }
+            });
+
+        });
+        return parsedACMs;
+    }
+
+    /**
+     * @name                    - Insert acm object data
+     * @description             - Populates object data on a acm subject frame
+     * @param objectAcm         - Object based acm
+     * @param parsedACMs        - Subject based empty acm data
+     * @param callback          - Callback function (error, constructedSubjectBasedACMs)
+     */
+    function insertACMObjectData(objectAcm, parsedACMs, callback) {
+        let setCounter = 0;
+        parsedACMs.forEach(function (parsedAcm) {
+            let accessControlKeys = Object.keys(objectAcm.accessControl);
+            let counter = 0;
+            accessControlKeys.forEach(function (accessControlKey) {
+                let method = objectAcm.accessControl[accessControlKey];
+                if(method.includes(parsedAcm.subject)){
+                    let subjectAccessControlMethod = parsedAcm.accessControl[accessControlKey];
+                    subjectAccessControlMethod.push(objectAcm.object);
+                }
+                counter++;
+                if(counter === accessControlKeys.length){
+                    setCounter++;
+                    if(setCounter === parsedACMs.length){callback(null, parsedACMs);}
+                }
+            });
+        });
+
+    }
+
+    let acmFrame = returnACMSubjectFrame(objectAcm);
+    insertACMObjectData(objectAcm, acmFrame, cb);
 }

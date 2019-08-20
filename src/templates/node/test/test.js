@@ -83,10 +83,10 @@ function isRemoveResponse(body) {
         describe("Token",function () {
         
             /**
-             * @name            - is__modelName__Public
+             * @name            - is token Public
              * @param body      - Body to evaluate
              * @param private   - If true then body will be evaluate it's private fields as well
-             * @description     - Validates if the provided data is __modelName__ public data
+             * @description     - Validates if the provided data is token public data
              */
              function isToken(body, private = false) {
                  if(private) {
@@ -514,10 +514,10 @@ function isRemoveResponse(body) {
         describe("Service",function () {
         
             /**
-             * @name            - is__modelName__Public
+             * @name            - is service Public
              * @param body      - Body to evaluate
              * @param private   - If true then body will be evaluate it's private fields as well
-             * @description     - Validates if the provided data is __modelName__ public data
+             * @description     - Validates if the provided data is service public data
              */
              function isService(body, private = false) {
                  if(private) {
@@ -825,10 +825,10 @@ function isRemoveResponse(body) {
         describe("User",function () {
         
             /**
-             * @name            - is__modelName__Public
+             * @name            - is user Public
              * @param body      - Body to evaluate
              * @param private   - If true then body will be evaluate it's private fields as well
-             * @description     - Validates if the provided data is __modelName__ public data
+             * @description     - Validates if the provided data is user public data
              */
              function isUser(body, private = false) {
                  if(private) {
@@ -992,10 +992,10 @@ function isRemoveResponse(body) {
         describe("Role",function () {
         
             /**
-             * @name            - is__modelName__Public
+             * @name            - is role Public
              * @param body      - Body to evaluate
              * @param private   - If true then body will be evaluate it's private fields as well
-             * @description     - Validates if the provided data is __modelName__ public data
+             * @description     - Validates if the provided data is role public data
              */
              function isRole(body, private = false) {
                  if(private) {
@@ -1301,24 +1301,35 @@ function isRemoveResponse(body) {
         describe("Acm",function () {
         
             /**
-             * @name            - is__modelName__Public
+             * @name            - isAcmPublic
              * @param body      - Body to evaluate
              * @param private   - If true then body will be evaluate it's private fields as well
-             * @description     - Validates if the provided data is __modelName__ public data
+             * @description     - Validates if the provided data is acm public data
              */
-             function isAcm(body, private = false) {
-                 if(private) {
+            function isAcm(body, private = false, type="subject") {
+                function isSubjectACM(body) {
+                    if(private) {
 // Begin body expected evaluation here for model : acm (private)
-    expect(body).to.be.an('object').that.has.all.keys('__v', '_id', 'firstModified', 'lastModified', 'subject', 'accessControl');
+                        expect(body).to.be.an('object').that.has.all.keys('__v', '_id', 'firstModified', 'lastModified', 'subject', 'accessControl');
 // End body expected evaluation here for model : acm (private)
-                 }else{
+                    }else{
 // Begin body expected evaluation here for model : acm (public)
-    expect(body).to.be.an('object').that.has.all.keys('__v', '_id', 'firstModified', 'lastModified', 'subject', 'accessControl');
+                        expect(body).to.be.an('object').that.has.all.keys('__v', '_id', 'firstModified', 'lastModified', 'subject', 'accessControl');
 // End body expected evaluation here for model : acm (public)
-                 }
-        
-                expect(new Date(body.lastModified),new Date(body.firstModified)).to.be.an.instanceOf(Date);
-                expect(new objectId(body._id)).to.be.an.instanceOf(objectId);
+                    }
+
+                    expect(new Date(body.lastModified),new Date(body.firstModified)).to.be.an.instanceOf(Date);
+                    expect(new objectId(body._id)).to.be.an.instanceOf(objectId);
+                }
+
+                if(type === "subject"){
+                    isSubjectACM(body);
+                }else if(type === "object"){
+                    expect(body).to.be.an('object').that.has.all.keys('acmSubjects');
+                    let acmSampleData = body.acmSubjects[0];
+                    isSubjectACM(acmSampleData);
+                }
+
             }
             
             describe("Create" ,function () {
@@ -1334,8 +1345,27 @@ function isRemoveResponse(body) {
                     });
                 });
 
+                it("Should successfully create acm (By Object)" ,function (done) {
+                    sendRequest(url.acm.create("object"),'post',dummyData.acm.create.successByObject,201,function (err,res) {
+                        let body = res.body;
+                        expect(err).to.be.null;
+                        isAcm(body, true, "object");
+                        done();
+                    });
+                });
+
                 it("Should fail to create acm (Required field missing)",function (done) {
                     sendRequest(url.acm.create(),'post',dummyData.acm.create.missingFields,400,function (err,res) {
+                        let body = res.body;
+                        expect(err).to.be.null;
+                        isErrorResponse(body);
+                        expect(body.errorCode).to.equal(errorCodes.SEC.VALIDATION_ERROR.errorCode);
+                        done();
+                    });
+                });
+
+                it("Should fail to create acm (Required field missing, By Object)",function (done) {
+                    sendRequest(url.acm.create("object"),'post',dummyData.acm.create.missingFields,400,function (err,res) {
                         let body = res.body;
                         expect(err).to.be.null;
                         isErrorResponse(body);
