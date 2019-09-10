@@ -39,7 +39,7 @@ module.exports = {
      * @param configFilePath    - Path to config file
      * @param outPutPath        - Out put path
      */
-    genNodeAuthorization                 : function (configFilePath, outPutPath, callbackMain){
+    genNodeAuthorization    : function (configFilePath, outPutPath, callbackMain){
 
         async.waterfall([
             locateConfigFile,
@@ -87,7 +87,7 @@ module.exports = {
          * @description             - Locates users config file.
          * @param callback          - Callback function (error)
          */
-        function locateConfigFile               (callback) {
+        function locateConfigFile(callback) {
             console.log(`${log} 1. Locate config file init.`);
             console.log("Config file path : ", configFilePath);
             nodeGenConfig = require(path.resolve(configFilePath));
@@ -100,7 +100,7 @@ module.exports = {
          * @description             - Merges the default config file with the one the user's config file.
          * @param callback          - Callback function (error)
          */
-        function mergeConfigFile                (callback) {
+        function mergeConfigFile(callback) {
             console.log(`${log} 2. Merge config file init.`);
             mergeConfigFiles(nodeGenConfig, callback);
 
@@ -112,7 +112,7 @@ module.exports = {
          * @description             - Validates the merged config file
          * @param callback          - Callback function (error)
          */
-        function validateConfigFile             (callback) {
+        function validateConfigFile(callback) {
             console.log(`${log} 3. Validating config file.`);
 
             if(isNaN(mergedConfig.environment.PORT)) {
@@ -127,7 +127,7 @@ module.exports = {
          * @description             - Refactors config file
          * @param callback          - Callback function (error)
          */
-        function refactorConfigFile             (callback) {
+        function refactorConfigFile(callback) {
             console.log(`${log} 4. Refactor config file init.`);
 
             if(!mergedConfig.baseURL.startsWith('/')) {
@@ -136,14 +136,12 @@ module.exports = {
             callback(null);
         }
 
-
-
         /**
          * @name                    - Generate directories
          * @description             - Generates required directories in the parent file
          * @param callback          - Callback function (error)
          */
-        function generateDirectories            (callback) {
+        function generateDirectories(callback) {
             console.log(`${log} 6. Generate directories init.`);
 
             shelljs.mkdir(path.resolve(outputPath, nodeGenConfig.serviceName));
@@ -157,7 +155,7 @@ module.exports = {
          * @description             - Generates the npm package file.
          * @param callback          - Callback function (error)
          */
-        function generatePackageJSON            (callback) {
+        function generatePackageJSON(callback) {
             console.log(`${log} 8. Generate package json init.`);
             lib.generator(path.resolve(__dirname, './src/templates/node/package/package.json'), replaceValues.globalReplace(true), 'package.json', '.', callback);
         }
@@ -167,7 +165,7 @@ module.exports = {
          * @description             - Generates git file, with remote repo if provided.
          * @param callback          - Callback function (error)
          */
-        function generateGit                    (callback) {
+        function generateGit(callback) {
             console.log(`${log} 9. Generate git init.`);
             shelljs.exec('git init');
             setTimeout(function () {
@@ -180,7 +178,7 @@ module.exports = {
          * @description             - Generates environment file
          * @param callback          - Callback function (error)
          */
-        function generateEnvironmentFile        (callback) {
+        function generateEnvironmentFile(callback) {
             console.log(`${log} 10. Generate environment file.`);
             lib.generator(path.resolve(__dirname, './src/templates/env/.env'), replaceValues.globalReplace(), '.env', '.', callback);
         }
@@ -201,7 +199,7 @@ module.exports = {
          * @description             - Generates config file
          * @param callback          - Callback function (error)
          */
-        function generateConfig                 (callback) {
+        function generateConfig(callback) {
             console.log(`${log} 12. Generate config init.`);
             lib.generator(path.resolve(__dirname, './src/templates/node/config/index.js'), replaceValues.globalReplace(), 'index.js', './config', callback);
         }
@@ -216,7 +214,10 @@ module.exports = {
 
             async.waterfall([
                 generateAcm,
+                generateAdmin,
+                generateLog,
                 generateRole,
+                generateSchema,
                 generateService,
                 generateToken,
                 generateUser
@@ -232,7 +233,26 @@ module.exports = {
             function generateAcm(cb) {
                 console.log(`${log} Generate amc.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/controller/acm.js'), replaceValues.globalReplace(), 'acm.js', './controller', cb);
+            }
 
+            /**
+             * @name            - Generate admin
+             * @description     - Generates admin controller
+             * @param cb        - Callback function (error)
+             */
+            function generateAdmin(cb) {
+                console.log(`${log} Generate admin.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/admin.js'), replaceValues.globalReplace(), 'admin.js', './controller', cb);
+            }
+
+            /**
+             * @name            - Generate log
+             * @description     - Generates log controller
+             * @param cb        - Callback function (error)
+             */
+            function generateLog(cb) {
+                console.log(`${log} Generate admin.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/log.js'), replaceValues.globalReplace(), 'log.js', './controller', cb);
             }
 
             /**
@@ -243,6 +263,16 @@ module.exports = {
             function generateRole(cb) {
                 console.log(`${log} Generate role.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/controller/role.js'), replaceValues.globalReplace(), 'role.js', './controller', cb);
+            }
+
+            /**
+             * @name            - Generate schema
+             * @description     - Generates schema controller
+             * @param cb        - Callback function (error)
+             */
+            function generateSchema(cb) {
+                console.log(`${log} Generate schema.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/controller/schema.js'), replaceValues.globalReplace(), 'schema.js', './controller', cb);
             }
 
             /**
@@ -276,7 +306,6 @@ module.exports = {
             }
         }
 
-
         /**
          * @name                - Generate dals
          * @description         - Generates dal files
@@ -287,7 +316,9 @@ module.exports = {
 
             async.waterfall([
                 generateAcm,
+                generateAdmin,
                 generateRole,
+                generateSchema,
                 generateService,
                 generateUser
             ],function () {
@@ -302,7 +333,16 @@ module.exports = {
             function generateAcm(cb) {
                 console.log(`${log} Generate amc.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/dal/acm.js'), replaceValues.globalReplace(), 'acm.js', './dal', cb);
+            }
 
+            /**
+             * @name            - Generate admin
+             * @description     - Generates admin dal
+             * @param cb        - Callback function (error)
+             */
+            function generateAdmin(cb) {
+                console.log(`${log} Generate admin.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/dal/admin.js'), replaceValues.globalReplace(), 'admin.js', './dal', cb);
             }
 
             /**
@@ -316,6 +356,16 @@ module.exports = {
             }
 
             /**
+             * @name            - Generate schema
+             * @description     - Generates schema dal
+             * @param cb        - Callback function (error)
+             */
+            function generateSchema(cb) {
+                console.log(`${log} Generate schema.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/dal/schema.js'), replaceValues.globalReplace(), 'schema.js', './dal', cb);
+            }
+
+            /**
              * @name            - Generate service
              * @description     - Generates service dal
              * @param cb        - Callback function (error)
@@ -324,7 +374,6 @@ module.exports = {
                 console.log(`${log} Generate service`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/dal/service.js'), replaceValues.globalReplace(), 'service.js', './dal', cb);
             }
-
 
             /**
              * @name            - Generate user
@@ -347,17 +396,28 @@ module.exports = {
             console.log(`${log} 14. Generate library files.`);
 
             async.waterfall([
+                generateAccessRoutes,
                 generateConstants,
                 generateErrorCodes,
                 generateConstantIndex,
                 generateHelperIndex,
                 generateControllerHelper,
+                generateAuthorizeMW,
                 generateApiIndex,
-                generateLoggerHelper,
                 generateInitializer,
             ],function () {
                 callback(null);
             });
+
+            /**
+             * @name            - Generate access routes
+             * @description     - Generates access routes
+             * @param cb        - Callback function (error)
+             */
+            function generateAccessRoutes(cb) {
+                console.log(`${iLog} Generating constants.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/constant/accessRoutes.js'), replaceValues.globalReplace(), 'accessRoutes.js', './lib/constant', cb);
+            }
 
             /**
              * @name            - Generate constants
@@ -410,6 +470,16 @@ module.exports = {
             }
 
             /**
+             * @name            - Generate controller helper
+             * @description     - Generates controller helper file
+             * @param cb        - Callback function (error)
+             */
+            function generateAuthorizeMW(cb) {
+                console.log(`${iLog} Generating controller helper.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/lib/middleware/authorize.js'), replaceValues.globalReplace(), 'authorize.js', './lib/middleware', cb);
+            }
+
+            /**
              * @name            - Generate api index
              * @description     - Generates index file for api module.
              * @param cb        - Callback function (error)
@@ -417,16 +487,6 @@ module.exports = {
             function generateApiIndex(cb) {
                 console.log(`${iLog} Generating controller helper.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/api/index.js'), replaceValues.globalReplace(), 'index.js', './lib/helper/api', cb);
-            }
-
-            /**
-             * @name            - Generate logger helper
-             * @description     - Generates logger helper file.
-             * @param cb        - Callback function (error)
-             */
-            function generateLoggerHelper(cb) {
-                console.log(`${iLog} Generating logger helper.`);
-                lib.generator(path.resolve(__dirname, './src/templates/node/lib/helper/others/logger.js'), replaceValues.globalReplace(), 'logger.js', './lib/helper/others', cb);
             }
 
             /**
@@ -450,7 +510,9 @@ module.exports = {
 
             async.waterfall([
                 generateAcm,
+                generateAdmin, //
                 generateRole,
+                generateSchema, //
                 generateService,
                 generateUser
             ],function () {
@@ -469,6 +531,17 @@ module.exports = {
             }
 
             /**
+             * @name            - Generate admin
+             * @description     - Generates admin model
+             * @param cb        - Callback function (error)
+             */
+            function generateAdmin(cb) {
+                console.log(`${log} Generate admin.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/model/admin.js'), replaceValues.globalReplace(), 'admin.js', './model', cb);
+
+            }
+
+            /**
              * @name            - Generate role
              * @description     - Generates role model
              * @param cb        - Callback function (error)
@@ -476,6 +549,16 @@ module.exports = {
             function generateRole(cb) {
                 console.log(`${log} Generate role.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/model/role.js'), replaceValues.globalReplace(), 'role.js', './model', cb);
+            }
+
+            /**
+             * @name            - Generate schema
+             * @description     - Generates schema model
+             * @param cb        - Callback function (error)
+             */
+            function generateSchema(cb) {
+                console.log(`${log} Generate schema.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/model/schema.js'), replaceValues.globalReplace(), 'schema.js', './model', cb);
             }
 
             /**
@@ -487,7 +570,6 @@ module.exports = {
                 console.log(`${log} Generate service`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/model/service.js'), replaceValues.globalReplace(), 'service.js', './model', cb);
             }
-
 
             /**
              * @name            - Generate user
@@ -505,11 +587,16 @@ module.exports = {
 
             async.waterfall([
                 generateAcm,
+                generateAdmin, //
                 generateIndex,
+                generateLog, //
                 generateRole,
+                generateSchema, //
                 generateService,
                 generateToken,
-                generateUser
+                generateUser,
+                generateSocketIndex,
+                generateSocketLog
             ],function () {
                 callback(null);
             });
@@ -522,7 +609,16 @@ module.exports = {
             function generateAcm(cb) {
                 console.log(`${log} Generate acm.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/route/acm.js'), replaceValues.globalReplace(), 'acm.js', './route', cb);
+            }
 
+            /**
+             * @name            - Generate admin
+             * @description     - Generates admin route
+             * @param cb        - Callback function (error)
+             */
+            function generateAdmin(cb) {
+                console.log(`${log} Generate admin.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/admin.js'), replaceValues.globalReplace(), 'admin.js', './route', cb);
             }
 
             /**
@@ -537,6 +633,16 @@ module.exports = {
             }
 
             /**
+             * @name            - Generate log
+             * @description     - Generates log route
+             * @param cb        - Callback function (error)
+             */
+            function generateLog(cb) {
+                console.log(`${log} Generate log.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/log.js'), replaceValues.globalReplace(), 'log.js', './route', cb);
+            }
+
+            /**
              * @name            - Generate role
              * @description     - Generates role route
              * @param cb        - Callback function (error)
@@ -544,6 +650,16 @@ module.exports = {
             function generateRole(cb) {
                 console.log(`${log} Generate role.`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/route/role.js'), replaceValues.globalReplace(), 'role.js', './route', cb);
+            }
+
+            /**
+             * @name            - Generate schema
+             * @description     - Generates schema route
+             * @param cb        - Callback function (error)
+             */
+            function generateSchema(cb) {
+                console.log(`${log} Generate schema.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/route/schema.js'), replaceValues.globalReplace(), 'schema.js', './route', cb);
             }
 
             /**
@@ -574,6 +690,26 @@ module.exports = {
             function generateUser(cb) {
                 console.log(`${log} Generate user`);
                 lib.generator(path.resolve(__dirname, './src/templates/node/route/user.js'), replaceValues.globalReplace(), 'user.js', './route', cb);
+            }
+
+            /**
+             * @name            - Generate socket index
+             * @description     - Generates socket index route
+             * @param cb        - Callback function (error)
+             */
+            function generateSocketIndex(cb) {
+                console.log(`${log} Generate socket index.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/socket/index.js'), replaceValues.globalReplace(), 'index.js', './socket', cb);
+            }
+
+            /**
+             * @name            - Generate socket log
+             * @description     - Generates socket log route
+             * @param cb        - Callback function (error)
+             */
+            function generateSocketLog(cb) {
+                console.log(`${log} Generate socket log.`);
+                lib.generator(path.resolve(__dirname, './src/templates/node/socket/log.js'), replaceValues.globalReplace(), 'log.js', './socket', cb);
             }
         }
 
@@ -729,12 +865,14 @@ module.exports = {
         function generateReadMeFile(callback) {
             console.log(`${log} 20. Generate readMe file.`);
 
-            if(mergedConfig.readMe){
-                lib.generator(path.resolve(__dirname, './src/templates/documentation/README.md'), replaceValues.globalReplace(), 'README.md', '.', callback);
-            }else{
-                console.log(`${iLog} Skip generating readme file.`);
-                callback(null);
-            }
+            lib.generator(path.resolve(__dirname, './src/templates/documentation/README.log.md'), replaceValues.globalReplace(), 'README.md', './logs', function(){
+                if(mergedConfig.readMe){
+                    lib.generator(path.resolve(__dirname, './src/templates/documentation/README.md'), replaceValues.globalReplace(), 'README.md', '.', callback);
+                }else{
+                    console.log(`${iLog} Skip generating readme file.`);
+                    callback(null);
+                }
+            });
         }
 
         /**
@@ -751,13 +889,12 @@ module.exports = {
             }
         }
 
-
         /**
          * @name                    - Install packages
          * @description             - Install npm packages
          * @param callback          - Callback function (error)
          */
-        function installPackages                (callback) {
+        function installPackages(callback) {
             console.log(`${log} 26. Install packages init.`);
             shelljs.exec('npm install');
             callback(null);
@@ -768,7 +905,7 @@ module.exports = {
          * @description             - Generates test reports and coverages.
          * @param callback          - Callback function (error)
          */
-        function generateTestReportAndCoverage  (callback) {
+        function generateTestReportAndCoverage(callback) {
             console.log(`${log} 30. Generate test report and coverage init.`);
 
             if(mergedConfig.test){
@@ -782,7 +919,7 @@ module.exports = {
          * @description             - Generates documentation
          * @param callback          - Callback function (error)
          */
-        function generateDocumentation  (callback) {
+        function generateDocumentation(callback) {
             console.log(`${log} 31. Generate documentation.`);
 
             if(mergedConfig.documentation){
@@ -794,14 +931,12 @@ module.exports = {
             }
         }
 
-
-
         /**
          * @name                    - Commit Files
          * @description             - Commit's generated files
          * @param callback          - Callback function (error)
          */
-        function commitFiles                    (callback) {
+        function commitFiles(callback) {
             console.log(`${log} 31. Commit and push init.`);
 
             if(mergedConfig.commit) {
@@ -819,7 +954,7 @@ module.exports = {
          * @description             - If requested to run server after completion, then server will begin running.
          * @param callback          - Callback function (error)
          */
-        function runServer                      (callback) {
+        function runServer(callback) {
             console.log(`${log} 32. Running server init.`);
 
             if(mergedConfig.runServer) {
@@ -867,6 +1002,7 @@ module.exports = {
                 DEBUG                   : answers.debug,
                 PORT                    : answers.port,
                 MONGODB_URL             : answers.mongodbURL,
+                MONGODB_URL_TEST        : answers.mongodbURLTest,
                 REVERSE_PROXY           : answers.reverseProxy,
                 COLLECTION_RETURN_SIZE  : answers.collectionReturnSize,
                 ELASTIC_SEARCH_URL      : answers.elasticSearchURL,
@@ -918,10 +1054,7 @@ module.exports = {
         }
     }
 
-
 };
-
-
 
 /**
  * @name                        - Merge config files

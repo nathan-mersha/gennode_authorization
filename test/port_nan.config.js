@@ -20,6 +20,7 @@ module.exports = {
         "DEBUG": "*",
         "PORT": "NAN",
         "MONGODB_URL": "mongodb://localhost:27017/auth",
+        "MONGODB_URL_TEST" : "mongodb://localhost:27017/auth_test",
         "REVERSE_PROXY": "http://localhost",
         "COLLECTION_RETURN_SIZE": "12",
         "ELASTIC_SEARCH_URL": "http://localhost:9200",

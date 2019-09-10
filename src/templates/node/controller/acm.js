@@ -9,6 +9,7 @@
 
 let
     acmDAL                  = require('../dal/acm'),
+    schemaDAL               = require('../dal/schema'),
     constants               = require('../lib/constant'),
     errorCodes              = constants.errorCodes,
     config                  = require('../config'),
@@ -18,6 +19,7 @@ let
     debug                   = require('debug')('__serviceName__/controller/acm'),
     async                   = require('async');
 
+
 /**
  * @name                - Create
  * @description         - Creates acm data
@@ -25,7 +27,7 @@ let
  * @param res           - Response object
  * @param next          - Next
  */
-exports.create  = function (req, res, next) {
+exports.create          = function (req, res, next) {
     debug('Create init...');
 
     let body     = req.body,
@@ -44,6 +46,7 @@ exports.create  = function (req, res, next) {
     function createByObject() {
         async.waterfall([
             validateData,
+            createSchema,
             parseToSubjectModel,
             createData
         ],function () {
@@ -57,7 +60,57 @@ exports.create  = function (req, res, next) {
          */
         function validateData(callback) {
             debug("Validate data init...");
-            controllerHelper.dataValidator(["object", "accessControl"],req,res,callback);
+            controllerHelper.dataValidator(["object", "schemaName", "serviceName", "accessControl"],req,res,callback);
+        }
+
+        /**
+         * @name                - Create Schema
+         * @description         - Creates schema data from acm object creator.
+         * @param callback      - Callback function (error)
+         */
+        function createSchema(callback) {
+            let schemaQuery = {schemaName : body.schemaName};
+
+            schemaDAL.getPrivate(schemaQuery, function (err, data) {
+                if(err) {
+                    let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+                    errMsg.detail = err;
+                    res.status(500);
+                    res.json(errMsg);
+                }else if(data){
+                    // Already schema by name already exists.
+                    let elements = [body.object],
+                        targetedArray = "documentIds";
+                    schemaDAL.pushToArray(schemaQuery, targetedArray, elements,function (err,data) {
+                        if(!err){
+                            callback(null);
+                        }else {
+                            let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+                            errMsg.detail = err;
+                            res.status(500);
+                            res.json(errMsg);
+                        }
+                    });
+                }else if(!data){ // No schema data found, create it.
+                    let schemaData = {
+                        schemaName : body.schemaName,
+                        serviceName : body.serviceName,
+                        accessControl : body.accessControl,
+                        documentIds : [body.object] // Inserted the first document id in the collection.
+                    };
+
+                    schemaDAL.create(schemaData, function (err, data) {
+                        if(!err){
+                            callback(null);
+                        }else {
+                            let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+                            errMsg.detail = err;
+                            res.status(500);
+                            res.json(errMsg);
+                        }
+                    });
+                }
+            });
         }
 
         /**
@@ -94,7 +147,6 @@ exports.create  = function (req, res, next) {
                 });
             });
         }
-
     }
 
     /**
@@ -226,7 +278,7 @@ exports.create  = function (req, res, next) {
  * @param res           - Response object
  * @param next          - Next
  */
-exports.find    = function (req, res, next) {
+exports.find            = function (req, res, next) {
     debug('Find init.');
 
     if(req.query._id !== undefined) {
@@ -235,8 +287,8 @@ exports.find    = function (req, res, next) {
         }else{
             getPublic(req, res, next);
         }
-    }else if(req.query.cursor !== undefined && req.query.cursor === "true"){
-        res.json("using cursor");
+    }else if(req.query.cursor === "true"){
+        res.json("using cursor")
     }else{
         let option = {
             page     : req.query.page  === undefined ? 1                             : Number(req.query.page),   // assigns default page value, if not specified.
@@ -278,7 +330,7 @@ exports.find    = function (req, res, next) {
  * @param res           - Response object
  * @param next          - Next
  */
-exports.update  = function (req, res, next) {
+exports.update          = function (req, res, next) {
     debug(`Update many init.`);
 
     let
@@ -315,7 +367,6 @@ exports.update  = function (req, res, next) {
                     res.json(errMsg);
                 }else if(Object.keys(validUpdateData).length > 0){callback(null,validUpdateData);} // Valid update data found.
             }
-
         });
     }
 
@@ -409,7 +460,7 @@ exports.update  = function (req, res, next) {
  * @param res           - Response object
  * @param next          - Next
  */
-exports.remove  = function (req, res, next) {
+exports.remove          = function (req, res, next) {
     debug('Remove many init.');
 
     let query = controllerHelper.queryFilter(req,["subject","accessControl", "_id", "__v"]);
@@ -429,61 +480,29 @@ exports.remove  = function (req, res, next) {
     }
 };
 
-
 /**
- *
- * @name                - Find public
- * @description         - Find acm data by id visible only fields that are public.
+ * @name                - Count
+ * @description         - Counts by query
  * @param req           - Request object
  * @param res           - Response object
  * @param next          - Next
  */
-function getPublic  (req, res, next) {
-    debug('Find public init...');
+exports.count           = function (req, res, next) {
+    let query = controllerHelper.queryFilter(req,["subject","accessControl" , "_id", "__v"]);
 
-    let
-        acmId   = req.query._id,
-        query       = {_id: acmId}; // query construction.
-
-    acmDAL.getPublic(query,function (err,data) { // retrieve acm public data (with out the value)
-        queryResponseHandler(err,data,res,function (err, data) { // Error handled.
-            if(!data){ // No acm value could be found
-                res.status(404);
-                res.json(errorCodes.SEC.NO_DATA_FOUND);
-            }else if(data){ // Found acm data
-                res.status(200);
-                res.send(data);
-            }
-        });
+    acmDAL.count(query, function (err, count) {
+        if(err){
+            let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+            errMsg.detail = err;
+            res.status(500);
+            res.json(errMsg);
+        }else{
+            res.status(200);
+            res.json({count : count});
+        }
     });
-}
+};
 
-/**
- * @name                - Find private
- * @description         - Find acm data by id visible only fields that are private.
- * @param req           - Request object
- * @param res           - Response object
- * @param next          - Next
- */
-function getPrivate (req, res, next) {
-    debug('Find private init...');
-
-    let
-        acmId = req.query._id,
-        query = {_id: acmId}; // query construction.
-
-    acmDAL.getPrivate(query,function (err,data) { // retrieve acm public data (with out the value)
-        queryResponseHandler(err,data,res,function (err, data) { // Error handled.
-            if(!data){ // No acm value could be found
-                res.status(404);
-                res.json(errorCodes.SEC.NO_DATA_FOUND);
-            }else if(data){ // Found acm data
-                res.status(200);
-                res.send(data);
-            }
-        });
-    });
-}
 
 /**
  * @name                - Object to subject acm
@@ -565,4 +584,59 @@ function objectToSubjectACM(objectAcm, cb) {
 
     let acmFrame = returnACMSubjectFrame(objectAcm);
     insertACMObjectData(objectAcm, acmFrame, cb);
+}
+
+/**
+ *
+ * @name                - Find public
+ * @description         - Find acm data by id visible only fields that are public.
+ * @param req           - Request object
+ * @param res           - Response object
+ * @param next          - Next
+ */
+function getPublic(req, res, next) {
+    debug('Find public init...');
+
+    let
+        acmId   = req.query._id,
+        query       = {_id: acmId}; // query construction.
+
+    acmDAL.getPublic(query,function (err,data) { // retrieve acm public data (with out the value)
+        queryResponseHandler(err,data,res,function (err, data) { // Error handled.
+            if(!data){ // No acm value could be found
+                res.status(404);
+                res.json(errorCodes.SEC.NO_DATA_FOUND);
+            }else if(data){ // Found acm data
+                res.status(200);
+                res.send(data);
+            }
+        });
+    });
+}
+
+/**
+ * @name                - Find private
+ * @description         - Find acm data by id visible only fields that are private.
+ * @param req           - Request object
+ * @param res           - Response object
+ * @param next          - Next
+ */
+function getPrivate(req, res, next) {
+    debug('Find private init...');
+
+    let
+        acmId = req.query._id,
+        query = {_id: acmId}; // query construction.
+
+    acmDAL.getPrivate(query,function (err,data) { // retrieve acm public data (with out the value)
+        queryResponseHandler(err,data,res,function (err, data) { // Error handled.
+            if(!data){ // No acm value could be found
+                res.status(404);
+                res.json(errorCodes.SEC.NO_DATA_FOUND);
+            }else if(data){ // Found acm data
+                res.status(200);
+                res.send(data);
+            }
+        });
+    });
 }

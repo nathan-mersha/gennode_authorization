@@ -213,6 +213,13 @@ module.exports = {
             errorName       : "Unauthorized token",
             errorMessage    : "Token is not authorized to access this route.",
             hint            : "View documentation for access level"
+        },
+
+        USERNAME_EXISTS                         : {
+            errorCode       : "AUT_010",
+            errorName       : "Username exists",
+            errorMessage    : "Username already exists.",
+            hint            : "Username should be unique, try a different one."
         }
 
     }

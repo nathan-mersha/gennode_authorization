@@ -2,7 +2,7 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              role.js
- * @description         DAL for role route.
+ * @description         DAL for role model.
  * @kind                DAL
  * @copyright           __copyright__
  */
@@ -133,6 +133,7 @@ exports.pushToArray             = function (query, targetedArray,elements,callba
                 if(! helper.isChildContainedInParent(targetArray, elements)){
                     targetArray.push(...elements);
                 }
+                data.markModified(targetedArray);
                 data.save();
                 callback(err,data);
             }else{
@@ -158,6 +159,7 @@ exports.pullFromArray             = function (query, targetedArray,elements,call
             let targetArray = helper.resolveObjTarget(targetedArray, data);
             if(targetArray !== undefined){
                 helper.removeChildFromParent(targetArray, elements);
+                data.markModified(targetedArray);
                 data.save();
                 callback(err,data);
             }else{

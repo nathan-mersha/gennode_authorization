@@ -3,284 +3,690 @@
 config:
   target: '__reverseProxy__:__port__'
   phases:
-    - duration: 60
-      arrivalRate: 20
+    - duration: 10 # Defines the overall time the test will last
+      arrivalRate: 2 # Defines how many users per second they perform the scenario
 scenarios:
   - flow:
+    # 200
+    # 301
     - get:
         url: "__baseURL__/apidoc"
+    # 200
+    # 301
     - get:
         url: "__baseURL__/coverage"
+    # 200
+    # 301
     - get:
         url: "__baseURL__/test"
-
-# expect 400
+    # 400
     - get:
         url: "__baseURL__/un-matched"
 
-# Acm routes
-############
-    - post:
-        url: "__baseURL__/acm"
-        json:
-          "subject": "5cee730bb2820d47582e9abd"
-          "accessControl":
-              "read": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
-              "update": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
-              "delete": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
-        capture:
-          - json: $._id
-            as: "idAcm"
-
-# expect 400
-    - post:
-        url: "__baseURL__/acm"
-        json:
-          "accessControl":
-              "read": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
-              "update": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
-              "delete": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee7a0493f93a4e65b32630","5cee7a0493f93a4e65b32637"]
-    - get:
-        url: "__baseURL__/acm"
-    - get:
-        url: "__baseURL__/acm?page=2"
-    - get:
-        url: "__baseURL__/acm?_id={{idAcm}}"
-# expect 400
-    - get:
-        url: "__baseURL__/acm?_id=wrongFormat"
-    - put:
-        url: "__baseURL__/acm?_id={{idAcm}}&operation=pull&target=accessControl.read"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - put:
-        url: "__baseURL__/acm?_id={{idAcm}}&operation=push&target=accessControl.read"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - put:
-        url: "__baseURL__/acm?_id={{idAcm}}"
-        json:
-          "subject": "5cee7a0493f93a4e65b32639"
-# expect 400
-    - put:
-        url: "__baseURL__/acm?_id={{idAcm}}&operation=unknown&target=accessControl.read"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-# expect 400
-    - put:
-        url: "__baseURL__/acm?_id={{idAcm}}&operation=pull&target=accessControl.unknown"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - delete:
-        url: "__baseURL__/acm?_id={{idAcm}}"
-# expect 400
-    - delete:
-        url: "__baseURL__/acm?_id={{idAcm}}"
-# expect 400
-    - delete:
-        url: "__baseURL__/acm?_id=wrongFormat"
-
-
-# Role routes
-#############
-    - post:
-        url: "__baseURL__/role"
-        json:
-          "name": "Role A"
-          "description": "Role A description"
-          "members": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-          "accessRoutes": [ "route": "http://sample/route/1", "method": "POST" ]
-        capture:
-          - json: $._id
-            as: "idRole"
-# expect 400
-    - post:
-        url: "__baseURL__/role"
-        json:
-          "name": "Role A"
-          "description": "Role A description"
-          "members": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-          "accessRoutes": [ "route": "http://sample/route/1", "method": "UNKNOWN_METHOD" ]
-# expect 400
-    - post:
-        url: "__baseURL__/role"
-        json:
-          "description": "Role A description"
-          "members": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639", "5cee730bb2820d47582e9abd"]
-          "accessRoutes": [ "route": "http://sample/route/1", "method": "POST" ]
-    - get:
-        url: "__baseURL__/role"
-    - get:
-        url: "__baseURL__/role?page=2"
-    - get:
-        url: "__baseURL__/role?_id={{idRole}}"
-# expect 400
-    - get:
-        url: "__baseURL__/role?_id=wrongFormat"
-    - put:
-        url: "__baseURL__/role?_id={{idRole}}&operation=push&target=members"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - put:
-        url: "__baseURL__/role?_id={{idRole}}"
-        json:
-          "name": "New name"
-    - put:
-        url: "__baseURL__/role?_id={{idRole}}&operation=pull&target=members"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-# expect 400
-    - put:
-        url: "__baseURL__/role?_id={{idRole}}&operation=pull&target=unknown"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-# expect 400
-    - put:
-        url: "__baseURL__/role?_id={{idRole}}&operation=unknown&target=members"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - delete:
-        url: "__baseURL__/role?_id={{idRole}}"
-# expect 400
-    - delete:
-        url: "__baseURL__/role?_id={{idRole}}"
-# expect 400
-    - delete:
-        url: "__baseURL__/role?_id=wrongFormat"
-
-
-# Service routes
-################
+# Service
+    # 201
     - post:
         url: "__baseURL__/service"
         json:
-          "name": "Service A"
-          "serviceId": "02"
-          "routes": [ "route": "http://sample/route/1", "method": "POST", "group": "Company", "name": "Create company", "description": "Create company data"]
+          "name": "Selma"
+          "serviceId": "5d70ea5072c85558d87cda49"
+          "routes": [
+                        {
+                          "method": "COPY",
+                          "route": "http://sampleroute.com/3",
+                          "group": "Wallet",
+                          "name": "Wallet",
+                          "description": "Lobortis dignissim justo tortor."
+                        },
+                        {
+                          "method": "COPY",
+                          "route": "http://sampleroute.com/3",
+                          "group": "Wallet",
+                          "name": "Wallet",
+                          "description": "Dictum cras condimentum nunc."
+                        },
+                        {
+                          "method": "COPY",
+                          "route": "http://sampleroute.com/3",
+                          "group": "Wallet",
+                          "name": "Wallet",
+                          "description": "Mattis ante aliquet amet."
+                        }
+                      ]
         capture:
           - json: $._id
             as: "idService"
-# expect 400
+      # 200
+    - get:
+        url: "__baseURL__/service/?_id={{idService}}"
+      # 200
+    - get:
+        url: "__baseURL__/service/?_id={{idService}}&private=true"
+      # 200
+    - get:
+        url: "__baseURL__/service"
+      # 200
+    - get:
+        url: "__baseURL__/service/count"
+
+    # 200 (It's kinda an error)
+    - put:
+        url: "__baseURL__/service?_id={{idService}}&target=routes&operation=push"
+        json:
+          [{"method":"POST","route":"http://test/sample","group":"Company","name":"Create company","description":"Create company data."},{"method":"GET","route":"http://test/sample","group":"Company","name":"Retrieves company","description":"Retrieves company data."}]
+
+    # 200 (It's kinda an error)
+    - put:
+        url: "__baseURL__/service?_id={{idService}}&target=routes&operation=pull"
+        json:
+          [{"method":"POST","route":"http://test/sample","group":"Company","name":"Create company","description":"Create company data."},{"method":"GET","route":"http://test/sample","group":"Company","name":"Retrieves company","description":"Retrieves company data."}]
+      # 200
+    - put:
+        url: "__baseURL__/service?_id={{idService}}"
+        json:
+            name: 'Eleanore'
+            serviceId: '5d70ea5072c85558d87cda49'
+            routes: [ { method: 'COPY',
+                 route: 'http://sampleroute.com/3',
+                 group: 'Wallet',
+                 name: 'Wallet',
+                 description: 'Nisl tempor quisque commodo.' },
+               { method: 'COPY',
+                 route: 'http://sampleroute.com/3',
+                 group: 'Wallet',
+                 name: 'Wallet',
+                 description: 'Risus curabitur eros nisl.' },
+               { method: 'COPY',
+                 route: 'http://sampleroute.com/3',
+                 group: 'Wallet',
+                 name: 'Wallet',
+                 description: 'Eu mollis in nam.' } ]
+      # 200
+    - put:
+        url: "__baseURL__/service/?_id={{idService}}&target=routes&operation=push"
+        json:
+            [
+              {"method": "POST","route": "http://test/sample","group": "Company","name": "Create company","description": "Create company data."},
+              {"method": "GET", "route": "http://test/sample", "group": "Company", "name": "Retrieves company", "description": "Retrieves company data."}
+            ]
+      # 200
+    - put:
+        url: "__baseURL__/service/?_id={{idService}}&target=routes&operation=pull"
+        json:
+            [
+              {"method": "POST","route": "http://test/sample","group": "Company","name": "Create company","description": "Create company data."},
+              {"method": "GET", "route": "http://test/sample", "group": "Company", "name": "Retrieves company", "description": "Retrieves company data."}
+            ]
+      # 400
     - post:
         url: "__baseURL__/service"
         json:
-          "name": "Service A"
-          "serviceId": "02"
-          "routes": [ "route": "http://sample/route/1", "method": "POST", "group": "Company", "name": "Create company", "description": "Create company data"]
-# expect 400
+          "name": "Layla"
+          "serviceId": "5d739180936cea3281ef908c"
+          "routes": [
+            {
+              "group": "User",
+              "name": "User",
+              "description": "Laoreet vel sollicitudin tristique."
+            },
+            {
+              "group": "User",
+              "name": "User",
+              "description": "Ante est eros lacinia."
+            },
+            {
+              "group": "User",
+              "name": "User",
+              "description": "Sit cursus blandit consequat."
+            }
+          ]
+      # 400
     - post:
         url: "__baseURL__/service"
         json:
-          "name": "Service A"
-          "serviceId": "02"
-          "routes": [ "route": "http://sample/route/1", "method": "POST", "group": "Company", "name": "Create company", "description": "Create company data"]
+          "name": "Layla"
+          "serviceId": "5d739180936cea3281ef908c"
+          "routes": [
+            {
+              "group": "User",
+              "name": "User",
+              "description": "Laoreet vel sollicitudin tristique."
+            },
+            {
+              "group": "User",
+              "name": "User",
+              "description": "Ante est eros lacinia."
+            },
+            {
+              "group": "User",
+              "name": "User",
+              "description": "Sit cursus blandit consequat."
+            }
+          ]
+      # 400
     - get:
+        url: "__baseURL__/service?_id=wrongIdFormat"
+      # 400
+    - put:
         url: "__baseURL__/service"
-    - get:
-        url: "__baseURL__/service?page=2"
-    - get:
-        url: "__baseURL__/service?_id={{idService}}"
-# expect 400
-    - get:
-        url: "__baseURL__/service?_id=wrongFormat"
-    - put:
-        url: "__baseURL__/service?_id={{idService}}&operation=push&target=routes"
         json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - put:
-        url: "__baseURL__/service?_id={{idService}}&operation=pull&target=routes"
-        json:
-          "name": "newName"
-    - put:
-        url: "__baseURL__/service?_id={{idService}}"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-# expect 400
-    - put:
-        url: "__baseURL__/service?_id={{idService}}&operation=pull&target=unknown"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-# expect 400
-    - put:
-        url: "__baseURL__/service?_id={{idService}}&operation=unknown&target=routes"
-        json:
-          "data": ["5cee7a0493f93a4e65b32638","5cee7a0493f93a4e65b32639"]
-    - delete:
-        url: "__baseURL__/service?_id={{idService}}"
-# expect 400
-    - delete:
-        url: "__baseURL__/service?_id={{idService}}"
-# expect 400
-    - delete:
-        url: "__baseURL__/service?_id=wrongFormat"
+          "name": "Heath"
+          "serviceId": "5d739180936cea3281ef908c"
+          "routes": [
+            {
+              "method": "LINK",
+              "route": "http://sampleroute.com/6",
+              "group": "User",
+              "name": "User",
+              "description": "Lacus tempus pellentesque arcu."
+            },
+            {
+              "method": "LINK",
+              "route": "http://sampleroute.com/6",
+              "group": "User",
+              "name": "User",
+              "description": "Lacinia cras et maximus."
+            },
+            {
+              "method": "LINK",
+              "route": "http://sampleroute.com/6",
+              "group": "User",
+              "name": "User",
+              "description": "Rhoncus vestibulum euismod tortor."
+            }
+          ]
 
+      # 400
+    - put:
+        url: "__baseURL__/service?_id={{idService}}"
+        json:
+          invalidKey: "invalidValue"
+      # 400
+    - put:
+        url: "__baseURL__/service?_id={{idService}}"
+        json:
+          [{"method":"POST","route":"http://test/sample","group":"Company","name":"Create company","description":"Create company data."},{"method":"GET","route":"http://test/sample","group":"Company","name":"Retrieves company","description":"Retrieves company data."}]
+      # 400
+    - put:
+        url: "__baseURL__/service?_id={{idService}}&target=routes&operation=push"
+        json:
+          invalidKey: "invalidData"
 
-# Token routes
-##############
-    - post:
-        url: "__baseURL__/token/create"
-        json:
-          "userId": "5cee730bb2820d47582e9abd"
-        capture:
-          - json: $.token
-            as: "token"
-    - post:
-        url: "__baseURL__/token/validate"
-        json:
-          "route": "http://sample/route/1"
-          "method": "PUT"
-          "body":
-            "one": "one"
-          "objectId": "5cee7a0493f93a4e65b32638"
-          "token": {{token}}
-    - post:
-        url: "__baseURL__/token/validate"
-        json:
-          "route": "http://sample/route/1"
-          "method": "DELETE"
-          "body":
-            "one": "one"
-          "objectId": "5cee7a0493f93a4e33b32638"
-          "token": {{token}}
+      # 200
+    - delete:
+        url: "__baseURL__/service/?_id={{idService}}"
+      # 400
+    - delete:
+        url: "__baseURL__/service"
 
-# User routes
-################
+# User
+    # 201
     - post:
         url: "__baseURL__/user"
         json:
-          "userId": "sample@gmail.com"
+          userId: "5d70ea5072c85558d87cda49"
         capture:
           - json: $._id
             as: "idUser"
-# expect 400
-    - post:
-        url: "__baseURL__/user"
-        json:
-          "userId": "sample@gmail.com"
-# expect 400
-    - post:
-        url: "__baseURL__/user"
-        json:
-          "userId": "sample@gmail.com"
-    - get:
-        url: "__baseURL__/user"
-    - get:
-        url: "__baseURL__/user?page=2"
+    # 200
     - get:
         url: "__baseURL__/user?_id={{idUser}}"
-# expect 400
+    # 200
     - get:
-        url: "__baseURL__/user?_id=wrongFormat"
+        url: "__baseURL__/user?_id={{idUser}}&private=true"
+    # 200
+    - get:
+        url: "__baseURL__/user"
+    # 200
+    - get:
+        url: "__baseURL__/user/count"
+    # 200
+    - put:
+        url: "__baseURL__/user/?_id={{idUser}}"
+        json:
+          userId: "5d70ea5072c85558d87cda49"
+
+    # 400
+    - post:
+        url: "__baseURL__/user"
+        json:
+          invalidKey: "invalidValue"
+    # 400
+    - get:
+        url: "__baseURL__/user?_id=wrongIdFormat"
+    # 400
+    - put:
+        url: "__baseURL__/user"
+        json:
+          userId : "5d70ea5072c85558d87cda49"
+    # 400
     - put:
         url: "__baseURL__/user?_id={{idUser}}"
         json:
-          "userId": "sample@gmail.com"
+          invalidKey: "invalidValue"
+    # 400
+    - delete:
+        url: "__baseURL__/user"
+
+    # 200
     - delete:
         url: "__baseURL__/user?_id={{idUser}}"
-# expect 400
+
+
+# Role
+    # 201
+    - post:
+        url: "__baseURL__/role"
+        json:
+          "name": "Admin 4"
+          "description": "Finibus gravida."
+          "members": [
+            "5d70ea5072c85558d87cda49",
+            "5d70ea5072c85558d87cda49",
+            "5d70ea5072c85558d87cda49",
+            "5d70ea5072c85558d87cda49"
+          ]
+          "accessRoutes": [
+            {
+              "route": "Lacus vehicula.",
+              "method": "COPY"
+            },
+            {
+              "route": "Diam lacus.",
+              "method": "COPY"
+            },
+            {
+              "route": "Nisi au.",
+              "method": "COPY"
+            },
+            {
+              "route": "Laoreet eu.",
+              "method": "COPY"
+            }
+          ]
+        capture:
+          - json: $._id
+            as: "idRole"
+    # 200
+    - get:
+        url: "__baseURL__/role?_id={{idRole}}"
+    # 200
+    - get:
+        url: "__baseURL__/role?_id={{idRole}}&private=true}}"
+    # 200
+    - get:
+        url: "__baseURL__/role"
+    # 200
+    - get:
+        url: "__baseURL__/role/count"
+    # 200
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}"
+        json:
+          name: 'Stephen'
+          description: 'Nam risus.'
+          members: [ '5d70ea5072c85558d87cda49', '5d70ea5072c85558d87cda49','5d70ea5072c85558d87cda49','5d70ea5072c85558d87cda49']
+    # 200
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=accessRoutes&operation=push"
+        json:
+           [{"route":"http://route/sample/1","method":"post"},{"route":"http://route/sample/2","method":"get"}]
+    # 200
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=accessRoutes&operation=pull"
+        json:
+           [{"route":"http://route/sample/1","method":"post"},{"route":"http://route/sample/2","method":"get"}]
+
+    # 400
+    - post:
+        url: "__baseURL__/role"
+        json:
+          "description": "Quisque aliquet."
+          "members": ["5d739180936cea3281ef908c","5d739180936cea3281ef908c","5d739180936cea3281ef908c","5d739180936cea3281ef908c"]
+          "accessRoutes": [{"route":"Imperdiet vestibulum.","method":"LINK"},{"route":"Nulla erat.","method":"LINK"},{"route":"Justo dui.","method":"LINK"},{"route":"Etiam faucibus.","method":"LINK"}]
+    # 400
+    - post:
+        url: "__baseURL__/role"
+        json:
+          {"name":"Stan","description":"Erat amet.","members":["5d739180936cea3281ef908c","5d739180936cea3281ef908c","5d739180936cea3281ef908c","5d739180936cea3281ef908c"],"accessRoutes":[{"route":"Morbi suscipit.","method":"Placerat blandit."},{"route":"Tristique morbi.","method":"Vitae mauris."},{"route":"Pellentesque sem.","method":"Eti consectetur."},{"route":"Erat pellentesque.","method":"Natoque porttitor."}]}
+
+    # 400
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}"
+        json:
+          invalidKey: "invalidValue"
+    # 200
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=accessRoutes&operation=push"
+        json:
+          [{"route":"http://route/sample/1","method":"post"},{"route":"http://route/sample/2","method":"get"}]
+
+    # 200
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=accessRoutes&operation=pull"
+        json:
+          [{"route":"http://route/sample/1","method":"post"},{"route":"http://route/sample/2","method":"get"}]
+
+    # 400
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=noFound&operation=push"
+        json:
+          [{"route":"http://route/sample/1","method":"post"},{"route":"http://route/sample/2","method":"get"}]
+
+    # 400
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=notFound&operation=pull"
+        json:
+          [{"route":"http://route/sample/1","method":"post"},{"route":"http://route/sample/2","method":"get"}]
+    # 400
+    - put:
+        url: "__baseURL__/role?_id={{idRole}}&target=accessRoutes&operation=push"
+        json:
+          "invalid"
+    # 400
     - delete:
-        url: "__baseURL__/user?_id={{idUser}}"
-# expect 400
+        url: "__baseURL__/role"
+
+    # 200
     - delete:
-        url: "__baseURL__/user?_id=wrongFormat"
+        url: "__baseURL__/role?_id={{idRole}}"
+# Begin stress from acm
+
+# Acm
+    # 201
+    - post:
+        url: "__baseURL__/acm?createBy=subject"
+        json:
+          "subject": "5d70ea5072c85558d87cda49"
+          "accessControl":
+            "read": [
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49"
+            ]
+            "update": [
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49"
+            ]
+            "delete": [
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49",
+              "5d70ea5072c85558d87cda49"
+            ]
+        capture:
+          - json: $._id
+            as: "idAcm"
+    # 201
+    - post:
+        url: "__baseURL__/acm?createBy=object"
+        json:
+          "object": "5d70ea5072c85558d87cda49"
+          "schemaName": "Blog"
+          "serviceName": "Service C"
+          "accessControl":
+            "read": ["Admin 4"]
+            "update": ["Admin 4","Admin 4"]
+            "delete": ["Admin 4","Admin 4"]
+    # 200
+    - get:
+        url: "__baseURL__/acm/?_id={{idAcm}}"
+    # 200
+    - get:
+        url: "__baseURL__/acm/?_id={{idAcm}}&private=true"
+    # 200
+    - get:
+        url: "__baseURL__/acm"
+    # 200
+    - get:
+        url: "__baseURL__/acm/count"
+    # 200
+    - put:
+        url: "__baseURL__/acm?_id={{idAcm}}"
+        json:
+          subject: "new_subject"
+    # 200
+    - put:
+        url: "__baseURL__/acm?_id={{idAcm}}&target=accessControl.read&operation=push"
+        json:
+          ["5cee7a0493f93a4e61b32632","5cee7a0493f93a4e65b32631"]
+    # 200
+    - put:
+        url: "__baseURL__/acm?_id={{idAcm}}&target=accessControl.read&operation=pull"
+        json:
+          ["5cee7a0493f93a4e61b32632","5cee7a0493f93a4e65b32631"]
+    # 200
+    - delete:
+        url: "__baseURL__/acm?_id={{idAcm}}"
+
+# Admin
+    # 201
+    - post:
+        url: "__baseURL__/admin/signup"
+        json:
+          userName: "abe"
+          password: "pass"
+        capture:
+          - json: $._id
+            as: "idAdmin"
+    # 201
+    - post:
+        url: "__baseURL__/admin/login"
+        json:
+          userName: "abe"
+          password: "pass"
+    # 200
+    - get:
+        url: "__baseURL__/admin/count"
+    # 200
+    - get:
+        url: "__baseURL__/admin?_id={{idAdmin}}"
+    # 200
+    - get:
+        url: "__baseURL__/admin"
+    # 200
+    - put:
+        url: "__baseURL__/admin?_id={{idAdmin}}"
+        json:
+          role: "SuperAdmin"
+    # 200
+    - delete:
+        url: "__baseURL__/admin?_id={{idAdmin}}"
+
+# Log
+    #200
+    - get:
+        url: "__baseURL__/log/status"
+    #200
+    - get:
+        url: "__baseURL__/log"
+    #200
+    - delete:
+        url: "__baseURL__/log"
+
+# Schema
+    #200
+    - get:
+        url: "__baseURL__/schema/count"
+    #200
+    - get:
+        url: "__baseURL__/schema?schemaName=Blog"
+    #200
+    - get:
+        url: "__baseURL__/schema"
+    #200
+    - put:
+        url: "__baseURL__/schema?schemaName=Blog&target=accessControl.read&operation=push"
+        json:
+          ["Admin 4"]
+    #200
+    - put:
+        url: "__baseURL__/schema?schemaName=Blog&target=accessControl.read&operation=pull"
+        json:
+          ["Admin 4"]
+
+
+# Token (before)
+    # 201
+    - post:
+        url: "__baseURL__/role"
+        json:
+          "name": "Admin 4"
+          "description": "Finibus gravida."
+          "members": [
+            "5d70ea5072c85558d87cda49",
+            "5d70ea5072c85558d87cda49",
+            "5d70ea5072c85558d87cda49",
+            "5d70ea5072c85558d87cda49"
+          ]
+          "accessRoutes": [
+            {
+              "route": "Lacus vehicula.",
+              "method": "COPY"
+            },
+            {
+              "route": "Diam lacus.",
+              "method": "COPY"
+            },
+            {
+              "route": "Nisi au.",
+              "method": "COPY"
+            },
+            {
+              "route": "/test/route",
+              "method": "POST"
+            }
+          ]
+        capture:
+          - json: $._id
+            as: "idRole"
+
+# Token
+    # 201
+    - post:
+        url: "__baseURL__/token/create"
+        json:
+          userId: "5d70ea5072c85558d87cda49"
+        capture:
+          - json: $.token
+            as: "tokenValue"
+    # 200
+    - post:
+        url: "__baseURL__/token/validate"
+        json:
+          "service": "Service A"
+          "ip": "172.16.1.41"
+          "params": null
+          "path": "/test/route"
+          "query": null
+          "secure": true
+          "xhr": false
+          "route": "/test/route"
+          "method": "POST"
+          "body": null
+          "objectId": null
+          "token": "{{tokenValue}}"
+    # 400
+    - post:
+        url: "__baseURL__/token/create"
+        json:
+          invalidKey: "invalidValue"
+    # 400
+    - post:
+        url: "__baseURL__/token/validate"
+        json:
+          "route": "http://sample/accessed/all"
+          "method": "POST"
+          "body":
+            "sampleKey": "sampleVal"
+          "objectId": "5cefd27204d6a9685478ab72"
+    # 401
+    - post:
+        url: "__baseURL__/token/validate"
+        json:
+          "service": "Service A"
+          "ip": "172.16.1.41"
+          "params": null
+          "path": "http://sample/accessed/none"
+          "query": null
+          "secure": true
+          "xhr": false
+          "route": "http://sample/accessed/none"
+          "method": "PUT"
+          "body":
+            "sampleKey": "sampleVal"
+          "objectId": null
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjVjZWU3YTA0OTNmOTNhNGU2NWIzMjYzMiJ9LCJpYXQiOjE1Njc4NTQ5NzYsImV4cCI6MTU3MzAzODk3Nn0.u8Ch89iRzN1j-_8twJ44Io_XvmbznfV-IMRJNgYJxXU"
+    # 401
+    - post:
+        url: "__baseURL__/token/validate"
+        json:
+            "service": "Service A"
+            "ip": "172.16.1.41"
+            "params": null
+            "path": "http://sample/accessed/none"
+            "query": null
+            "secure": true
+            "xhr": false
+            "route": "http://sample/accessed/user"
+            "method": "DELETE"
+            "body":
+              "sampleKey": "sampleVal"
+            "objectId": null
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjVjZWU3YTA0OTNmOTNhNGU2NWIzMjYzMiJ9LCJpYXQiOjE1Njc4NTQ5NzYsImV4cCI6MTU3MzAzODk3Nn0.u8Ch89iRzN1j-_8twJ44Io_XvmbznfV-IMRJNgYJxXU"
+    # 401
+    - post:
+        url: "__baseURL__/token/validate"
+        json:
+          "service": "Service T"
+          "ip": "172.16.1.42"
+          "params": null
+          "path": "http://sample/accessed/all"
+          "query": null
+          "secure": true
+          "xhr": false
+          "route": "http://sample/accessed/none"
+          "method": "PUT"
+          "body":
+            "sampleKey": "sampleVal"
+          "objectId": "5cee7a0493f44a4e65b35532"
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjVjZWU3YTA0OTNmOTNhNGU2NWIzMjYzMiJ9LCJpYXQiOjE1Njc4NTQ5NzYsImV4cCI6MTU3MzAzODk3Nn0.u8Ch89iRzN1j-_8twJ44Io_XvmbznfV-IMRJNgYJxXU"
+    # 401
+    - post:
+        url: "__baseURL__/token/validate"
+        json:
+          "service": "Service A"
+          "ip": "172.16.1.41"
+          "params": null
+          "path": "http://sample/accessed/all"
+          "query": null
+          "secure": true
+          "xhr": false
+          "route": "http://sample/accessed/all"
+          "method": "PUT"
+          "body":
+            "sampleKey": "sampleVal"
+          "objectId": "5cee7a0456f44a4e65b35532"
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjVjZWU3YTA0OTNmOTNhNGU2NWIzMjYzMiJ9LCJpYXQiOjE1Njc4NTQ5NzYsImV4cCI6MTU3MzAzODk3Nn0.u8Ch89iRzN1j-_8twJ44Io_XvmbznfV-IMRJNgYJxXU"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -2,8 +2,8 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              controllerHelper.js
- * @description         Controller helpers.
- * @kind                Lib
+ * @description         Controller helper functions
+ * @kind                Helper
  * @copyright           __copyright__
  */
 
@@ -116,7 +116,7 @@ exports.queryFilter             = function queryFilter(req, lookingFor)         
 exports.resolveObjTarget        = function resolveObjTarget(path, obj) {
     return path.split('.').reduce(function(prev, curr) {
         return prev ? prev[curr] : null
-    }, obj || self)
+    }, obj)
 };
 
 

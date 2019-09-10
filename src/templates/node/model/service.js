@@ -1,9 +1,10 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @description        Defines service model
- * @kind               Model
- * @copyright          __copyright__
+ * @module              service.js
+ * @description         Defines model for service
+ * @kind                Model
+ * @copyright           __copyright__
  */
 
 let

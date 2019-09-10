@@ -20,12 +20,14 @@ module.exports = {
         DEBUG                   : "*",
         PORT                    : 3400,
         MONGODB_URL             : "mongodb://localhost:27017/auth",
+        MONGODB_URL_TEST        : "mongodb://localhost:27017/auth_test",
         REVERSE_PROXY           : "http://localhost",
         COLLECTION_RETURN_SIZE  : "12",
         ELASTIC_SEARCH_URL      : "http://localhost:9200",
         TOKEN_EXPIRATION_TIME   : "60d",
         LOG_STASH_PORT          : 5000,
-        SECRET                  : "changeMeNow"
+        SECRET                  : "changeMeNow",
+        SALT_LENGTH             : 8
     },
     docker                  : true,
     jenkins                 : true,

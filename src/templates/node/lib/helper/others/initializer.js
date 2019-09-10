@@ -1,10 +1,10 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @description        Initializer module
- * @kind               Library
- * @module             Pings dependent services
- * @copyright          __copyright__
+ * @module              index.js
+ * @description         Index for constants and errorCodes
+ * @kind                Constants
+ * @copyright           __copyright__
  */
 
 let

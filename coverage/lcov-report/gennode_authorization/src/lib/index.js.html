@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.12% </span>
+        <span class="strong">29.41% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>16/17</span>
+        <span class='fraction'>5/17</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">50% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>1/2</span>
+        <span class='fraction'>0/2</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>6/6</span>
+        <span class='fraction'>0/6</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">94.12% </span>
+        <span class="strong">29.41% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>16/17</span>
+        <span class='fraction'>5/17</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -151,23 +151,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43×</span>
-<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,9 +166,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43×</span>
-<span class="cline-any cline-yes">43×</span>
-<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -191,11 +191,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43×</span>
-<span class="cline-any cline-yes">43×</span>
-<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43×</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -230,14 +230,14 @@ let
  * @param savePath      - Where to save the new file
  * @param callback      - Callback function (error)
  */
-exports.generator    = function replacer(template, replaceValues, fileName, savePath, callback) {
+exports.generator    = <span class="fstat-no" title="function not covered" >function replacer(template, replaceValues, fileName, savePath, callback) {</span>
 &nbsp;
-    async.waterfall([
+<span class="cstat-no" title="statement not covered" >    async.waterfall([</span>
         copyFile,
         renameFile,
         replacePlaceHolders
-    ],function () {
-        callback(null);
+    ],<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >        callback(null);</span>
     });
 &nbsp;
     /**
@@ -245,10 +245,10 @@ exports.generator    = function replacer(template, replaceValues, fileName, save
      * @description         - Copy the template file to the destination folder
      * @param cb            - Callback function (error)
      */
-    function copyFile(cb) {
+<span class="fstat-no" title="function not covered" >    function copyFile(cb) {</span>
         //todo this is where all the wrong shit is happening
-        shelljs.cp('-R', template, savePath);
-        cb(null);
+<span class="cstat-no" title="statement not covered" >        shelljs.cp('-R', template, savePath);</span>
+<span class="cstat-no" title="statement not covered" >        cb(null);</span>
     }
 &nbsp;
     /**
@@ -256,11 +256,11 @@ exports.generator    = function replacer(template, replaceValues, fileName, save
      * @description         - Renames the copied file to the assigned name.
      * @param cb            - Callback function (error)
      */
-    function renameFile(cb) {
+<span class="fstat-no" title="function not covered" >    function renameFile(cb) {</span>
 &nbsp;
-        let generatedFile = `${savePath}/${fileName}`;
-        fs.rename(`${savePath}/${path.basename(template)}`,generatedFile ,function () {
-            cb(null, generatedFile);
+<span class="cstat-no" title="statement not covered" >        let generatedFile = `${savePath}/${fileName}`;</span>
+<span class="cstat-no" title="statement not covered" >        fs.rename(`${savePath}/${path.basename(template)}`,generatedFile ,<span class="fstat-no" title="function not covered" >function () {</span></span>
+<span class="cstat-no" title="statement not covered" >            cb(null, generatedFile);</span>
         });
     }
 &nbsp;
@@ -270,13 +270,13 @@ exports.generator    = function replacer(template, replaceValues, fileName, save
      * @param generatedFilePath - Generated file path
      * @param cb                - Callback function (error)
      */
-    function replacePlaceHolders(generatedFilePath, cb) {
+<span class="fstat-no" title="function not covered" >    function replacePlaceHolders(generatedFilePath, cb) {</span>
 &nbsp;
-        <span class="missing-if-branch" title="else path not taken" >E</span>if(replaceValues !== null) {
-            replaceValues.files = generatedFilePath;
-            replaceInFile(replaceValues)
+<span class="cstat-no" title="statement not covered" >        if(replaceValues !== null) {</span>
+<span class="cstat-no" title="statement not covered" >            replaceValues.files = generatedFilePath;</span>
+<span class="cstat-no" title="statement not covered" >            replaceInFile(replaceValues)</span>
                 .then(changes =&gt; {
-                    cb(null);
+<span class="cstat-no" title="statement not covered" >                    cb(null);</span>
                 });
         }else{
 <span class="cstat-no" title="statement not covered" >            cb(null);</span>
@@ -292,7 +292,7 @@ exports.generator    = function replacer(template, replaceValues, fileName, save
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Aug 20 2019 12:15:51 GMT+0300 (EAT)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Sep 10 2019 08:52:30 GMT+0300 (EAT)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

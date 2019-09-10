@@ -34,12 +34,14 @@ exports.globalReplace = function packageJSON(toSnake){
 
             /__port__/g,
             /__mongodbURL__/g,
+            /__mongodbURLTest__/g,
             /__reverseProxy__/g,
             /__collectionReturnSize__/g,
             /__elasticSearch__/g,
             /__logStashPort__/g,
             /__tokenExpiration__/g,
-            /__secret__/g
+            /__secret__/g,
+            /__saltLength__/g
         ],
         to: [
             toSnake ? snakeCase(mc.mergedConfig.serviceName) : mc.mergedConfig.serviceName,
@@ -54,12 +56,14 @@ exports.globalReplace = function packageJSON(toSnake){
 
             mc.mergedConfig.environment.PORT,
             mc.mergedConfig.environment.MONGODB_URL,
+            mc.mergedConfig.environment.MONGODB_URL_TEST,
             mc.mergedConfig.environment.REVERSE_PROXY,
             mc.mergedConfig.environment.COLLECTION_RETURN_SIZE,
             mc.mergedConfig.environment.ELASTIC_SEARCH_URL,
             mc.mergedConfig.environment.LOG_STASH_PORT,
             mc.mergedConfig.environment.TOKEN_EXPIRATION_TIME,
-            mc.mergedConfig.environment.SECRET
+            mc.mergedConfig.environment.SECRET,
+            mc.mergedConfig.environment.SALT_LENGTH
         ]
     };
 };

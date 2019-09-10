@@ -2,8 +2,8 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              service.js
- * @description         Route for service
- * @kind                Router
+ * @description         Defines route for service
+ * @kind                Route
  * @copyright           __copyright__
  */
 
@@ -16,7 +16,7 @@ let
  * @api             {post} __baseURL__/service     Create
  * @apiVersion      0.0.1
  * @apiName         Create
- * @apiGroup        service
+ * @apiGroup        Service
  * @apiDescription  Creates new service data
  *
  * @apiPermission     All
@@ -114,10 +114,47 @@ let
 router.post('/'     , controller.create);
 
 /**
+ * @api             {get} __baseURL__/service/count     Count
+ * @apiVersion      0.0.1
+ * @apiName         Count
+ * @apiGroup        Service
+ * @apiDescription  Counts service by query
+ *
+ * @apiPermission     All
+ *
+ * @apiParam (Query)   {String} [ name ]        - name
+ * @apiParam (Query)   {String} [ serviceId ]   - serviceId
+ *
+ *
+ * @apiSuccess              {Number}     count                              - Counts documents
+ *
+ * @apiSuccessExample Body
+ *
+ * {
+        "count" : 10
+   }
+ *
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/service/count
+ *
+ * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
+ * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
+ * @apiError    (400)       {Object}    AUTHENTICATION_VALUE_NOT_SET        - Authentication values are not set.
+ * @apiError    (401)       {Object}    UNAUTHORIZED_ACCESS                 - Token is not authorized to access this route..
+ * @apiError    (401)       {Object}    TOKEN_REVOKED                       - Token is revoked.
+ * @apiError    (401)       {Object}    TOKEN_EXPIRED                       - Token has expired.
+ * @apiError    (401)       {Object}    AUTHORIZED_SERVICE_ACCESS_DENIED    - Service has no been granted access.
+ *
+ * @apiError    (400)       {Object}    CAST_ERROR                          - Possible casting error.
+ * @apiError    (400)       {Object}    NO_QUERY_DATA                       - No proper or no query data has been provided.Mainly could be caused by using wrong key in url.
+ * @apiError    (400)       {Object}    NO_DATA_FOUND                       - No data found in query.
+ */
+router.get('/count' , controller.count);
+
+/**
  * @api             {get} __baseURL__/service     Get
  * @apiVersion      0.0.1
  * @apiName         Get
- * @apiGroup        service
+ * @apiGroup        Service
  * @apiDescription  Retrieves service data
  *
  * @apiPermission     All
@@ -249,12 +286,11 @@ router.post('/'     , controller.create);
  */
 router.get('/'      , controller.find);
 
-
 /**
  * @api             {put} __baseURL__/service     Update
  * @apiVersion      0.0.1
  * @apiName         Update
- * @apiGroup        service
+ * @apiGroup        Service
  * @apiDescription  Updates new service data
  *
  * @apiPermission     All
@@ -262,9 +298,9 @@ router.get('/'      , controller.find);
  * @apiParamExample Body
  *
  {
- "name": "Service Name",
- "serviceId": "02."
-}
+        "name": "Service Name",
+        "serviceId": "02."
+    }
  *  
  *
  *
@@ -308,7 +344,7 @@ router.put('/'      , controller.update);
  * @api             {delete} __baseURL__/service     Delete
  * @apiVersion      0.0.1
  * @apiName         Delete
- * @apiGroup        service
+ * @apiGroup        Service
  * @apiDescription  Deletes service data
  *
  * @apiPermission     All

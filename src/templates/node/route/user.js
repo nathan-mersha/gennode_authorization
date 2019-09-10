@@ -2,8 +2,8 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              user.js
- * @description         Route for user
- * @kind                Router
+ * @description         Defines route for user
+ * @kind                Route
  * @copyright           __copyright__
  */
 
@@ -16,7 +16,7 @@ let
  * @api             {post} __baseURL__/user     Create
  * @apiVersion      0.0.1
  * @apiName         Create
- * @apiGroup        user
+ * @apiGroup        User
  * @apiDescription  Creates new user data
  *
  * @apiPermission     All
@@ -74,10 +74,45 @@ let
 router.post('/'     , controller.create);
 
 /**
+ * @api             {get} __baseURL__/user/count     Count
+ * @apiVersion      0.0.1
+ * @apiName         Count
+ * @apiGroup        User
+ * @apiDescription  Counts user by query
+ *
+ * @apiPermission     All
+ *
+ * @apiParam (Query)   {String} [ userId ]      - userId
+ *
+ * @apiSuccess              {Number}     count                              - Counts documents
+ *
+ * @apiSuccessExample Body
+ *
+ * {
+        "count" : 10
+   }
+ *
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/user/count
+ *
+ * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
+ * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
+ * @apiError    (400)       {Object}    AUTHENTICATION_VALUE_NOT_SET        - Authentication values are not set.
+ * @apiError    (401)       {Object}    UNAUTHORIZED_ACCESS                 - Token is not authorized to access this route..
+ * @apiError    (401)       {Object}    TOKEN_REVOKED                       - Token is revoked.
+ * @apiError    (401)       {Object}    TOKEN_EXPIRED                       - Token has expired.
+ * @apiError    (401)       {Object}    AUTHORIZED_SERVICE_ACCESS_DENIED    - Service has no been granted access.
+ *
+ * @apiError    (400)       {Object}    CAST_ERROR                          - Possible casting error.
+ * @apiError    (400)       {Object}    NO_QUERY_DATA                       - No proper or no query data has been provided.Mainly could be caused by using wrong key in url.
+ * @apiError    (400)       {Object}    NO_DATA_FOUND                       - No data found in query.
+ */
+router.get('/count'     , controller.count);
+
+/**
  * @api             {get} __baseURL__/user     Get
  * @apiVersion      0.0.1
  * @apiName         Get
- * @apiGroup        user
+ * @apiGroup        User
  * @apiDescription  Retrieves user data
  *
  * @apiPermission     All
@@ -147,12 +182,11 @@ router.post('/'     , controller.create);
  */
 router.get('/'      , controller.find);
 
-
 /**
  * @api             {put} __baseURL__/user     Update
  * @apiVersion      0.0.1
  * @apiName         Update
- * @apiGroup        user
+ * @apiGroup        User
  * @apiDescription  Updates new user data
  *
  * @apiPermission     All
@@ -203,7 +237,7 @@ router.put('/'      , controller.update);
  * @api             {delete} __baseURL__/user     Delete
  * @apiVersion      0.0.1
  * @apiName         Delete
- * @apiGroup        user
+ * @apiGroup        User
  * @apiDescription  Deletes user data
  *
  * @apiPermission     All

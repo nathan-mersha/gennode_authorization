@@ -2,8 +2,8 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              acm.js
- * @description         Route for acm
- * @kind                Router
+ * @description         Defines route for acm
+ * @kind                Route
  * @copyright           __copyright__
  */
 
@@ -16,7 +16,7 @@ let
  * @api             {post} __baseURL__/acm     Create
  * @apiVersion      0.0.1
  * @apiName         Create
- * @apiGroup        acm
+ * @apiGroup        ACM
  * @apiDescription  Creates new acm data
  *
  * @apiPermission     All
@@ -36,13 +36,14 @@ let
  *
  {
     "object": "5cee730bb2820d47582e9abd",
+    "schemaName" : "blog",
     "accessControl": {
         "read": [ "Admin 1", "Admin 2", "Admin 3"],
         "update": [ "Admin 1", "Admin 2"],
         "delete": [ "Admin 4", "Admin 5"]
     }
  }
- *
+ *  
  *
  * @apiParam (Query)   {String="subject", "object"} [ createBy ]  - String
  *
@@ -51,14 +52,14 @@ let
  * @apiParam    (Body-object)  {Oid }    object            - object
  * @apiParam    (Body)  {Object}  accessControl      - accessControl
  *
- * @apiSuccess      {Oid}    subject     - subject
- * @apiSuccess      {Oid}    object     - object
- * @apiSuccess      {Object}    accessControl     - accessControl
- * @apiSuccess     {String}    __v           - Version
- * @apiSuccess     {String}    _id           - Id
- * @apiSuccess     {String}    firstModified - First modified
- * @apiSuccess     {String}    lastModified  - Last modified
- *
+    * @apiSuccess      {Oid}    subject     - subject
+    * @apiSuccess      {Oid}    object     - object
+    * @apiSuccess      {Object}    accessControl     - accessControl
+    * @apiSuccess     {String}    __v           - Version
+    * @apiSuccess     {String}    _id           - Id
+    * @apiSuccess     {String}    firstModified - First modified
+    * @apiSuccess     {String}    lastModified  - Last modified
+ *  
  *
  * @apiSuccessExample Body (Subject)
  *
@@ -193,15 +194,66 @@ let
          }
      ]
  }
-
+ *
+ *
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/acm
+ *
+ * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
+ * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
+ * @apiError    (400)       {Object}    AUTHENTICATION_VALUE_NOT_SET        - Authentication values are not set.
+ * @apiError    (401)       {Object}    UNAUTHORIZED_ACCESS                 - Token is not authorized to access this route..
+ * @apiError    (401)       {Object}    TOKEN_REVOKED                       - Token is revoked.
+ * @apiError    (401)       {Object}    TOKEN_EXPIRED                       - Token has expired.
+ * @apiError    (401)       {Object}    AUTHORIZED_SERVICE_ACCESS_DENIED    - Service has no been granted access.
+ *
+ * @apiError    (400)       {Object}    CAST_ERROR                          - Possible casting error.
+ * @apiError    (400)       {Object}    NO_QUERY_DATA                       - No proper or no query data has been provided.Mainly could be caused by using wrong key in url.
+ * @apiError    (400)       {Object}    NO_DATA_FOUND                       - No data found in query.
  */
 router.post('/'     , controller.create);
+
+/**
+ * @api             {get} __baseURL__/acm/count     Count
+ * @apiVersion      0.0.1
+ * @apiName         Count
+ * @apiGroup        ACM
+ * @apiDescription  Counts acm by query
+ *
+ * @apiPermission     All
+ *
+ * @apiParam (Query)   {Oid} [ subject = undefined ]  - Oid
+ * @apiParam (Query)   {Object} [ accessControl = undefined ]  - Object1
+ *
+ *
+ * @apiSuccess              {Number}     count                              - Counts documents
+ *
+ * @apiSuccessExample Body
+ *
+ * {
+        "count" : 10
+   }
+ *
+ * @apiSampleRequest __reverseProxy__:__port____baseURL__/acm/count
+ *
+ * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
+ * @apiError    (400)       {Object}    AUTHENTICATION_TYPE_NOT_ACCORD      - Authentication type is not according to constants.
+ * @apiError    (400)       {Object}    AUTHENTICATION_VALUE_NOT_SET        - Authentication values are not set.
+ * @apiError    (401)       {Object}    UNAUTHORIZED_ACCESS                 - Token is not authorized to access this route..
+ * @apiError    (401)       {Object}    TOKEN_REVOKED                       - Token is revoked.
+ * @apiError    (401)       {Object}    TOKEN_EXPIRED                       - Token has expired.
+ * @apiError    (401)       {Object}    AUTHORIZED_SERVICE_ACCESS_DENIED    - Service has no been granted access.
+ *
+ * @apiError    (400)       {Object}    CAST_ERROR                          - Possible casting error.
+ * @apiError    (400)       {Object}    NO_QUERY_DATA                       - No proper or no query data has been provided.Mainly could be caused by using wrong key in url.
+ * @apiError    (400)       {Object}    NO_DATA_FOUND                       - No data found in query.
+ */
+router.get('/count' , controller.count);
 
 /**
  * @api             {get} __baseURL__/acm     Get
  * @apiVersion      0.0.1
  * @apiName         Get
- * @apiGroup        acm
+ * @apiGroup        ACM
  * @apiDescription  Retrieves acm data
  *
  * @apiPermission     All
@@ -287,17 +339,16 @@ router.post('/'     , controller.create);
  */
 router.get('/'      , controller.find);
 
-
 /**
  * @api             {put} __baseURL__/acm     Update
  * @apiVersion      0.0.1
  * @apiName         Update
- * @apiGroup        acm
+ * @apiGroup        ACM
  * @apiDescription  Updates new acm data
  *
  * @apiPermission     All
  *
- * @apiParamExample Body
+ * @apiParamExample Body (object)
  *
  {
      "subject": "5cee730bb2820d47582e9abd",
@@ -319,7 +370,6 @@ router.get('/'      , controller.find);
  * @apiParam (Query)   {String="pull", "push"} [ operation]  - String
  * @apiParam (Query)   {String} [ target ]  - String
  * @apiParam (Query)   {String="true", "false"} [ createOnNoModified ]  - String
-
  *
  *
  * @apiSuccess              {String}    n                                   - Number of objects manipulated
@@ -355,7 +405,7 @@ router.put('/'      , controller.update);
  * @api             {delete} __baseURL__/acm     Delete
  * @apiVersion      0.0.1
  * @apiName         Delete
- * @apiGroup        acm
+ * @apiGroup        ACM
  * @apiDescription  Deletes acm data
  *
  * @apiPermission     All

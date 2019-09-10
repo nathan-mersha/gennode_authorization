@@ -2,7 +2,7 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              acm.js
- * @description         DAL for acm route.
+ * @description         DAL for acm model.
  * @kind                DAL
  * @copyright           __copyright__
  */
@@ -130,10 +130,15 @@ exports.pushToArray             = function (query, targetedArray,elements,callba
         if(!err){
             let targetArray = helper.resolveObjTarget(targetedArray, data);
             if(targetArray !== undefined){
-                let filteredElements = _.without(elements, ...targetArray);
-                targetArray.push(...filteredElements);
-                data.save();
-                callback(err,data);
+                if(targetArray !== null){
+                    let filteredElements = _.without(elements, ...targetArray);
+                    targetArray.push(...filteredElements);
+                    data.markModified(targetedArray);
+                    data.save();
+                    callback(err,data);
+                }else{
+                    callback(new Error("Target array is not iterable"), null);
+                }
             }else{
                 callback(`Target array : ${targetedArray} could not be found on object.`, null);
             }
@@ -157,6 +162,7 @@ exports.pullFromArray             = function (query, targetedArray,elements,call
             let targetArray = helper.resolveObjTarget(targetedArray, data);
             if(targetArray !== undefined){
                 helper.removeChildFromParent(targetArray, elements);
+                data.markModified(targetedArray);
                 data.save();
                 callback(err,data);
             }else{

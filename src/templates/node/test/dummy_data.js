@@ -1,7 +1,8 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @description         Dummy data for __serviceName__ service.
+ * @module              dummy_data.js
+ * @description         Dummy data for HeroAcademia Authorization service.
  * @kind                Test
  * @copyright           __copyright__
  */
@@ -18,12 +19,16 @@ const customMock = {
     method      : dummyJSON.utils.randomArrayItem(constants.METHODS),
     route       : dummyJSON.utils.randomArrayItem(["http://sampleroute.com/1","http://sampleroute.com/2","http://sampleroute.com/3","http://sampleroute.com/4","http://sampleroute.com/5","http://sampleroute.com/6"]),
     routeGroup  : dummyJSON.utils.randomArrayItem(["Company","Personnel","User","PayRol","Wallet","Account"]),
-    roles       : dummyJSON.utils.randomArrayItem(["Admin 1", "Admin 2", "Admin 3", "Admin 4"])
+    roles       : dummyJSON.utils.randomArrayItem(["Admin 1", "Admin 2", "Admin 3", "Admin 4"]),
+    schemaName  : dummyJSON.utils.randomArrayItem(["Blog", "Company", "User"]),
+    serviceName : dummyJSON.utils.randomArrayItem(["Service A", "Service B", "Service C"]),
+    userName    : dummyJSON.utils.randomArrayItem(["Abebe", "Bekila", "Chala", "Demeke"]),
+
 };
 
 /**
  * @name        Dummy data
- * @description     Dummy data for service gennodeAuthServer
+ * @description     Dummy data for service __serviceName__
  * @type {{create: {success: null, validationError: null}, get: {success: null, wrongIdFormat: string}, update: {success: *, invalidData: {invalidKey: string}}, delete: {success: null, dataNotFound: null}}}
  */
 module.exports = {
@@ -38,7 +43,7 @@ module.exports = {
                         success         : JSON.parse(dummyJSON.parse(' { "userId" : "{{objectId}}"} ', {mockdata : customMock})),
                         validationError : { invalidKey : 'invalidValue' }
                     },
-                    get    : {
+                    get     : {
                         success         : null,
                         wrongIdFormat   : 'wrongIdFormat'
                     },
@@ -107,7 +112,7 @@ module.exports = {
     ] } `, {mockdata : customMock})),
                         validationError : { invalidKey : 'invalidValue' }
                     },
-                    get    : {
+                    get     : {
                         success         : null,
                         wrongIdFormat   : 'wrongIdFormat'
                     },
@@ -142,7 +147,7 @@ module.exports = {
                         success         : JSON.parse(dummyJSON.parse(' { "userId" : "{{objectId}}"} ', {mockdata : customMock})),
                         validationError : { invalidKey : 'invalidValue' }
                     },
-                    get    : {
+                    get     : {
                         success         : null,
                         wrongIdFormat   : 'wrongIdFormat'
                     },
@@ -163,12 +168,12 @@ module.exports = {
                  */
                 role : {
                     create  : {
-                        success         : JSON.parse(dummyJSON.parse(' { "name" : "{{firstName}}" , "description" : "{{lorem 2}}" , "members" : [ {{#repeat 4}} "{{objectId}}" {{/repeat}} ] , "accessRoutes" : [ {{#repeat 4}} { "route" : "{{lorem 2}}", "method" : "{{method}}" } {{/repeat}} ] } ', {mockdata : customMock})),
+                        success         : JSON.parse(dummyJSON.parse(' { "name" : "{{roles}}" , "description" : "{{lorem 2}}" , "members" : [ {{#repeat 4}} "{{objectId}}" {{/repeat}} ] , "accessRoutes" : [ {{#repeat 4}} { "route" : "{{lorem 2}}", "method" : "{{method}}" } {{/repeat}} ] } ', {mockdata : customMock})),
                         missingRequiredFields   : JSON.parse(dummyJSON.parse(' { "description" : "{{lorem 2}}" , "members" : [ {{#repeat 4}} "{{objectId}}" {{/repeat}} ] , "accessRoutes" : [ {{#repeat 4}} { "route" : "{{lorem 2}}", "method" : "{{method}}" } {{/repeat}} ] } ', {mockdata : customMock})),
                         invalidMethod   : JSON.parse(dummyJSON.parse(' { "name" : "{{firstName}}" , "description" : "{{lorem 2}}" , "members" : [ {{#repeat 4}} "{{objectId}}" {{/repeat}} ] , "accessRoutes" : [ {{#repeat 4}} { "route" : "{{lorem 2}}", "method" : "{{lorem 2}}" } {{/repeat}} ] } ', {mockdata : customMock})),
                         validationError : { invalidKey : 'invalidValue' }
                     },
-                    get    : {
+                    get     : {
                         success         : null,
                         wrongIdFormat   : 'wrongIdFormat'
                     },
@@ -199,8 +204,11 @@ module.exports = {
     }
     
     } `, {mockdata : customMock})),
+
                         successByObject         : JSON.parse(dummyJSON.parse(`{ 
     "object" : "{{objectId}}" , 
+    "schemaName" : "{{schemaName}}",
+    "serviceName" : "{{serviceName}}",
     "accessControl" : {
         "read" :  [{{#repeat 1}} "{{roles}}" {{/repeat}}],
         "update" :  [{{#repeat 2}} "{{roles}}" {{/repeat}}],
@@ -209,6 +217,7 @@ module.exports = {
     }
     
     } `, {mockdata : customMock})),
+
                         missingFields         : JSON.parse(dummyJSON.parse(`{ 
     "accessControl" : {
         "read" :  [{{#repeat 4}} "{{objectId}}" {{/repeat}}],
@@ -220,7 +229,7 @@ module.exports = {
     } `, {mockdata : customMock})),
                         validationError : { invalidKey : 'invalidValue' }
                     },
-                    get    : {
+                    get     : {
                         success         : null,
                         wrongIdFormat   : 'wrongIdFormat'
                     },
@@ -233,6 +242,31 @@ module.exports = {
                         dataNotFound    : null
                     }
                 },
+
+
+                admin : {
+                    signup : {
+                        success         : JSON.parse(dummyJSON.parse(' { "userName" : "{{userName}}" , "password" : "{{lorem 3}}"  } ', {mockdata : customMock})),
+                        wrongCredential : {userName : "wrongUserName", password : "wrongPassword"},
+                        validationError : JSON.parse(dummyJSON.parse(' { "userName" : "{{userName}}"  } ', {mockdata : customMock}))
+                    },
+                    get : {
+                        success : null,
+                        wrongIdFormat : "wrongIdFormat"
+                    },
+                    update : {
+                        success : {role : "SuperAdmin"},
+                        invalidData : {invalid : "invalid"}
+                    }
+                },
+
+                schema : {
+                    update : {
+                        success : ["Admin 3"],
+                        noneExistentRole : ["None Existent role"],
+                        invalidData : {invalid : "invalid"},
+                    }
+                }
             
 // Dummy data for service test ends here
 };

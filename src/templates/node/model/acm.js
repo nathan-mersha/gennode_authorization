@@ -1,9 +1,10 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @description        Defines Acm model
- * @kind               Model
- * @copyright          __copyright__
+ * @module              acm.js
+ * @description         Defines model for acm
+ * @kind                Model
+ * @copyright           __copyright__
  */
 
 let

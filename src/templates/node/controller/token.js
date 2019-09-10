@@ -9,10 +9,10 @@
 
 let
     constants               = require('../lib/constant'),
+    message                 = constants.constant.VALIDATION_MESSAGE,
     userDAL                 = require('../dal/user'),
     roleDAL                 = require('../dal/role'),
     acmDAL                  = require('../dal/acm'),
-    logger                  = require('../lib/helper/others/logger'),
     errorCodes              = constants.errorCodes,
     config                  = require('../config'),
     helper                  = require('../lib/helper/'),
@@ -20,11 +20,6 @@ let
     debug                   = require('debug')('__serviceName__/controller/token'),
     jwt                     = require('jsonwebtoken'),
     async                   = require('async');
-
-const
-    PROCESSING_REQUEST      = "Processing Request",
-    ACCESS_DENIED           = "Access Denied",
-    ACCESS_GRANTED          = "Access Granted";
 
 /**
  * @name                - Create
@@ -111,9 +106,15 @@ exports.create          = function (req, res, next) {
     }
 };
 
+/**
+ * @name                - Validate
+ * @description         - Validates token request
+ * @param req           - Request object
+ * @param res           - Response object
+ * @param next          - Next
+ */
 exports.validate        = function (req, res, next) {
     debug("Validate token init");
-
     let
         body = req.body,
         userId = null;
@@ -150,18 +151,18 @@ exports.validate        = function (req, res, next) {
             if(err){
                 let errMsg = errorCodes.SEC.VALIDATION_ERROR;
                 errMsg.detail = err.name;
-                errMsg.message = "Access Denied.";
+                errMsg.message = message.ACCESS_DENIED;
                 res.status(401);
                 res.json(errMsg);
 
                 // Logged Access denied.
-                body.status = ACCESS_DENIED;
-                logger.log("warning", body);
+                body.status = message.ACCESS_DENIED;
+                log(body, "warn");
             }else{
                 body.userId = decoded.data.userId;
+
                 // Log request processing
-                body.status = PROCESSING_REQUEST;
-                logger.log("debug",body);
+                body.status = message.PROCESSING_REQUEST;
                 callback(null, decoded);
             }
         });
@@ -182,11 +183,11 @@ exports.validate        = function (req, res, next) {
             roleDAL.getAllCollection(roleQuery, function (err, data) {
                 if(data.length > 0){
                     res.status(200);
-                    res.json({message : "Access Granted."});
+                    res.json({message : message.ACCESS_GRANTED});
 
                     // Update log status to granted.
-                    body.status = ACCESS_GRANTED;
-                    logger.log("debug",body);
+                    body.status = message.ACCESS_GRANTED;
+                    log(body);
                 }else{ // Route is not allowed to be accessed by many.
                     callback(null, decodedToken);
                 }
@@ -236,20 +237,20 @@ exports.validate        = function (req, res, next) {
             if(roleData.length > 0){ // this route is allowed to be accessed by anyone.
                 if(body.objectId === undefined){ // Verification does not require object ownership
                     res.status(200);
-                    res.json({message : "Access Granted."});
+                    res.json({message : message.ACCESS_GRANTED});
 
                     // Update log status to granted.
-                    body.status = ACCESS_GRANTED;
-                    logger.log("debug",body);
+                    body.status = message.ACCESS_GRANTED;
+                    log(body);
                 }else{
                     isSubjectAllowedToPerformMethodOnObject('any', body.objectId, body.method, function (err, isAllowedToAccess) {
                         if(isAllowedToAccess){
                             res.status(200);
-                            res.json({message : "Access Granted."});
+                            res.json({message : message.ACCESS_GRANTED});
 
                             // Update log status to granted.
-                            body.status = ACCESS_GRANTED;
-                            logger.log("debug",body);
+                            body.status = message.ACCESS_GRANTED;
+                            log(body);
                         }else{callback(null, true, userData);}
                     });
                 }
@@ -288,14 +289,20 @@ exports.validate        = function (req, res, next) {
                 let roleQuery = {'members' : userData.userId, 'accessRoutes.route': body.route, 'accessRoutes.method' : body.method};
                 roleDAL.getAllCollection(roleQuery, function (err, roleData) {
                     if(roleData.length > 0){ // this route is allowed to be accessed by anyone.
-                        cb(null, true);
+                        // If the request method does not ask for a method on an object (aka only asks to access route+method)
+                        if(body.objectId === undefined || body.objectId === null){
+                            res.status(200);
+                            res.json({message : message.ACCESS_GRANTED});
+                        }else{
+                            cb(null, true);
+                        }
                     }else{
                         res.status(401);
-                        res.json({message : "Access Denied."});
+                        res.json({message : message.ACCESS_DENIED});
 
                         // Logged Access denied.
-                        body.status = ACCESS_DENIED;
-                        logger.log("warning", body);
+                        body.status = message.ACCESS_DENIED;
+                        log(body,"warn");
                     }
                 });
             }
@@ -311,44 +318,43 @@ exports.validate        = function (req, res, next) {
             if(isRouteAllowed){
                 if(body.objectId === undefined){ // Verification does not require object ownership
                     res.status(200);
-                    res.json({message : "Access Granted."});
+                    res.json({message : message.ACCESS_GRANTED});
 
                     // Update log status to granted.
-                    body.status = ACCESS_GRANTED;
-                    logger.log("debug",body);
+                    body.status = message.ACCESS_GRANTED;
+                    log(body);
                 }else{
                     isSubjectAllowedToPerformMethodOnObject(userData.userId, body.objectId, body.method, function (err, isAllowedToAccess) {
                         if(isAllowedToAccess){
                             res.status(200);
-                            res.json({message : "Access Granted."});
+                            res.json({message : message.ACCESS_GRANTED});
 
                             // Update log status to granted.
-                            body.status = ACCESS_GRANTED;
-                            logger.log("debug",body);
+                            body.status = message.ACCESS_GRANTED;
+                            log(body);
                         }else{ // User is not allowed to access the data at all.
                             res.status(401);
-                            res.json({message : "Access Denied."});
+                            res.json({message : message.ACCESS_DENIED});
 
                             // Logged Access denied.
-                            body.status = ACCESS_DENIED;
-                            logger.log("warning", body);
+                            body.status = message.ACCESS_DENIED;
+                            log(body, "warn");
                         }
                         cb(null);
                     });
                 }
             }else{
                 res.status(401);
-                res.json({message : "Access Denied."});
+                res.json({message : message.ACCESS_DENIED});
 
                 // Logged Access denied.
-                body.status = ACCESS_DENIED;
-                logger.log("warning", body);
+                body.status = message.ACCESS_DENIED;
+                log(body, "warn");
             }
 
         }
     }
-
-
+    
     /**
      * @name                - Is subject allowed to perform method on object
      * @description         - Checks if the subject is allowed to perform certain action on the object.
@@ -380,6 +386,7 @@ exports.validate        = function (req, res, next) {
             });
         }
     }
+
 };
 
 

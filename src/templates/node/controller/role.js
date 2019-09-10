@@ -259,6 +259,28 @@ exports.remove          = function (req, res, next) {
     }
 };
 
+/**
+ * @name                - Count
+ * @description         - Counts by query
+ * @param req           - Request object
+ * @param res           - Response object
+ * @param next          - Next
+ */
+exports.count           = function (req, res, next) {
+    let query = controllerHelper.queryFilter(req,["name", "description"]);
+
+    roleDAL.count(query, function (err, count) {
+        if(err){
+            let errMsg = errorCodes.SEC.SERVER_SIDE_ERROR;
+            errMsg.detail = err;
+            res.status(500);
+            res.json(errMsg);
+        }else{
+            res.status(200);
+            res.json({count : count});
+        }
+    });
+};
 
 /**
  *

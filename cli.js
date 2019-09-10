@@ -114,6 +114,14 @@ let questions = [
     {
         type : 'input',
         prefix : prefixMessage,
+        default : defaultValues.environment.MONGODB_URL,
+        name : 'mongodbURLTest',
+        message : `Mongodb URL (Test)`
+    },
+
+    {
+        type : 'input',
+        prefix : prefixMessage,
         default : defaultValues.environment.REVERSE_PROXY,
         name : 'reverseProxy',
         message : `Reverse Proxy`

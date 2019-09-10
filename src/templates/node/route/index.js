@@ -1,10 +1,10 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @description        Route index for __serviceName__
- * @kind               Route
- * @module             Route index
- * @copyright          __copyright__
+ * @module              index.js
+ * @description         Defines index routes
+ * @kind                Route
+ * @copyright           __copyright__
  */
 
 // Begin route var declaration here
@@ -13,7 +13,10 @@ let
     service = require('./service'),
     user    = require('./user'),
     role    = require('./role'),
-    acm     = require('./acm');
+    acm     = require('./acm'),
+    admin   = require('./admin'),
+    schema  = require('./schema'),
+    log     = require('./log');
 // End route var declaration here
 
 /**
@@ -22,10 +25,13 @@ let
  */
 module.exports = function (app) {
 // Begin routing definition here
-    app.use('__baseURL__/token', token);
-    app.use('__baseURL__/service', service);
-    app.use('__baseURL__/user', user);
-    app.use('__baseURL__/role', role);
-    app.use('__baseURL__/acm', acm);
+    app.use('/auth/token', token);
+    app.use('/auth/service', service);
+    app.use('/auth/user', user);
+    app.use('/auth/role', role);
+    app.use('/auth/acm', acm);
+    app.use('/auth/admin', admin);
+    app.use('/auth/schema', schema);
+    app.use('/auth/log', log);
 // End Routing definition here
 };

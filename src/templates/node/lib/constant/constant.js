@@ -2,10 +2,11 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              constant.js
- * @description         Constants for __serviceName__.
- * @kind                Constants
+ * @description         Constants for __serviceName__
+ * @kind                Routes
  * @copyright           __copyright__
  */
+
 
 /**
  * @name                    - Constants
@@ -165,5 +166,16 @@ module.exports = {
      * @name                - Methods
      * @description         - Http methods
      */
-    METHODS                         :  ["GET","POST","PUT","PATCH","DELETE","COPY","HEAD","OPTIONS","LINK","UNLINK","PURGE","LOCK","UNLOCK","PROPFIND","VIEW"]
+    METHODS                         :  ["GET","POST","PUT","PATCH","DELETE","COPY","HEAD","OPTIONS","LINK","UNLINK","PURGE","LOCK","UNLOCK","PROPFIND","VIEW"],
+
+    /**
+     * @name                - Validation message
+     * @description         - Validation message
+     */
+    VALIDATION_MESSAGE              : {
+        PROCESSING_REQUEST   : "Processing Request",
+        ACCESS_DENIED        : "Access Denied",
+        ACCESS_GRANTED       : "Access Granted"
+    }
+
 };

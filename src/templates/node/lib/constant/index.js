@@ -1,18 +1,20 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @module              errorCodes.js
- * @description         Error code constants.
+ * @module              index.js
+ * @description         Index for constants and errorCodes
  * @kind                Constants
  * @copyright           __copyright__
  */
 
 
 let
-    constant    = require('./constant'),
-    errorCodes  = require('./errorCodes');
+    accessRoutes = require('./accessRoutes'),
+    constant     = require('./constant'),
+    errorCodes   = require('./errorCodes');
 
 module.exports = {
-    constant    : constant,
-    errorCodes  : errorCodes
+    accessRoutes : accessRoutes,
+    constant     : constant,
+    errorCodes   : errorCodes
 };

@@ -2,8 +2,8 @@
  * @author              __author__
  * @name                __serviceName__
  * @module              token.js
- * @description         Route for token
- * @kind                Router
+ * @description         Defines route for token
+ * @kind                Route
  * @copyright           __copyright__
  */
 
@@ -17,7 +17,7 @@ let
  * @api             {post} __baseURL__/token/create     Create
  * @apiVersion      0.0.1
  * @apiName         Create
- * @apiGroup        token
+ * @apiGroup        Token
  * @apiDescription  Creates new token data
  *
  * @apiPermission     All
@@ -51,10 +51,6 @@ let
  * @apiError    (401)       {Object}    TOKEN_REVOKED                       - Token is revoked.
  * @apiError    (401)       {Object}    TOKEN_EXPIRED                       - Token has expired.
  * @apiError    (401)       {Object}    AUTHORIZED_SERVICE_ACCESS_DENIED    - Service has no been granted access.
- *
- * @apiError    (400)       {Object}    CAST_ERROR                          - Possible casting error.
- * @apiError    (400)       {Object}    NO_QUERY_DATA                       - No proper or no query data has been provided.Mainly could be caused by using wrong key in url.
- * @apiError    (400)       {Object}    NO_DATA_FOUND                       - No data found in query.
  */
 router.post('/create'       , controller.create);
 
@@ -62,7 +58,7 @@ router.post('/create'       , controller.create);
  * @api             {post} __baseURL__/token/validate     Validate
  * @apiVersion      0.0.1
  * @apiName         Validate
- * @apiGroup        token
+ * @apiGroup        Token
  * @apiDescription  validates request object.
  *
  * @apiPermission     All
@@ -74,7 +70,7 @@ router.post('/create'       , controller.create);
      "method"   : "POST",
      "body"     : {"one" : "one"},
      "objectId" : "5cefd27204d6a9688478ab72",
-     "token"    :  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjVjZWU3MzBiYjI4MjBkNDc1ODJlOWFiZCJ9LCJpYXQiOjE1NTkyMzEyNTIsImV4cCI6MTU2MTgyMzI1Mn0.snOfyzFkyjcNS4NFt4btt64Sk9_8bIzqVTVuGDJLDxk"
+     "token"    : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJJZCI6IjVjZWU3MzBiYjI4MjBkNDc1ODJlOWFiZCJ9LCJpYXQiOjE1NTkyMzEyNTIsImV4cCI6MTU2MTgyMzI1Mn0.snOfyzFkyjcNS4NFt4btt64Sk9_8bIzqVTVuGDJLDxk"
  }
  *
  *
@@ -92,7 +88,6 @@ router.post('/create'       , controller.create);
      "message": "Access Denied."
  }
  *
- *
  * @apiSampleRequest __reverseProxy__:__port____baseURL__/token/validate
  *
  * @apiError    (400)       {Object}    AUTHENTICATION_NOT_SET              - Authentication values are not set.
@@ -103,9 +98,6 @@ router.post('/create'       , controller.create);
  * @apiError    (401)       {Object}    TOKEN_EXPIRED                       - Token has expired.
  * @apiError    (401)       {Object}    AUTHORIZED_SERVICE_ACCESS_DENIED    - Service has no been granted access.
  *
- * @apiError    (400)       {Object}    CAST_ERROR                          - Possible casting error.
- * @apiError    (400)       {Object}    NO_QUERY_DATA                       - No proper or no query data has been provided.Mainly could be caused by using wrong key in url.
- * @apiError    (400)       {Object}    NO_DATA_FOUND                       - No data found in query.
  */
 router.post('/validate'     , controller.validate);
 

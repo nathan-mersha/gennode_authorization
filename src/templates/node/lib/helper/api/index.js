@@ -1,10 +1,10 @@
 /**
  * @author              __author__
  * @name                __serviceName__
- * @description        Api request response abstract
- * @kind               Library
- * @module             Defines methods for calling Api and abstracts request response objects.
- * @copyright          __copyright__
+ * @module              index.js
+ * @description         Defines methods for calling Api and abstracts request response objects.
+ * @kind                Constants
+ * @copyright           __copyright__
  */
 
 let
